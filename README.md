@@ -1,5 +1,9 @@
 # interns2020
 
+### To where should you clone this repo?
+
+* Use Git Bash to clone the repo to `/c/dev/code/interns2020`; you can do that with the command `git clone git.learninga-z.com:laz/interns2020 /c/dev/code/interns2020`
+
 ### Steps to install Apache as a service to run this repo:
 
 * open a Git Bash shell window as administrator
@@ -28,3 +32,5 @@
   * execute the command `/c/dev/code/interns2020/conf/setup-mysql.bash`
 * Start the MySQL (interns2020) service, just above the mysqld_master service you previously stopped
 * Set a password for the root user by executing `winpty mysqladmin -u root -h 127.0.0.1 --skip-password password` and then following the prompts to type a new password twice.  Note that in the command, the word `password` is actually the word `password`; not a variable for you to replace.
+
+* You can then access MySQL with the client by saying `winpty mysql -u root -h 127.0.0.1 -p`
