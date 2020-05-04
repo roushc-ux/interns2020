@@ -19,4 +19,5 @@
         <a href = "account.php"> Create New Account</a>
     </div>
     <script type="text/javascript" src="deck.js"></script>
+    <script type="text/javascript" src="player.js"></script>
 </body>

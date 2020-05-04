@@ -13,7 +13,13 @@
 //      check if bust
 //      calculate hand (if sum < 21 then A is 11, if not 1)
 //      changePlayer?
-import "deck.js";
+// import "deck.js";
+
+test_deck = [
+    {Value: "5", Weight: 5},
+    {Value: "A", Weight: 1},
+    {Value: "J", Weight: 10},
+]
 
 class Player {
     // TODO: Add member variables
@@ -25,15 +31,16 @@ class Player {
         this.is_turn = false;
         this.bust = false;
     }
+    
 
     // Calculates the score of the hand
     calcHand() {
         var sum = 0;
         var num_ace = 0;
 
-        for (i = 0; i < this.hand.length; i++) {
-            if (hand[i]["Value"] != "A") {
-                sum += hand[i]["Weight"];      // TODO: Replace with correct Card implementation details
+        for (var i = 0; i < this.hand.length; i++) {
+            if (this.hand[i]["Value"] != "A") {
+                sum += this.hand[i]["Weight"];
             }
             else {
                 num_ace += 1;
@@ -61,7 +68,7 @@ class Player {
     }
 
     checkBust() {
-        if (calcHand() > 21) {
+        if (this.calcHand() > 21) {
             this.bust = true;
         }
     }
@@ -72,8 +79,8 @@ class Player {
     }
 
     // Draws a card from the deck and checks if the new hand is bust
-    draw(deck) {
-        var card = deck.pop();
+    draw(game_deck) {
+        var card = game_deck.pop();
         this.hand.push(card);
         
         this.checkBust();
