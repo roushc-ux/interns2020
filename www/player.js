@@ -32,8 +32,8 @@ class Player {
         var num_ace = 0;
 
         for (i = 0; i < this.hand.length; i++) {
-            if (hand[i] != "A") {
-                sum += hand[i];      // TODO: Replace with correct Card implementation details
+            if (hand[i]["Value"] != "A") {
+                sum += hand[i]["Weight"];      // TODO: Replace with correct Card implementation details
             }
             else {
                 num_ace += 1;
