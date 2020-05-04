@@ -1,5 +1,33 @@
 .page-wrap{
+    font-size: 62.5%;
     width: 95%;
     margin: 0 auto;
     padding-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.buttons-box {
+    display: flex;
+    justify-content: space-evenly;
+}
+.header-container{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+.header{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 4rem;
+}
+
+.form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
