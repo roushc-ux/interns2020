@@ -1,4 +1,5 @@
-<?php 
+<?php
+    
     class Deck {
         private $deck;
         
@@ -55,7 +56,7 @@
         }
     
         function printDeck() {
-            print($this->deck);
+            print_r($this->deck);
         }
     }
 ?>
