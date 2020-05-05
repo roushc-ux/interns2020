@@ -48,7 +48,7 @@
                     if ($conn->query($sql) === TRUE) {
                         $_SESSION['loggedin'] = True;
                         $_SESSION['login_user'] = $username;
-
+                        echo "<a href = 'lobby.php'> Continue to Game Lobby</a>";
 
                     } else {
                         echo "Error: " . $sql . "<br>" . $conn->error;

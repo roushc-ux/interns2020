@@ -52,6 +52,7 @@
         $conn->query($sql);
         $_SESSION['loggedin'] = True;
         $_SESSION['login_user'] = $username;
+        echo "<a href = 'lobby.php'> Account Created! Continue to Game Lobby</a>";
     } else {
         echo "Please choose another username";
     }
