@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <style>
 <?php include 'style.css';?>
 </style>
@@ -16,7 +17,7 @@
         <p>Don't have an account? <a href = "account.php">Sign up</a></p>
         <?php
         function login() {
-            session_start();
+
             //Get Username and password
         $username = $_GET["uname"];
         $password = $_GET["password"];
@@ -53,7 +54,6 @@
                         $_SESSION['loggedin'] = True;
                         $_SESSION['login_user'] = $username;
                         echo "<a href = 'lobby.php'> Continue to Game Lobby</a>";
-
                     } else {
                         echo "Error: " . $sql . "<br>" . $conn->error;
                     }
@@ -64,6 +64,7 @@
             }
 
         }
+        echo $_SESSION['login_user'];
         $conn->close();
         }
         if (isset($_GET['click'])){

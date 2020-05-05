@@ -50,11 +50,8 @@
     $result = $conn->query($sql);
 
     if ($result->num_rows <= 0) {
-        $sql = "INSERT INTO intern2020.users (username, password, email) VALUES ('$username', '$password', '$email')";
+        $sql = "INSERT INTO intern2020.users (username, password, email, wins) VALUES ('$username', '$password', '$email', 0)";
         $conn->query($sql);
-        $_SESSION['loggedin'] = True;
-        $_SESSION['login_user'] = $username;
-        echo "<a href = 'lobby.php'> Account Created! Continue to Game Lobby</a>";
     } else {
         echo "Please choose another username";
     }
