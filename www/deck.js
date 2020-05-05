@@ -1,6 +1,6 @@
 class Deck {
     constructor() {
-        this.deck = this.createDeck();
+        this.deck = []
     }
 
     getCard() {
@@ -11,9 +11,9 @@ class Deck {
         this.deck.push(card);
     }
 
-    createDeck() {
+    fillDeck() {
         var values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
-        var deck = new Array();
+        var deck = [];
         const NUMVALS = 13;
         const VALSPERDECK = 4;
         for(var i = 0; i < NUMVALS; ++i) {
@@ -34,8 +34,8 @@ class Deck {
 
     shuffleDeck() {
         var deckInLength = this.deck.length;
-        var deck1 = new Array();
-        var deck2 = new Array();
+        var deck1 = [];
+        var deck2 = [];
         for(var i = 0; i < deckInLength; ++i) {
             if (i % 2 == 0) {
                 deck1.push(this.deck.pop());
