@@ -40,17 +40,17 @@
     }
     // Create connection
     $conn = new mysqli($servername, $usernameServer, $passwordServer, $dbname);
-
+    $password = password_hash($password, PASSWORD_DEFAULT);
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT username FROM users WHERE username = $username";
+    $sql = "SELECT username FROM intern2020.users WHERE username = '$username'";
     $result = $conn->query($sql);
 
     if ($result->num_rows <= 0) {
-        $sql = "INSERT INTO users (username, password, email) VALUES ($username, $password, $email)";
+        $sql = "INSERT INTO intern2020.users (username, password, email) VALUES ('$username', '$password', '$email')";
         $conn->query($sql);
         $_SESSION['loggedin'] = True;
         $_SESSION['login_user'] = $username;
