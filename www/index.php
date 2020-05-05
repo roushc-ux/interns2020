@@ -25,7 +25,7 @@
 
         $servername = "localhost";
         $usernameServer = "root";
-        $passwordServer = "#Awesome1AZ";
+        $passwordServer = "yourpw";
         $dbname = "intern2020";
 
         // Create connection
@@ -36,17 +36,17 @@
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "SELECT username FROM users WHERE username = $username";
+        $sql = "SELECT username FROM users WHERE username = '$username'";
         $result = $conn->query($sql);
 
         if ($result->num_rows <= 0) {
             echo "Account not found";
         } else {
-            $sql = "SELECT password FROM users WHERE password = $password";
+            $sql = "SELECT password FROM users WHERE password = '$password'";
             $result = $conn->query($sql);
             while($row = mysqli_fetch_assoc($result)) {
                 if(password_verify($password, $row["password"])) {
-                    $sql = "INSERT INTO onlineUsers (username) VALUES ($username)";
+                    $sql = "INSERT INTO onlineUsers (username) VALUES ('$username')";
 
                     if ($conn->query($sql) === TRUE) {
                         $_SESSION['loggedin'] = True;
