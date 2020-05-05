@@ -81,9 +81,10 @@ class Player {
     // Draws a card from the deck and checks if the new hand is bust
     draw(game_deck) {
         // Adds card to hand and removes card from deck
-        let card = game_deck[0];
-        this.hand.push(card);
-        game_deck.shift();
+        // let card = game_deck[0];
+        // this.hand.push(card);
+        // game_deck.shift();
+        this.hand.push(game_deck.getCard());
         
         this.checkBust();
     }
