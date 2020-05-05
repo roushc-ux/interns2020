@@ -1,43 +1,60 @@
+class Deck {
+    constructor() {
+        this.deck = this.createDeck();
+    }
 
-var values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
-var deck = new Array();
-const NUMVALS = 13;
-const VALSPERDECK = 4;
+    getCard() {
+        return this.deck.pop();
+    }
 
-function createDeck() {
-    for(var i = 0; i < NUMVALS; ++i) {
-        for(var k = 0; k < VALSPERDECK; ++k) {
-            var weight = parseInt(values[i])
-            if (values[i] == "J" || values[i] == "Q" || values[i] == "K") {
-                weight = 10
-            } else if (values[i] == "A") {
-                var card = {Value: values[i], Weight: 11};
-                weight = 11;
+    addCard(card) {
+        this.deck.push(card);
+    }
+
+    createDeck() {
+        var values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+        var deck = new Array();
+        const NUMVALS = 13;
+        const VALSPERDECK = 4;
+        for(var i = 0; i < NUMVALS; ++i) {
+            for(var k = 0; k < VALSPERDECK; ++k) {
+                var weight = parseInt(values[i])
+                if (values[i] == "J" || values[i] == "Q" || values[i] == "K") {
+                    weight = 10
+                } else if (values[i] == "A") {
+                    var card = {Value: values[i], Weight: 11};
+                    weight = 11;
+                }
+                var card = {Value: values[i], Weight: weight};
+                deck.push(card);
             }
-            var card = {Value: values[i], Weight: weight};
-            deck.push(card);
         }
+        return deck;
+    }
+
+    shuffleDeck() {
+        var deckInLength = this.deck.length;
+        var deck1 = new Array();
+        var deck2 = new Array();
+        for(var i = 0; i < deckInLength; ++i) {
+            if (i % 2 == 0) {
+                deck1.push(this.deck.pop());
+            } else {
+                deck2.push(this.deck.pop());
+            }
+        }
+        var deck1Length = deck1.length;
+        for (i = 0; i < deck1Length; ++i) {
+            this.deck.push(deck1.pop());
+        }
+        var deck2Length = deck2.length;
+        for (i = 0; i < deck2Length; ++i) {
+            this.deck.push(deck2.pop());
+        }
+    }
+
+    printDeck() {
+        console.log(this.deck);
     }
 }
 
-function shuffleDeck(deckIn) {
-    var deckInLength = deckIn.length;
-    var deck1 = new Array();
-    var deck2 = new Array();
-    for(var i = 0; i < deckInLength; ++i) {
-        if (i % 2 == 0) {
-            deck1.push(deckIn.pop());
-        } else {
-            deck2.push(deckIn.pop());
-        }
-    }
-    var deck2Length = deck2.length;
-    for (i = 0; i < deck2Length; ++i) {
-        deck1.push(deck2.pop());
-    }
-    return deck1;
-}
-
-function printDeck(deckIn) {
-    console.log(deckIn);
-}
