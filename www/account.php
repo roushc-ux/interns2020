@@ -23,6 +23,12 @@
     $email = $_GET["email"];
     $cpassword = $_GET["cpassword"];
 
+    //Sanitize
+        $username = stripcslashes($username);
+        $password = stripcslashes($password);
+        $email = stripcslashes($email);
+        $cpassword = stripcslashes($cpassword);
+
     $servername = "localhost";
     $usernameServer = "root";
     $passwordServer = "#Awesome1AZ";
@@ -51,7 +57,7 @@
     }
     $conn->close();
     }
-    if (isset($_POST['click'])) {
+    if (isset($_GET['click'])) {
         newUser();
     }
     ?>
