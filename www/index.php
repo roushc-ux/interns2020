@@ -25,10 +25,11 @@
 
         $servername = "localhost";
         $usernameServer = "root";
-        $passwordServer = "140Learning";
+        $passwordServer = "#Awesome1AZ";
+        $dbname = "intern2020";
 
         // Create connection
-        $conn = new mysqli($servername, $usernameServer, $passwordServer);
+        $conn = new mysqli($servername, $usernameServer, $passwordServer, $dbname);
 
         // Check connection
         if ($conn->connect_error) {
