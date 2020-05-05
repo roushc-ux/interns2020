@@ -16,6 +16,7 @@
         <p>Don't have an account? <a href = "account.php">Sign up</a></p>
         <?php
         function login() {
+            session_start();
             //Get Username and password
         $username = $_GET["uname"];
         $password = $_GET["password"];
@@ -67,6 +68,35 @@
         }
         if (isset($_GET['click'])){
             login();
+        }
+
+        function logout() {
+            $servername = "localhost";
+            $usernameServer = "root";
+            $passwordServer = "#Awesome1AZ";
+            $dbname = "intern2020";
+
+            // Create connection
+            $conn = new mysqli($servername, $usernameServer, $passwordServer, $dbname);
+
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+
+            $user = $_SESSION['login_user'];
+            $sql = "DELETE FROM intern2020.onlineUsers WHERE username = '$user'";
+            $conn->query($sql);
+
+            session_destroy();
+            session_unset();
+            unset($_SESSION["loggedin"]);
+            $_SESSION = array();
+        }
+
+        if (isset($_GET['logout'])){
+
+            logout();
         }
         ?>
 
