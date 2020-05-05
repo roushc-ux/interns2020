@@ -14,9 +14,12 @@
         <a href = "account.php"> Create New Account</a>
         <?php
         function login() {
-            echo "in";
+            //Get Username and password
         $username = $_GET["uname"];
         $password = $_GET["password"];
+        //Sanitize
+        $username = stripcslashes($username);
+        $password = stripcslashes($password);
 
         $servername = "localhost";
         $usernameServer = "root";
@@ -45,7 +48,7 @@
                     if ($conn->query($sql) === TRUE) {
                         $_SESSION['loggedin'] = True;
                         $_SESSION['login_user'] = $username;
-
+                        echo "<a href = 'lobby.php'> Continue to Game Lobby</a>";
 
                     } else {
                         echo "Error: " . $sql . "<br>" . $conn->error;
@@ -59,7 +62,7 @@
         }
         $conn->close();
         }
-        if (isset($_POST['click'])){
+        if (isset($_GET['click'])){
             login();
         }
         ?>

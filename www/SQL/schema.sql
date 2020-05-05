@@ -42,5 +42,5 @@ CREATE TABLE cardsDiscard(
     cardID INTEGER,
     order INTEGER,
     FOREIGN KEY discards REFERENCES decks(deckID),
-    PRIMARY KEY (cardID, deckID)
+    PRIMARY KEY (cardID, discardID)
 );
