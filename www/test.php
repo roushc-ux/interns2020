@@ -23,7 +23,7 @@
 
         $servername = "localhost";
         $usernameServer = "root";
-        $passwordServer = "Quoc^07121999";
+        $passwordServer = "pw";
         $dbname = "intern2020";
 
         // Create connection
