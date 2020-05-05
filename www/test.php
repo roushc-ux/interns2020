@@ -10,4 +10,9 @@
     <div id="newDeck">New deck</div>
 
     <div id="decktosql">Add deck to sql</div>
+    <?php
+    include 'player.php';
+    include 'deck.php'
+
+    ?>
 </body>

@@ -4,6 +4,7 @@
 <body>
 <div class="page-wrap">
     <div class="header">Create New Account </div>
+    <p></p>
     <form method="get" class="form" id="newUser" action="/account.php">
         <label for="uname">New Username: </label>
         <input type="text" id = "uname" name="uname"><br><br>
@@ -15,7 +16,7 @@
         <input type="text" id = "email" name="email"><br><br>
         <input type="submit" name="click" value = "Create New Account">
     </form>
-    <a href = "index.php"> Back</a>
+    <p>Already have an account? <a href = "index.php">Login.</a></p>
     <?php
     function newUser() {
     $username = $_GET["uname"];
@@ -31,15 +32,13 @@
 
     $servername = "localhost";
     $usernameServer = "root";
-    $passwordServer = "#Awesome1AZ";
-    $dbname = "intern2020";
-
+    $passwordServer = "140Learning";
 
     if ($password != $cpassword) {
         echo "Passwords do not match";
     }
     // Create connection
-        $conn = new mysqli($servername, $usernameServer, $passwordServer, $dbname);
+    $conn = new mysqli($servername, $usernameServer, $passwordServer);
 
     // Check connection
     if ($conn->connect_error) {
