@@ -21,9 +21,9 @@
         }
     
         public function fillDeck() {
-            $values = array("A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K");
+            $values = array("A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K",);
             // 0: Spades    1: Hearts   2:  Clubs   3:  Diamonds
-            $suits = array(0, 1, 2, 3);
+            $suits = array(0, 1, 2, 3,);
             define('NUMVALS', 13);
             define('VALSPERDECK', 4);
             for($i = 0; $i < NUMVALS; ++$i) {
@@ -34,7 +34,7 @@
                     } else if ($values[$i] == "A") {
                         $weight = 1;
                     }
-                    $card = array("Value" => $values[$i], "Weight" => $weight, "Suit" => $suits[k]);
+                    $card = array("Value" => $values[$i], "Weight" => $weight, "Suit" => $suits[$k],);
                     $this->deck[] = $card;
                 }
             }

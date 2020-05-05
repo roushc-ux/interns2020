@@ -23,7 +23,7 @@
 
         $servername = "localhost";
         $usernameServer = "root";
-        $passwordServer = "pw";
+        $passwordServer = "Quoc^07121999";
         $dbname = "intern2020";
 
         // Create connection
@@ -38,7 +38,18 @@
         $result = $conn->query($sql);
 
         for ($i = 0; $i < count($cards); $i++) {
-            $cardID = ($cards[i]["Weight"] - 1) * 4 + $cards[i]["Suit"];
+            $cardPos = $cards[$i]["Weight"];
+            if ($cards[$i]["Value"] == "J") {
+                $cardPos = 11;
+            }
+            else if ($cards[$i]["Value"] == "Q") {
+                $cardPos = 12;
+            }
+            else if ($cards[$i]["Value"] == "K") {
+                $cardPos = 13;
+            }
+            $cardID = ($cardPos - 1) * 4 + $cards[$i]["Suit"];
+            // $sql = "INSERT INTO cardsDeck (deckID, cardID, cardOrder) VALUES (1, '$cardWeight', '$cardSuit')";
             $sql = "INSERT INTO cardsDeck (deckID, cardID, cardOrder) VALUES (1, '$cardID', '$i')";
             $conn->query($sql);
         }
