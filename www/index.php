@@ -11,6 +11,7 @@
             <input type="text" id = "password" name="password"><br><br>
             <input type="button" onclick="login()" value = "Login">
         </form>
+        <a href = "account.php"> Create New Account</a>
         <?php
 
         $username = $_GET["uname"];
@@ -58,7 +59,7 @@
         $conn->close();
         ?>
 
-        <a href = "account.php"> Create New Account</a>
+
     </div>
     <script type="text/javascript" src="deck.js"></script>
     <script type="text/javascript" src="player.js"></script>
