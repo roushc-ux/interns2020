@@ -4,7 +4,7 @@
 <body>
 <div class="page-wrap">
     <div class="header">Create New Account </div>
-    <form method="post" class="form" id="newUser" action="/account.php">
+    <form method="get" class="form" id="newUser" action="/account.php">
         <label for="uname">New Username: </label>
         <input type="text" id = "uname" name="uname"><br><br>
         <label for="password">New Password: </label>
@@ -24,8 +24,8 @@
     $cpassword = $_GET["cpassword"];
 
     $servername = "localhost";
-    $usernameServer = "username";
-    $passwordServer = "password";
+    $usernameServer = "root";
+    $passwordServer = "#Awesome1AZ";
 
     if ($password != $cpassword) {
         echo "Passwords do not match";

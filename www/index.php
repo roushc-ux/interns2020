@@ -4,22 +4,23 @@
 <body>
     <div class="page-wrap">
         <div class="header">Login </div>
-        <form class="form" id="loginForm" action="/action_page.php">
+        <form method="get" class="form" id="loginForm" action="/index.php">
             <label for="uname">Username: </label>
             <input type="text" id = "uname" name="uname"><br><br>
             <label for="password">Password: </label>
             <input type="text" id = "password" name="password"><br><br>
-            <input type="button" onclick="login()" value = "Login">
+            <input type="submit" name="click" value = "Login">
         </form>
         <a href = "account.php"> Create New Account</a>
         <?php
         function login() {
+            echo "in";
         $username = $_GET["uname"];
         $password = $_GET["password"];
 
         $servername = "localhost";
-        $usernameServer = "username";
-        $passwordServer = "password";
+        $usernameServer = "root";
+        $passwordServer = "#Awesome1AZ";
 
         // Create connection
         $conn = new mysqli($servername, $usernameServer, $passwordServer);
@@ -57,6 +58,9 @@
 
         }
         $conn->close();
+        }
+        if (isset($_POST['click'])){
+            login();
         }
         ?>
 
