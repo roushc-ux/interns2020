@@ -5,9 +5,15 @@ $(document).ready(function(){
         });
     })
 
-    $("#newDeck").click(function(){
-        var deck = new Deck();
-        deck.fillDeck();
-        deck.printDeck();
-    })
+    $(document).ready(function(){
+        $('#addDeck').click(function(){
+            var clickBtnValue = $(this).val();
+            var ajaxurl = 'game1page.php',
+            data =  {'action': clickBtnValue};
+            $.post(ajaxurl, data, function (response) {
+                // Response div goes here.
+                alert("action performed successfully");
+            });
+        });
+    });
 });

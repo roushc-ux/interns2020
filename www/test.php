@@ -9,10 +9,21 @@
     
     <div id="newDeck">New deck</div>
 
-    <div id="decktosql">Add deck to sql</div>
+    <input id="addDeck" type="submit" name="addDeck" value = "Add Deck">
+
     <?php
     include 'player.php';
-    include 'deck.php'
+    include 'deck.php';
+
+    function addDeck() {
+        $deck = new Deck;
+        $deck->fillDeck();
+        $deck->printDeck();
+    }
+
+    if (isset($_POST['action'])) {
+        addDeck();
+    }
 
     ?>
 </body>
