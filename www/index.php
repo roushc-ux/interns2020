@@ -3,7 +3,9 @@
 </style>
 <body>
     <div class="page-wrap">
-        <div class="header">Login </div>
+        <div class="header">Welcome to LAZ Blackjack!</div>
+        <h1>Log in to play!</h1>
+        <p></p>
         <form method="get" class="form" id="loginForm" action="/index.php">
             <label for="uname">Username: </label>
             <input type="text" id = "uname" name="uname"><br><br>
@@ -11,7 +13,7 @@
             <input type="text" id = "password" name="password"><br><br>
             <input type="submit" name="click" value = "Login">
         </form>
-        <a href = "account.php"> Create New Account</a>
+        <p>Don't have an account? <a href = "account.php">Sign up</a></p>
         <?php
         function login() {
             //Get Username and password
@@ -23,7 +25,7 @@
 
         $servername = "localhost";
         $usernameServer = "root";
-        $passwordServer = "#Awesome1AZ";
+        $passwordServer = "140Learning";
 
         // Create connection
         $conn = new mysqli($servername, $usernameServer, $passwordServer);
