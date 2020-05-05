@@ -7,7 +7,9 @@
 <body>
     <div id="newDeck">New deck</div>
 
-    <input id="addDeck" type="submit" name="addDeck" value = "Add Deck">
+    <form method="post">
+        <input id="addDeck" type="submit" name="addDeck" value = "Add Deck">
+    </form>
 
     <?php
     include 'player.php';
@@ -21,7 +23,7 @@
 
         $servername = "localhost";
         $usernameServer = "root";
-        $passwordServer = "yourpw";
+        $passwordServer = "pw";
         $dbname = "intern2020";
 
         // Create connection
@@ -38,10 +40,13 @@
         for ($i = 0; $i < count($cards); $i++) {
             $cardID = ($cards[i]["Weight"] - 1) * 4 + $cards[i]["Suit"];
             $sql = "INSERT INTO cardsDeck (deckID, cardID, cardOrder) VALUES (1, '$cardID', '$i')";
+            $conn->query($sql);
         }
+        echo "Success";
+        $conn->close();
     }
 
-    if (isset($_POST['action'])) {
+    if (isset($_POST['addDeck'])) {
         addDeck();
     }
 

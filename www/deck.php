@@ -7,6 +7,10 @@
         public function __construct() {
             $this->deck = array();
         }
+
+        public function getDeck() {
+            return $this->deck;
+        }
         
         public function getCard() {
             return array_shift($this->deck);
@@ -28,7 +32,7 @@
                     if ($values[$i] == "J" || $values[$i] == "Q" || $values[$i] == "K") {
                         $weight = 10;
                     } else if ($values[$i] == "A") {
-                        $weight = 11;
+                        $weight = 1;
                     }
                     $card = array("Value" => $values[$i], "Weight" => $weight, "Suit" => $suits[k]);
                     $this->deck[] = $card;
