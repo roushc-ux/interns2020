@@ -87,5 +87,19 @@ class Player {
         
         this.checkBust();
     }
-    
+
+}
+
+class Dealer extends Player {
+    constructor() {
+        super("Dealer");
+    }
+
+    // Dealer only draws if hand < 16
+    move(game_deck) {
+        if (this.calcHand() < 16) {
+            this.draw(game_deck);
+        }
+        this.checkBust();
+    }
 }
