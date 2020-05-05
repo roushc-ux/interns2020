@@ -13,7 +13,7 @@
         </form>
         <a href = "account.php"> Create New Account</a>
         <?php
-
+        function login() {
         $username = $_GET["uname"];
         $password = $_GET["password"];
 
@@ -57,6 +57,7 @@
 
         }
         $conn->close();
+        }
         ?>
 
 
