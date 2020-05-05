@@ -5,7 +5,7 @@
 <div class="page-wrap">
     <div class="header">Dealer</div>
 
-    <div class="card-box">
+    <div class="dealer-box">
         <div class="card"> J </div>
         <div class="card"> F </div>
     </div>
@@ -33,6 +33,20 @@
         </div>
         <div class="card-box">
             <div class="card">Player 3</div>
+        </div>
+    </div>
+    <div class="buttons-box">
+        <div class="card-box">
+            <input type="submit" value="Hit">
+            <input type="submit" value="Stay">
+        </div>
+        <div class="card-box">
+            <input type="submit" value="Hit">
+            <input type="submit" value="Stay">
+        </div>
+        <div class="card-box">
+            <input type="submit" value="Hit">
+            <input type="submit" value="Stay">
         </div>
     </div>
 </div>
