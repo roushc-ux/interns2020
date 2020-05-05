@@ -12,7 +12,7 @@ class Deck {
     }
 
     fillDeck() {
-        var values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+        let values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
         const NUMVALS = 13;
         const VALSPERDECK = 4;
         for(var i = 0; i < NUMVALS; ++i) {
@@ -31,9 +31,9 @@ class Deck {
     }
 
     shuffleDeck() {
-        var deckInLength = this.deck.length;
-        var deck1 = [];
-        var deck2 = [];
+        let deckInLength = this.deck.length;
+        let deck1 = [];
+        let deck2 = [];
         for(var i = 0; i < deckInLength; ++i) {
             if (i % 2 == 0) {
                 deck1.push(this.deck.pop());
@@ -41,11 +41,11 @@ class Deck {
                 deck2.push(this.deck.pop());
             }
         }
-        var deck1Length = deck1.length;
+        let deck1Length = deck1.length;
         for (i = 0; i < deck1Length; ++i) {
             this.deck.push(deck1.pop());
         }
-        var deck2Length = deck2.length;
+        let deck2Length = deck2.length;
         for (i = 0; i < deck2Length; ++i) {
             this.deck.push(deck2.pop());
         }
