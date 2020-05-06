@@ -1,13 +1,19 @@
 <!--Helper functions that might (not) be helpful-->
 
 <?php
+    define("SERVERNAME", "localhost", true);
+    define("USERNAMESERVER", "root", true);
     define("PASSWORD", "interns2020", true);
 
+//    define("SERVERNAME", "dmilazterns01", true);
+//    define("USERNAMESERVER", "interns2020", true);
+//    define("PASSWORD", "interns2020", true);
+
     // Returns the connection made where we can query on
-    // If run locally, change the PASSWORD const above
+    // Change the consts above accordingly
     function makeConnection() {
-        $servername = "localhost";
-        $usernameServer = "root";
+        $servername = SERVERNAME;
+        $usernameServer = USERNAMESERVER;
         $passwordServer = PASSWORD;
         $dbname = "intern2020";
 
