@@ -7,6 +7,14 @@
 //      calc result (money gain/lose) NOTE: How to set private member vars?
 //      accumulate and add cards to the discard deck at the end of the game
 
+// function to wait x milliseconds(1000=1 sec) before polling new state
+function wait(ms) {
+    let start = new Date().getTime();
+    let end = start;
+    while (end < start + ms) {
+        end = new Date().getTime();
+    }
+}
 
 function startGame() {
     let deck = new Deck();
