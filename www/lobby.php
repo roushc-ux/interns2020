@@ -21,7 +21,7 @@
             die("Connection failed: " . $conn->connect_error);
         }
         $user = $_SESSION['login_user'];
-        $sql = "SELECT wins FROM intern2020.users WHERE username = '$user'";
+        $sql = "SELECT wins FROM internDatabase.users WHERE username = '$user'";
         $result = $conn->query($sql);
         while($row = mysqli_fetch_assoc($result)) {
             echo $row['wins'];

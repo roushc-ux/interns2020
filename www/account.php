@@ -46,11 +46,11 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT username FROM intern2020.users WHERE username = '$username'";
+    $sql = "SELECT username FROM internDatabase.users WHERE username = '$username'";
     $result = $conn->query($sql);
 
     if ($result->num_rows <= 0) {
-        $sql = "INSERT INTO intern2020.users (username, password, email, wins) VALUES ('$username', '$password', '$email', 0)";
+        $sql = "INSERT INTO internDatabase.users (username, password, email, wins) VALUES ('$username', '$password', '$email', 0)";
         $conn->query($sql);
     } else {
         echo "Please choose another username";

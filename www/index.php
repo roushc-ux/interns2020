@@ -38,17 +38,17 @@
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "SELECT username FROM intern2020.users WHERE username = '$username'";
+        $sql = "SELECT username FROM internDatabase.users WHERE username = '$username'";
         $result = $conn->query($sql);
 
         if ($result->num_rows <= 0) {
             echo "Account not found";
         } else {
-            $sql = "SELECT password FROM intern2020.users WHERE username = '$username'";
+            $sql = "SELECT password FROM internDatabase.users WHERE username = '$username'";
             $result = $conn->query($sql);
             while($row = mysqli_fetch_assoc($result)) {
                 if(password_verify($password, $row["password"])) {
-                    $sql = "INSERT INTO intern2020.onlineUsers (username) VALUES ('$username')";
+                    $sql = "INSERT INTO internDatabase.onlineUsers (username) VALUES ('$username')";
                     echo "Something";
                     if ($conn->query($sql) === TRUE) {
                         $_SESSION['loggedin'] = True;
@@ -86,7 +86,7 @@
             }
 
             $user = $_SESSION['login_user'];
-            $sql = "DELETE FROM intern2020.onlineUsers WHERE username = '$user'";
+            $sql = "DELETE FROM internDatabase.onlineUsers WHERE username = '$user'";
             $conn->query($sql);
 
             session_destroy();
