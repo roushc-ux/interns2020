@@ -1,3 +1,6 @@
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
 <style>
     <?php include 'style.css';?>
 </style>
@@ -52,6 +55,10 @@
         $sql = "INSERT INTO internDatabase.users (username, password, email, wins) VALUES ('$username', '$password', '$email', 0)";
         $conn->query($sql);
         echo "Account created! Click here to login <a href = \"index.php\">Login.</a>";
+        echo
+        "<script type = text/javascript> 
+            document.getElementById('createid').write('Account created! Click here to login');
+         </script>";
 
     } else {
         echo "Please choose another username";
@@ -62,7 +69,8 @@
         newUser();
     }
     ?>
-    <p> Already have an account? <a href = "index.php">Login.</a></p>
+    <p id = "createid"> Already have an account? </p>
+    <a href = "index.php">Login.</a>
 
 </div>
 </body>
