@@ -8,10 +8,10 @@
 
          echo $_SESSION['login_user']?> </div>
     <div> You have <?php
-        $servername = "localhost";
-        $usernameServer = "root";
-        $passwordServer = "#Awesome1AZ";
-        $dbname = "intern2020";
+        $servername = "dmilazterns01.in.learninga-z.com";
+        $usernameServer = "interns2020";
+        $passwordServer = "interns2020";
+        $dbname = "internDatabase";
 
         // Create connection
         $conn = new mysqli($servername, $usernameServer, $passwordServer, $dbname);

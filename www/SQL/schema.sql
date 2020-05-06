@@ -1,5 +1,5 @@
-CREATE DATABASE intern2020;
-USE intern2020;
+CREATE DATABASE internDatabase;
+USE internDatabase;
 CREATE TABLE users (
     username VARCHAR(40) NOT NULL,
     email VARCHAR (40) NOT NULL,
@@ -10,7 +10,10 @@ CREATE TABLE users (
 
 CREATE TABLE onlineUsers(
     username VARCHAR (40) NOT NULL,
-    gameID int,
+    gameID INTEGER,
+    money INTEGER,
+    handID INTEGER,
+    FOREIGN KEY (handID) REFERENCES hands(handID),
     FOREIGN KEY (username) REFERENCES users(username),
     PRIMARY KEY (username)
 );
@@ -19,6 +22,8 @@ CREATE TABLE games(
     gameID int NOT NULL,
     deckID INTEGER,
     discardID INTEGER,
+    playerTurn INTEGER,
+    numPlayers INTEGER,
     PRIMARY KEY (gameID)
 );
 
@@ -47,5 +52,17 @@ CREATE TABLE cardsDiscard(
     FOREIGN KEY (discardID) REFERENCES discards(discardID),
     PRIMARY KEY (cardID, discardID)
 );
+
+CREATE TABLE hands(
+    handID INTEGER,
+    PRIMARY KEY (handID)
+)
+
+CREATE TABLE cardsHand(
+    handID INTEGER,
+    cardID INTEGER,
+    FOREIGN KEY (handID) REFERENCES hands(handID),
+    PRIMARY KEY (cardID)
+)
 
 
