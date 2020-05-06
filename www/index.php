@@ -72,7 +72,7 @@
         }
 
         function logout() {
-            $servername = "dmilazterns01";
+            $servername = "localhost";
             $usernameServer = "interns2020";
             $passwordServer = "interns2020";
             $dbname = "internDatabase";

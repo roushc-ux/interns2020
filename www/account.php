@@ -30,7 +30,7 @@
         $email = stripcslashes($email);
         $cpassword = stripcslashes($cpassword);
 
-        $servername = "dmilazterns01";
+        $servername = "localhost";
         $usernameServer = "interns2020";
         $passwordServer = "interns2020";
         $dbname = "internDatabase";
