@@ -10,9 +10,9 @@
         <p></p>
         <form method="get" class="form" id="loginForm" action="/index.php">
             <label for="uname">Username: </label>
-            <input type="text" id = "uname" name="uname"><br><br>
+            <input type="text" id = "uname" name="uname" required><br><br>
             <label for="password">Password: </label>
-            <input type="text" id = "password" name="password"><br><br>
+            <input type="password" id = "password" name="password" required><br><br>
             <input type="submit" name="click" value = "Login">
         </form>
         <p>Don't have an account? <a href = "account.php">Sign up</a></p>
@@ -53,7 +53,7 @@
                     if ($conn->query($sql) === TRUE) {
                         $_SESSION['loggedin'] = True;
                         $_SESSION['login_user'] = $username;
-                        echo "<a href = 'lobby.php'> Continue to Game Lobby</a>";
+                        echo "<script> document.location.href='/lobby.php'</script>";
                     } else {
                         echo "Error: " . $sql . "<br>" . $conn->error;
                     }
