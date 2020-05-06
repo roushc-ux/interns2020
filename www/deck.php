@@ -99,5 +99,25 @@
                 $conn->query($sql);
             }
         }
+
+        function getDeckFromDB() {
+            //Create a map between cardOrder and card
+            $cardValMap = new Deck;
+            $cardValMap->fillDeck();
+
+            $conn = makeConnection();
+            $query = 'SELECT * FROM cardsDeck WHERE deckID = 1'; //Change deckID
+            $result = $conn->query($query);
+
+            //Map cardOrder and add card to deck
+            while($row = $result->fetch_array()) {
+                $arr = $cardValMap->getDeck();
+                $card = $arr[$row[2]];
+                $deck->addCard($card);
+            }
+            $deck->printDeck();
+
+            $conn->close();
+         }
     }
 ?>
