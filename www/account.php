@@ -6,17 +6,17 @@
 </style>
 <body class="body">
 <div class="page-wrap">
-    <div class="header">Create New Account </div>
+    <div class="header">Create New Account </div> //Creating new account
     <p></p>
     <form method="get" class="form" id="newUser" action="/account.php">
         <label for="uname">New Username: </label>
-        <input type="text" id = "uname" name="uname"><br><br>
+        <input type="text" id = "uname" name="uname" required><br><br> //username
         <label for="password">New Password: </label>
-        <input type="text" id = "password" name="password"><br><br>
+        <input type="password" id = "password" name="password" required><br><br> //password
         <label for="cpassword">Confirm Password: </label>
-        <input type="text" id = "cpassword" name="cpassword"><br><br>
+        <input type="password" id = "cpassword" name="cpassword" required><br><br> //confirm password
         <label for="email">New Email: </label>
-        <input type="text" id = "email" name="email"><br><br>
+        <input type="email" id = "email" name="email" required><br><br> //email
         <input type="submit" name="click" value = "Create New Account">
     </form>
     <?php
@@ -37,7 +37,8 @@
         $passwordServer = "interns2020";
         $dbname = "internDatabase";
 
-    if ($password != $cpassword) {
+
+    if ($password != $cpassword) { //checking if password entry and confirm password entry match
         echo "Passwords do not match";
     }
     // Create connection
@@ -51,26 +52,30 @@
     $sql = "SELECT username FROM internDatabase.users WHERE username = '$username'";
     $result = $conn->query($sql);
 
-    if ($result->num_rows <= 0) {
-        $sql = "INSERT INTO internDatabase.users (username, password, email, wins) VALUES ('$username', '$password', '$email', 0)";
-        $conn->query($sql);
-        echo "Account created! Click here to login <a href = \"index.php\">Login.</a>";
-        echo
-        "<script type = text/javascript> 
-            document.getElementById('createid').write('Account created! Click here to login');
-         </script>";
 
-    } else {
+    if ($result->num_rows <= 0 ) {
+        $sql1 = "SELECT email FROM internDatabase.users WHERE email = '$email'";
+        $result1 = $conn->query($sql1);
+        if ($result1->num_rows <= 0) { //if never before used email, insert account info into DB
+            $sql = "INSERT INTO internDatabase.users (username, password, email, wins) VALUES ('$username', '$password', '$email', 0)";
+            $conn->query($sql);
+            echo "<script> document.location.href='/index.php'</script>";
+        }
+        else {
+            echo "Please choose another email";
+        }
+    } else { //checks to see if unique name
         echo "Please choose another username";
     }
     $conn->close();
     }
-    if (isset($_GET['click'])) {
+    if (isset($_GET['click'])) { //otherwise, insert new user into DB
         newUser();
     }
+    //optional redirect below if user is trying to login
     ?>
-    <p id = "createid"> Already have an account? </p>
-    <a href = "index.php">Login.</a>
+    <p id> Already have an account? <a href = "index.php">Login.</a></p>
+
 
 </div>
 </body>

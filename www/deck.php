@@ -24,10 +24,15 @@
             // Push new deck into db
             $sql = "INSERT INTO decks (deckID) VALUES ('$this->deckID')";
             $conn->query($sql);
+            $conn->close();
         }
 
         public function getDeck() {
             return $this->deck;
+        }
+
+        public function getDeckID() {
+            return $this->deckID;
         }
 
         public function getCard() {
@@ -86,16 +91,17 @@
         function pushToDb() {
             $conn = makeConnection();
 
+            // Remove old deck info from db
+            $sql = "DELETE FROM cardsDeck WHERE deckID = '$this->deckID'";
+            $conn->query($sql);
+
+            // Add cards to db
             for ($i = 0; $i < count($this->deck); $i++) {
-                $cardID = getCardID($this->deck[$i]);
-
-                // Remove old deck info from db
-                $sql = "DELETE FROM cardsDeck WHERE deckID = '$this->deckID'";
-
-                // Add cards to db
+                $cardID = $this->deck[$i];
                 $sql = "INSERT INTO cardsDeck (deckID, cardID, cardOrder) VALUES ('$this->deckID', '$cardID', '$i')";
                 $conn->query($sql);
             }
+            $conn->close();
         }
 
         function getDeckFromDB() {
@@ -111,24 +117,12 @@
             while($row = $result->fetch_array()) {
                 $arr = $cardValMap->getDeck();
                 $card = $arr[$row[2]];
-                $deck->addCard($card);
+                $this->deck->addCard($card);
             }
-            $deck->printDeck();
+            $this->deck->printDeck();
 
             $conn->close();
         }
 
-        function getTopCardDB() {
-            $conn = makeConnection();
-            $sql = "SELECT * FROM cardsDeck WHERE deckId = 1 ORDER BY cardOrder ASC LIMIT 1";
-            $card = $conn->query($sql);
-            $sql = "DELETE FROM cardsDeck WHERE deckID = '$card[0]' AND cardID = '$card[1]'";
-            $conn->query($sql);
-            $cardValMap = new Deck;
-            $cardValMap->fillDeck();
-            $temp = $cardValMap->getDeck();
-            $card = $temp[$card[1]];
-            return $card;
-        }
     }
 ?>

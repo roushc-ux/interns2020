@@ -8,57 +8,60 @@
         <div class="header">Welcome to LAZ Blackjack!</div>
         <h1>Log in to play!</h1>
         <p></p>
-        <form method="get" class="form" id="loginForm" action="/index.php">
+        <form method="get" class="form" id="loginForm" action="/index.php"> <!--Login form-->
             <label for="uname">Username: </label>
-            <input type="text" id = "uname" name="uname"><br><br>
+            <input type="text" id = "uname" name="uname" required><br><br>
             <label for="password">Password: </label>
-            <input type="text" id = "password" name="password"><br><br>
+            <input type="password" id = "password" name="password" required><br><br>
             <input type="submit" name="click" value = "Login">
         </form>
-        <p>Don't have an account? <a href = "account.php">Sign up</a></p>
+        <p>Don't have an account? <a href = "account.php">Sign up</a></p> <!-- Redirect to sign up page-->
         <?php
         function login() {
 
-            //Get Username and password
-        $username = $_GET["uname"];
-        $password = $_GET["password"];
-        //Sanitize
-        $username = stripcslashes($username);
-        $password = stripcslashes($password);
+                //Get Username and password
+            $username = $_GET["uname"];
+            $password = $_GET["password"];
+            //Sanitize
+            $username = stripcslashes($username);
+            $password = stripcslashes($password);
 
-        $servername = "127.0.0.1";
-        $usernameServer = "interns2020";
-        $passwordServer = "interns2020";
-        $dbname = "internDatabase";
+            $servername = "127.0.0.1";
+            $usernameServer = "interns2020";
+            $passwordServer = "interns2020";
+            $dbname = "internDatabase";
 
-        // Create connection
-        $conn = new mysqli($servername, $usernameServer, $passwordServer, $dbname);
+            // Create connection
+            $conn = new mysqli($servername, $usernameServer, $passwordServer, $dbname);
 
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
         }
 
         $sql = "SELECT username FROM internDatabase.users WHERE username = '$username'";
         $result = $conn->query($sql);
 
+
+        //Checking to see if the account is found using DB
         if ($result->num_rows <= 0) {
             echo "Account not found";
-        } else {
+        } else { //Matching password to username
             $sql = "SELECT password FROM internDatabase.users WHERE username = '$username'";
             $result = $conn->query($sql);
             while($row = mysqli_fetch_assoc($result)) {
-                if(password_verify($password, $row["password"])) {
+                if(password_verify($password, $row["password"])) { //Password verify function
+                    //Updates server to add online User
                     $sql = "INSERT INTO internDatabase.onlineUsers (username) VALUES ('$username')";
                     if ($conn->query($sql) === TRUE) {
                         $_SESSION['loggedin'] = True;
-                        $_SESSION['login_user'] = $username;
-                        echo "<a href = 'lobby.php'> Continue to Game Lobby</a>";
+                        $_SESSION['login_user'] = $username; //Updates session for logged in user
+                        echo "<script> document.location.href='/lobby.php'</script>";
                     } else {
                         echo "Error: " . $sql . "<br>" . $conn->error;
                     }
                 }
-                else {
+                else { //Non-matching password
                     echo "Wrong Password";
                 }
             }
@@ -70,7 +73,7 @@
             login();
         }
 
-        function logout() {
+        function logout() { //Logout function
             $servername = "127.0.0.1";
             $usernameServer = "interns2020";
             $passwordServer = "interns2020";
@@ -85,9 +88,11 @@
             }
 
             $user = $_SESSION['login_user'];
+            //Removing user from online user table in DB
             $sql = "DELETE FROM internDatabase.onlineUsers WHERE username = '$user'";
             $conn->query($sql);
 
+            //Destroying user's session
             session_destroy();
             session_unset();
             unset($_SESSION["loggedin"]);
