@@ -26,8 +26,8 @@
         $password = stripcslashes($password);
 
         $servername = "127.0.0.1";
-        $usernameServer = "interns2020";
-        $passwordServer = "interns2020";
+        $usernameServer = "root";
+        $passwordServer = "";
         $dbname = "internDatabase";
 
         // Create connection
@@ -73,8 +73,8 @@
 
         function logout() {
             $servername = "127.0.0.1";
-            $usernameServer = "interns2020";
-            $passwordServer = "interns2020";
+            $usernameServer = "root";
+            $passwordServer = "";
             $dbname = "internDatabase";
 
             // Create connection

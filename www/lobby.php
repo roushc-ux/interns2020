@@ -8,9 +8,9 @@
 
          echo $_SESSION['login_user']?> </div>
     <div> You have <?php
-        $servername = "dmilazterns01.in.learninga-z.com";
-        $usernameServer = "interns2020";
-        $passwordServer = "interns2020";
+        $servername = "localhost";
+        $usernameServer = "root";
+        $passwordServer = "";
         $dbname = "internDatabase";
 
         // Create connection
