@@ -25,7 +25,7 @@
         $username = stripcslashes($username);
         $password = stripcslashes($password);
 
-        $servername = "dmilazterns01";
+        $servername = "127.0.0.1";
         $usernameServer = "interns2020";
         $passwordServer = "interns2020";
         $dbname = "internDatabase";
@@ -72,7 +72,7 @@
         }
 
         function logout() {
-            $servername = "dmilazterns01.in.learninga-z.com";
+            $servername = "127.0.0.1";
             $usernameServer = "interns2020";
             $passwordServer = "interns2020";
             $dbname = "internDatabase";
