@@ -26,4 +26,19 @@
         }
         return $conn;
     }
+
+    // Calculates the cardID given the dictionary of card info
+    function getCardID($card) {
+        $cardPos = $card["Weight"];
+        if ($card["Value"] == "J") {
+            $cardPos = 11;
+        }
+        else if ($card["Value"] == "Q") {
+            $cardPos = 12;
+        }
+        else if ($card["Value"] == "K") {
+            $cardPos = 13;
+        }
+       return ($cardPos - 1) * 4 + $card["Suit"];
+    }
 ?>
