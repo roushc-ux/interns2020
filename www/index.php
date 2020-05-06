@@ -73,8 +73,8 @@
 
         function logout() {
             $servername = "127.0.0.1";
-            $usernameServer = "root";
-            $passwordServer = "";
+            $usernameServer = "interns2020";
+            $passwordServer = "interns2020";
             $dbname = "internDatabase";
 
             // Create connection
