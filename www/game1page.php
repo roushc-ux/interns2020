@@ -11,7 +11,7 @@ $result = $conn->query($sql);
 $row = mysqli_fetch_array($result);
 $playerId = $row["numPlayers"];
 echo "playerId: " . $playerId;
-$newNumPlayers = $playerId++;
+$newNumPlayers = $playerId + 1;
 $sql = "UPDATE games SET numPlayers = '$newNumPlayers' WHERE gameID = 1";
 $conn->query($sql);
 ?>
