@@ -26,10 +26,15 @@
             // Push new deck into db
             $sql = "INSERT INTO decks (deckID) VALUES ('$this->deckID')";
             $conn->query($sql);
+            $conn->close();
         }
 
         public function getDeck() {
             return $this->deck;
+        }
+
+        public function getDeckID() {
+            return $this->deckID;
         }
 
         public function getCard() {
@@ -88,15 +93,20 @@
         function pushToDb() {
             $conn = makeConnection();
 
+            // Remove old deck info from db
+            $sql = "DELETE FROM cardsDeck WHERE deckID = '$this->deckID'";
+            $conn->query($sql);
+
+//            $test = count($this->deck) + 10;
+//            $sql = "INSERT INTO decks (deckID) VALUES ('$test')";
+//            $conn->query($sql);
+
+            // Add cards to db
             for ($i = 0; $i < count($this->deck); $i++) {
                 $cardID = getCardID($this->deck[$i]);
-
-                // Remove old deck info from db
-                $sql = "DELETE FROM cardsDeck WHERE deckID = '$this->deckID'";
-
-                // Add cards to db
                 $sql = "INSERT INTO cardsDeck (deckID, cardID, cardOrder) VALUES ('$this->deckID', '$cardID', '$i')";
                 $conn->query($sql);
+                $conn->close();
             }
         }
     }

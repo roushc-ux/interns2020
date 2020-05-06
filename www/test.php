@@ -3,6 +3,7 @@
     <script src="test.js"></script>
     <script src="deck.js"></script>
     <script src="player.js"></script>
+    <title>Test</title>
 </head>
 <body>
     <div id="newDeck">New deck</div>
@@ -11,30 +12,33 @@
         <input id="addDeck" type="submit" name="addDeck" value = "Add Deck">
     </form>
 
+    <div class="container" id="output"></div>
+
     <?php
-    include 'helper.php';
+//    include 'helper.php';
     include 'player.php';
     include 'deck.php';
 
     function addDeck() {
-        $deck = new Deck;
-        $deck->fillDeck();
-
-        $cards = $deck->getDeck();
+//        $deck = new Deck;
+//        $deck->fillDeck();
+//
+//        $cards = $deck->getDeck();
 
         // testing different implementation
         $testDeck = new Deck;
         $testDeck->newFillDeck();
         $testCards = $testDeck->getDeck();
+        $testDeckID = $testDeck->getDeckID();
 
         $conn = makeConnection();
 
-        $sql = "INSERT INTO decks (deckID) VALUES (1)";
+        $sql = "INSERT INTO decks (deckID) VALUES ('$testDeckID')";
         $result = $conn->query($sql);
 
         // Testing different implementation
         for ($i=0; $i<52; $i++) {
-            $sql = "INSERT INTO cardsDeck (deckID, cardID, cardOrder) VALUES (1, '$testCards[$i]', '$i')";
+            $sql = "INSERT INTO cardsDeck (deckID, cardID, cardOrder) VALUES ('$testDeckID', '$testCards[$i]', '$i')";
             $conn->query($sql);
         }
 

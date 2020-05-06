@@ -3,7 +3,7 @@
 <?php
     define("SERVERNAME", "localhost", true);
     define("USERNAMESERVER", "root", true);
-    define("PASSWORD", "interns2020", true);
+    define("PASSWORD", "Quoc^07121999", true);
 
 //    define("SERVERNAME", "dmilazterns01", true);
 //    define("USERNAMESERVER", "interns2020", true);
