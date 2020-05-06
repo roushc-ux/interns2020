@@ -98,7 +98,6 @@ include 'helper.php';?>
         }
 
         if (isset($_GET['logout'])){
-
             logout();
         }
         ?>
