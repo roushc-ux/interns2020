@@ -2,7 +2,7 @@
 
 <?php
     define("SERVERNAME", "localhost", true);
-    define("USERNAMESERVER", "root", true);
+    define("USERNAMESERVER", "interns2020", true);
     define("PASSWORD", "interns2020", true);
 
 //    define("SERVERNAME", "dmilazterns01", true);
@@ -15,7 +15,7 @@
         $servername = SERVERNAME;
         $usernameServer = USERNAMESERVER;
         $passwordServer = PASSWORD;
-        $dbname = "intern2020";
+        $dbname = "internDatabase";
 
         // Create connection
         $conn = new mysqli($servername, $usernameServer, $passwordServer, $dbname);
