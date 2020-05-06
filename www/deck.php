@@ -2,6 +2,7 @@
     
     class Deck {
         private $deck;
+        private $deckNum;
         
         
         public function __construct() {
@@ -50,28 +51,19 @@
         }
     
         function shuffleDeck() {
-            $deckInLength = count($this->deck);
-            $deck1 = array();
-            $deck2 = array();
-            for($i = 0; $i < $deckInLength; ++$i) {
-                if ($i % 2 == 0) {
-                    $deck1[] = array_shift($this->deck);
-                } else {
-                    $deck2[] = array_shift($this->deck);
-                }
-            }
-            $deck1Length = count($deck1);
-            for ($i = 0; $i < $deck1Length; ++$i) {
-                $this->deck[] = array_shift($deck1);
-            }
-            $deck2Length = count($deck2);
-            for ($i = 0; $i < $deck2Length; ++$i) {
-                $this->deck[] = array_shift($deck2);
+            $deckLength = count($this->deck);
+            for($i = $deckLength - 1; $i >= 0; $i--) {
+                $j = rand(0, $i + 1);
+                $temp = $this->deck[$i];
+                $this->deck[$i] = $this->deck[$j];
+                $this->deck[$j] = $temp;
             }
         }
     
         function printDeck() {
+            echo '<pre>';
             print_r($this->deck);
+            echo '</pre>';
         }
     }
 ?>
