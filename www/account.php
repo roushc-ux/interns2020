@@ -31,12 +31,13 @@
         $cpassword = stripcslashes($cpassword);
 
     $servername = "localhost";
-    $usernameServer = "root";
-    $passwordServer = "#Awesome1AZ";
+    $usernameServer = "interns2020";
+    $passwordServer = "interns2020";
     $dbname = "intern2020";
 
     if ($password != $cpassword) {
         echo "Passwords do not match";
+        exit();
     }
     // Create connection
     $conn = new mysqli($servername, $usernameServer, $passwordServer, $dbname);
@@ -50,8 +51,11 @@
     $result = $conn->query($sql);
 
     if ($result->num_rows <= 0) {
-        $sql = "INSERT INTO intern2020.users (username, password, email, wins) VALUES ('$username', '$password', '$email', 0)";
+        $sql = "INSERT INTO intern2020.users (username, password, email) VALUES ('$username', '$password', '$email')";
         $conn->query($sql);
+        $_SESSION['loggedin'] = True;
+        $_SESSION['login_user'] = $username;
+        echo "<p>Account Created!</p><a href = 'lobby.php'> Continue to Game Lobby</a>";
     } else {
         echo "Please choose another username";
     }

@@ -26,8 +26,8 @@
         $password = stripcslashes($password);
 
         $servername = "localhost";
-        $usernameServer = "root";
-        $passwordServer = "#Awesome1AZ";
+        $usernameServer = "interns2020";
+        $passwordServer = "interns2020";
         $dbname = "intern2020";
 
         // Create connection
