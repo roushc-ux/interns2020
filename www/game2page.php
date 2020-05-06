@@ -1,4 +1,4 @@
-<?php session_start() ?>
+<?php session_start(); ?>
 <style>
     <?php include 'style.css';?>
 </style>
@@ -18,9 +18,9 @@
 
             $constdeck = deckArray();
 
-            if (!isset($_SESSION['test'])) {
-                $_SESSION['test'] = 0;
-            }
+//            if (!isset($_SESSION['test'])) {
+//                $_SESSION['test'] = 0;
+//            }
 
             // Get the player hands id
             if (!isset($_SESSION['sessionHandID'])) {
