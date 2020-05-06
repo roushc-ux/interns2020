@@ -109,5 +109,37 @@
                 $conn->close();
             }
         }
+
+        function getDeckFromDB() {
+            //Create a map between cardOrder and card
+            $cardValMap = new Deck;
+            $cardValMap->fillDeck();
+
+            $conn = makeConnection();
+            $query = 'SELECT * FROM cardsDeck WHERE deckID = 1'; //Change deckID
+            $result = $conn->query($query);
+
+            //Map cardOrder and add card to deck
+            while($row = $result->fetch_array()) {
+                $arr = $cardValMap->getDeck();
+                $card = $arr[$row[2]];
+                $deck->addCard($card);
+            }
+            $deck->printDeck();
+
+            $conn->close();
+        }
+
+        function getTopCardDB() {
+            $conn = makeConnection();
+            $sql = "SELECT * FROM cardsDeck WHERE deckId = 1 ORDER BY cardOrder ASC LIMIT 1";
+            $card = $conn->query($sql);
+            $query = "DELETE FROM cardsDeck WHERE deckID = '$card[0]' AND cardID = '$card[1]'";
+            $cardValMap = new Deck;
+            $cardValMap->fillDeck();
+            $temp = $cardValMap->getDeck();
+            $card = $temp[$card[2]];
+            return $card;
+        }
     }
 ?>
