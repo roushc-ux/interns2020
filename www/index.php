@@ -72,7 +72,7 @@
         }
 
         function logout() {
-            $servername = "dmilazterns01.in.learninga-z.com";
+            $servername = "dmilazterns01";
             $usernameServer = "interns2020";
             $passwordServer = "interns2020";
             $dbname = "internDatabase";
