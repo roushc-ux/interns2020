@@ -20,11 +20,6 @@
     include 'deck.php';
 
     function addDeck() {
-//        $deck = new Deck;
-//        $deck->fillDeck();
-//
-//        $cards = $deck->getDeck();
-
         // testing different implementation
         $testDeck = new Deck;
         $testDeck->newFillDeck();
