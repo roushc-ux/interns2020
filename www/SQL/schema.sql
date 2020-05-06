@@ -56,13 +56,13 @@ CREATE TABLE cardsDiscard(
 CREATE TABLE hands(
     handID INTEGER,
     PRIMARY KEY (handID)
-)
+);
 
 CREATE TABLE cardsHand(
     handID INTEGER,
     cardID INTEGER,
     FOREIGN KEY (handID) REFERENCES hands(handID),
     PRIMARY KEY (cardID)
-)
+);
 
 
