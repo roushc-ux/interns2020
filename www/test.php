@@ -12,6 +12,7 @@
     </form>
 
     <?php
+    include 'helper.php';
     include 'player.php';
     include 'deck.php';
 
@@ -26,18 +27,7 @@
         $testDeck->newFillDeck();
         $testCards = $testDeck->getDeck();
 
-        $servername = "localhost";
-        $usernameServer = "root";
-        $passwordServer = "pw";
-        $dbname = "intern2020";
-
-        // Create connection
-        $conn = new mysqli($servername, $usernameServer, $passwordServer, $dbname);
-
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
+        $conn = makeConnection();
 
         $sql = "INSERT INTO decks (deckID) VALUES (1)";
         $result = $conn->query($sql);

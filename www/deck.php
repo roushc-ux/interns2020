@@ -25,8 +25,9 @@
             for ($i=0; $i<52; $i++) {
                 $this->deck[] = $i;
             }
-            //$this->shuffleDeck();
+            $this->shuffleDeck();
         }
+
 
         public function fillDeck() {
             $values = array("A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K",);
@@ -63,7 +64,7 @@
             for ($i = 0; $i < $deck1Length; ++$i) {
                 $this->deck[] = array_shift($deck1);
             }
-            $deck2Length = $deck2->length;
+            $deck2Length = count($deck2);
             for ($i = 0; $i < $deck2Length; ++$i) {
                 $this->deck[] = array_shift($deck2);
             }
