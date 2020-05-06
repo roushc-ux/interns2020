@@ -21,6 +21,11 @@
 
         $cards = $deck->getDeck();
 
+        // testing different implementation
+        $testDeck = new Deck;
+        $testDeck->newFillDeck();
+        $testCards = $testDeck->getDeck();
+
         $servername = "localhost";
         $usernameServer = "root";
         $passwordServer = "pw";
@@ -37,6 +42,13 @@
         $sql = "INSERT INTO decks (deckID) VALUES (1)";
         $result = $conn->query($sql);
 
+        // Testing different implementation
+        for ($i=0; $i<52; $i++) {
+            $sql = "INSERT INTO cardsDeck (deckID, cardID, cardOrder) VALUES (1, '$testCards[$i]', '$i')";
+            $conn->query($sql);
+        }
+
+        /*
         for ($i = 0; $i < count($cards); $i++) {
             $cardPos = $cards[$i]["Weight"];
             if ($cards[$i]["Value"] == "J") {
@@ -53,6 +65,8 @@
             $sql = "INSERT INTO cardsDeck (deckID, cardID, cardOrder) VALUES (1, '$cardID', '$i')";
             $conn->query($sql);
         }
+        */
+
         echo "Success";
         $conn->close();
     }

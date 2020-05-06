@@ -19,7 +19,15 @@
         public function addCard($card) {
             $this->deck[] = $card;
         }
-    
+
+        // testing different implementation
+        public function newFillDeck() {
+            for ($i=0; $i<52; $i++) {
+                $this->deck[] = $i;
+            }
+            //$this->shuffleDeck();
+        }
+
         public function fillDeck() {
             $values = array("A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K",);
             // 0: Spades    1: Hearts   2:  Clubs   3:  Diamonds
