@@ -1,3 +1,6 @@
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
 <style>
     <?php include 'style.css';?>
 </style>
@@ -7,13 +10,13 @@
     <p></p>
     <form method="get" class="form" id="newUser" action="/account.php">
         <label for="uname">New Username: </label>
-        <input type="text" id = "uname" name="uname"><br><br>
+        <input type="text" id = "uname" name="uname" required><br><br>
         <label for="password">New Password: </label>
-        <input type="text" id = "password" name="password"><br><br>
+        <input type="password" id = "password" name="password" required><br><br>
         <label for="cpassword">Confirm Password: </label>
-        <input type="text" id = "cpassword" name="cpassword"><br><br>
+        <input type="password" id = "cpassword" name="cpassword" required><br><br>
         <label for="email">New Email: </label>
-        <input type="text" id = "email" name="email"><br><br>
+        <input type="email" id = "email" name="email" required><br><br>
         <input type="submit" name="click" value = "Create New Account">
     </form>
     <?php
@@ -48,11 +51,17 @@
     $sql = "SELECT username FROM internDatabase.users WHERE username = '$username'";
     $result = $conn->query($sql);
 
-    if ($result->num_rows <= 0) {
-        $sql = "INSERT INTO internDatabase.users (username, password, email, wins) VALUES ('$username', '$password', '$email', 0)";
-        $conn->query($sql);
-        echo "Account created! Click here to login <a href = \"index.php\">Login.</a>";
-
+    if ($result->num_rows <= 0 ) {
+        $sql1 = "SELECT email FROM internDatabase.users WHERE email = '$email'";
+        $result1 = $conn->query($sql1);
+        if ($result1->num_rows <= 0) {
+            $sql = "INSERT INTO internDatabase.users (username, password, email, wins) VALUES ('$username', '$password', '$email', 0)";
+            $conn->query($sql);
+            echo "<script> document.location.href='/index.php'</script>";
+        }
+        else {
+            echo "Please choose another email";
+        }
     } else {
         echo "Please choose another username";
     }
@@ -62,7 +71,8 @@
         newUser();
     }
     ?>
-    <p> Already have an account? <a href = "index.php">Login.</a></p>
+    <p id> Already have an account? <a href = "index.php">Login.</a></p>
+
 
 </div>
 </body>
