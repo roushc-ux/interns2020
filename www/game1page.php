@@ -2,7 +2,7 @@
 <style>
     <?php include 'style.css';?>
 </style>
-<body>
+<body class="game">
 <div class="page-wrap">
     <div class="header">Dealer</div>
 

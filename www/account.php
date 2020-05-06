@@ -1,7 +1,7 @@
 <style>
     <?php include 'style.css';?>
 </style>
-<body>
+<body class="body">
 <div class="page-wrap">
     <div class="header">Create New Account </div>
     <p></p>
@@ -16,7 +16,6 @@
         <input type="text" id = "email" name="email"><br><br>
         <input type="submit" name="click" value = "Create New Account">
     </form>
-    <p>Already have an account? <a href = "index.php">Login.</a></p>
     <?php
     function newUser() {
     $username = $_GET["uname"];
@@ -52,6 +51,8 @@
     if ($result->num_rows <= 0) {
         $sql = "INSERT INTO internDatabase.users (username, password, email, wins) VALUES ('$username', '$password', '$email', 0)";
         $conn->query($sql);
+        echo "Account created! Click here to login <a href = \"index.php\">Login.</a>";
+
     } else {
         echo "Please choose another username";
     }
@@ -61,6 +62,7 @@
         newUser();
     }
     ?>
+    <p> Already have an account? <a href = "index.php">Login.</a></p>
 
 </div>
 </body>
