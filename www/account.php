@@ -1,3 +1,4 @@
+<?php include 'helper.php';?>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
@@ -6,17 +7,17 @@
 </style>
 <body class="body">
 <div class="page-wrap">
-    <div class="header">Create New Account </div> //Creating new account
+    <div class="header">Create New Account </div>
     <p></p>
     <form method="get" class="form" id="newUser" action="/account.php">
         <label for="uname">New Username: </label>
-        <input type="text" id = "uname" name="uname" required><br><br> //username
+        <input type="text" id = "uname" name="uname" required><br><br>
         <label for="password">New Password: </label>
-        <input type="password" id = "password" name="password" required><br><br> //password
+        <input type="password" id = "password" name="password" required><br><br>
         <label for="cpassword">Confirm Password: </label>
-        <input type="password" id = "cpassword" name="cpassword" required><br><br> //confirm password
+        <input type="password" id = "cpassword" name="cpassword" required><br><br>
         <label for="email">New Email: </label>
-        <input type="email" id = "email" name="email" required><br><br> //email
+        <input type="email" id = "email" name="email" required><br><br>
         <input type="submit" name="click" value = "Create New Account">
     </form>
     <?php
@@ -32,17 +33,12 @@
         $email = stripcslashes($email);
         $cpassword = stripcslashes($cpassword);
 
-        $servername = "127.0.0.1";
-        $usernameServer = "interns2020";
-        $passwordServer = "interns2020";
-        $dbname = "internDatabase";
-
 
     if ($password != $cpassword) { //checking if password entry and confirm password entry match
         echo "Passwords do not match";
     }
     // Create connection
-    $conn = new mysqli($servername, $usernameServer, $passwordServer, $dbname);
+        $conn = makeConnection();
     $password = password_hash($password, PASSWORD_DEFAULT);
     // Check connection
     if ($conn->connect_error) {

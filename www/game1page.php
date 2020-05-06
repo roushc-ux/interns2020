@@ -20,7 +20,8 @@ $conn->query($sql);
     <div class="header">Dealer</div>
 
     <div class="dealer-box">
-        <div class="card"> J </div>
+        <div class="card" id = "dealerCard1"> J </div>
+        <script type="text/javascript"> document.getElementById("dealerCard1").innerHTML = "something"</script>
         <div class="card"> F </div>
     </div>
 

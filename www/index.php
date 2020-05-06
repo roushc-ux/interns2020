@@ -1,4 +1,5 @@
-<?php session_start(); ?>
+<?php session_start();
+include 'helper.php';?>
 <style>
 <?php include 'style.css';?>
 </style>
@@ -17,6 +18,9 @@
         </form>
         <p>Don't have an account? <a href = "account.php">Sign up</a></p> <!-- Redirect to sign up page-->
         <?php
+        if ($_SESSION['loggedin']) {
+
+        }
         function login() {
 
                 //Get Username and password
@@ -26,13 +30,7 @@
             $username = stripcslashes($username);
             $password = stripcslashes($password);
 
-            $servername = "127.0.0.1";
-            $usernameServer = "interns2020";
-            $passwordServer = "interns2020";
-            $dbname = "internDatabase";
-
-            // Create connection
-            $conn = new mysqli($servername, $usernameServer, $passwordServer, $dbname);
+            $conn = makeConnection();
 
             // Check connection
             if ($conn->connect_error) {
@@ -42,27 +40,33 @@
         $sql = "SELECT username FROM internDatabase.users WHERE username = '$username'";
         $result = $conn->query($sql);
 
-
         //Checking to see if the account is found using DB
         if ($result->num_rows <= 0) {
             echo "Account not found";
+            return;
         } else { //Matching password to username
             $sql = "SELECT password FROM internDatabase.users WHERE username = '$username'";
             $result = $conn->query($sql);
             while($row = mysqli_fetch_assoc($result)) {
                 if(password_verify($password, $row["password"])) { //Password verify function
-                    //Updates server to add online User
-                    $sql = "INSERT INTO internDatabase.onlineUsers (username) VALUES ('$username')";
-                    if ($conn->query($sql) === TRUE) {
-                        $_SESSION['loggedin'] = True;
-                        $_SESSION['login_user'] = $username; //Updates session for logged in user
-                        echo "<script> document.location.href='/lobby.php'</script>";
-                    } else {
-                        echo "Error: " . $sql . "<br>" . $conn->error;
+                    //Updates server to add online User if not already online
+                    $sql = "SELECT username FROM internDatabase.onlineUsers WHERE username = '$username'";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+
                     }
+                    else {
+                        $sql = "INSERT INTO internDatabase.onlineUsers (username) VALUES ('$username')";
+                        $conn->query($sql);
+                    }
+                    $_SESSION['loggedin'] = True;
+                    $_SESSION['login_user'] = $username; //Updates session for logged in user
+                    echo "<script> document.location.href='/lobby.php'</script>";
+
                 }
                 else { //Non-matching password
                     echo "Wrong Password";
+                    return;
                 }
             }
 
@@ -74,13 +78,7 @@
         }
 
         function logout() { //Logout function
-            $servername = "127.0.0.1";
-            $usernameServer = "interns2020";
-            $passwordServer = "interns2020";
-            $dbname = "internDatabase";
-
-            // Create connection
-            $conn = new mysqli($servername, $usernameServer, $passwordServer, $dbname);
+            $conn = makeConnection();
 
             // Check connection
             if ($conn->connect_error) {
