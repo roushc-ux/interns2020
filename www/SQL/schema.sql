@@ -8,6 +8,11 @@ CREATE TABLE users (
     PRIMARY KEY (username)
 );
 
+CREATE TABLE hands(
+    handID INTEGER,
+    PRIMARY KEY (handID)
+);
+
 CREATE TABLE onlineUsers(
     username VARCHAR (40) NOT NULL,
     gameID INTEGER,
@@ -51,11 +56,6 @@ CREATE TABLE cardsDiscard(
     cardOrder INTEGER,
     FOREIGN KEY (discardID) REFERENCES discards(discardID),
     PRIMARY KEY (cardID, discardID)
-);
-
-CREATE TABLE hands(
-    handID INTEGER,
-    PRIMARY KEY (handID)
 );
 
 CREATE TABLE cardsHand(
