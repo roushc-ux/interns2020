@@ -1,6 +1,4 @@
 <?php
-    include 'helper.php';
-
     class Deck {
         private $deck;
         private $deckID;
@@ -124,11 +122,12 @@
             $conn = makeConnection();
             $sql = "SELECT * FROM cardsDeck WHERE deckId = 1 ORDER BY cardOrder ASC LIMIT 1";
             $card = $conn->query($sql);
-            $query = "DELETE FROM cardsDeck WHERE deckID = '$card[0]' AND cardID = '$card[1]'";
+            $sql = "DELETE FROM cardsDeck WHERE deckID = '$card[0]' AND cardID = '$card[1]'";
+            $conn->query($sql);
             $cardValMap = new Deck;
             $cardValMap->fillDeck();
             $temp = $cardValMap->getDeck();
-            $card = $temp[$card[2]];
+            $card = $temp[$card[1]];
             return $card;
         }
     }
