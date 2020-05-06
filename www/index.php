@@ -2,7 +2,8 @@
 <style>
 <?php include 'style.css';?>
 </style>
-<body>
+<body class="body">
+
     <div class="page-wrap">
         <div class="header">Welcome to LAZ Blackjack!</div>
         <h1>Log in to play!</h1>
@@ -49,7 +50,6 @@
             while($row = mysqli_fetch_assoc($result)) {
                 if(password_verify($password, $row["password"])) {
                     $sql = "INSERT INTO internDatabase.onlineUsers (username) VALUES ('$username')";
-                    echo "Something";
                     if ($conn->query($sql) === TRUE) {
                         $_SESSION['loggedin'] = True;
                         $_SESSION['login_user'] = $username;
@@ -64,7 +64,6 @@
             }
 
         }
-        echo $_SESSION['login_user'];
         $conn->close();
         }
         if (isset($_GET['click'])){

@@ -7,6 +7,43 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    color: white;
+}
+.body {
+    background-image: url("photos/MicrosoftTeams.png");
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+.lobby {
+    background-image: url("photos/nails.webp");
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.game {
+    background-image: url("photos/gamebg.jpg");
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 .buttons-box {
     display: flex;
@@ -51,4 +88,9 @@
 .logout {
     font-size: 1rem;
     margin-right: 70rem;
+}
+
+.user-message{
+    font-size: 1rem;
+
 }
