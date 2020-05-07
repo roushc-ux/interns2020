@@ -15,7 +15,27 @@ $newNumPlayers = $playerId + 1;
 $sql = "UPDATE games SET numPlayers = '$newNumPlayers' WHERE gameID = 1";
 $conn->query($sql);
 ?>
+<script>
+    //each client will loop until 3 players
+    let checkStart = setInterval(checkPlayers, 3000);
+
+    function checkPlayers() {
+        let xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let numPlayers = this.response;
+                if (numPlayers == 3) {
+                    document.getElementById("gameStart").innerHTML = "3 players have joined. Starting game.";
+                    clearInterval(checkStart);
+                }
+            }
+        }
+        xmlhttp.open("GET", "getNumPlayers.php",true);
+        xmlhttp.send();
+    }
+</script>
 <body class="game">
+<div id="gameStart"><b>Waiting for 3 players before game begins.</b></div>
 <div class="page-wrap">
     <div class="header">Dealer</div>
 
