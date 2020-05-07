@@ -6,17 +6,17 @@
     function resetGame() {
         // Clear database
         $conn = makeConnection();
-        $sql = "DELETE FROM cardsHand";
+        $sql = "DELETE FROM card_hand";
         $conn->query($sql);
-        $sql = "DELETE FROM decksHand"; //typo?
+        $sql = "DELETE FROM deck_hand"; //typo?
         $conn->query($sql);
-        $sql = "DELETE FROM hands";
+        $sql = "DELETE FROM hand";
         $conn->query($sql);
-        $sql = "DELETE FROM decks";
+        $sql = "DELETE FROM deck";
         $conn->query($sql);
-        $sql = "DELETE FROM games";
+        $sql = "DELETE FROM game";
         $conn->query($sql);
-        $sql = "INSERT INTO games (gameID, deckID, discardID, playerTurn, numPlayers) VALUES (1, NULL, NULL, NULL, 0)";
+        $sql = "INSERT INTO game (gameID, deckID, discardID, playerTurn, numPlayers) VALUES (1, NULL, NULL, NULL, 0)";
         $conn->query($sql);
         $conn->close();
 
@@ -35,7 +35,7 @@
         // Add card to hand db
         $conn = makeConnection();
         $handID = $_SESSION['sessionHandID'];
-        $sql = "INSERT INTO cardsHand (handID, cardID) VALUES ('$handID', '$newCardID')";
+        $sql = "INSERT INTO card_hand (handID, cardID) VALUES ('$handID', '$newCardID')";
         $conn->query($sql);
         $conn->close();
 
@@ -74,7 +74,7 @@
 
         // Add deckID to games
         $conn = makeConnection();
-        $sql = "UPDATE games SET deckID = '$deckID' WHERE gameID = 1";
+        $sql = "UPDATE game SET deckID = '$deckID' WHERE gameID = 1";
         $conn->query($sql);
 
     //    if (!isset($_SESSION['sessionDeckID'])) {
@@ -87,13 +87,13 @@
     function getTopCardDB() {
         $conn = makeConnection();
         $deckID = $_SESSION['sessionDeckID'];
-        $sql = "SELECT * FROM cardsDeck WHERE deckID = '$deckID' ORDER BY cardOrder ASC LIMIT 1";
+        $sql = "SELECT * FROM card_deck WHERE deckID = '$deckID' ORDER BY cardOrder ASC LIMIT 1";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $cardID = $row['cardID'];
-            $sql = "DELETE FROM cardsDeck WHERE deckID = '$deckID' AND cardID = '$cardID'";
+            $sql = "DELETE FROM card_deck WHERE deckID = '$deckID' AND cardID = '$cardID'";
             $conn->query($sql);
 
             return $cardID;

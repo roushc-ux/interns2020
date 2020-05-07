@@ -3,7 +3,7 @@
         // Get the player hands id
         if (!isset($_SESSION['sessionHandID'])) {
             $conn = makeConnection();
-            $sql = "SELECT * FROM hands ORDER BY handID DESC LIMIT 1";
+            $sql = "SELECT * FROM hand ORDER BY handID DESC LIMIT 1";
             $result = $conn->query($sql);
             $_SESSION['sessionHandID'] = 0;
             $handID = 0;
@@ -15,7 +15,7 @@
             }
 
             // insert into hand db
-            $sql = "INSERT INTO hands (handID) VALUES ('$handID')";
+            $sql = "INSERT INTO hand (handID) VALUES ('$handID')";
             $conn->query($sql);
 
             // Insert into onlineUsers table
@@ -23,19 +23,19 @@
             // $names = ['', 'name'];
             // $name = $names[$handID];
             $username = $_SESSION['login_user'];
-            $sql = "UPDATE onlineUsers SET gameID = 1 WHERE username = '$username'";
+            $sql = "UPDATE online_user SET gameID = 1 WHERE username = '$username'";
             $conn->query($sql);
-            $sql = "UPDATE onlineUsers SET handID = '$handID' WHERE username = '$username'";
+            $sql = "UPDATE online_user SET handID = '$handID' WHERE username = '$username'";
             $conn->query($sql);
-            $sql = "UPDATE onlineUsers SET money = 100 WHERE username = '$username'";
+            $sql = "UPDATE online_user SET money = 100 WHERE username = '$username'";
             $conn->query($sql);
 
             // Update number of player in game
-            $sql = "SELECT * FROM games WHERE gameID = 1";
+            $sql = "SELECT * FROM game WHERE gameID = 1";
             $result = $conn->query($sql);
             $result = $result->fetch_assoc();
             $newNumPlayers = $result["numPlayers"] + 1;
-            $sql = "UPDATE games SET numPlayers = '$newNumPlayers' WHERE gameID = 1";
+            $sql = "UPDATE game SET numPlayers = '$newNumPlayers' WHERE gameID = 1";
             $conn->query($sql);
 
             $conn->close();
@@ -46,7 +46,7 @@
     function getSessionDeckID() {
         if (!isset($_SESSION['sessionDeckID'])) {
             $conn = makeConnection();
-            $sql = "SELECT * FROM games WHERE gameID = 1";
+            $sql = "SELECT * FROM game WHERE gameID = 1";
             $result = $conn->query($sql);
             $row = $result->fetch_assoc();
 
