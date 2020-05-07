@@ -16,23 +16,23 @@ include 'helper.php';?>
             <input type="password" id = "password" name="password" required><br><br>
             <input type="submit" name="click" value = "Login">
         </form>
-        <p>Don't have an account? <a href = "account.php">Sign up</a></p>
+        <p>Don't have an account? <a href = "account.php" class = "link">Sign up</a></p>
 
         <?php
         function login() {
-            //Get Username and password
+            // get username and password from submission
             $username = $_GET["uname"];
             $password = $_GET["password"];
-            //Sanitize
-            $username = stripcslashes($username);
-            $password = stripcslashes($password);
+            // sanitize
+            $username = filter_var($username, FILTER_SANITIZE_STRING);
+            $password = filter_var($password, FILTER_SANITIZE_STRING);
 
+            // look for credentials in db
             $conn = makeConnection();
-
             $sql = "SELECT username FROM blackjack.user WHERE username = '$username'";
             $result = $conn->query($sql);
 
-            //Checking to see if the account is found using DB
+            // checking to see if the credentials are valid
             if ($result->num_rows <= 0) {
                 echo "Incorrect username or password";
                 return;
