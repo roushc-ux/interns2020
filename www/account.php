@@ -38,12 +38,8 @@
             echo "Passwords do not match";
         }
         // Create connection
-            $conn = makeConnection();
+        //$conn = makeConnection();
         $password = password_hash($password, PASSWORD_DEFAULT);
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
 
         $sql = "SELECT username FROM internDatabase.users WHERE username = '$username'";
         $result = $conn->query($sql);
