@@ -8,13 +8,9 @@
 
          echo $_SESSION['login_user']?> </div>
     <div> You have <?php //setting up the server
-        $servername = "localhost";
-        $usernameServer = "interns2020";
-        $passwordServer = "interns2020";
-        $dbname = "internDatabase";
 
-        // Create connection
-        $conn = new mysqli($servername, $usernameServer, $passwordServer, $dbname);
+        // make connection to db
+        $conn = makeConnection();
 
         // Check connection
         if ($conn->connect_error) {

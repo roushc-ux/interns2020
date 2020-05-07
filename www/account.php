@@ -21,53 +21,53 @@
         <input type="submit" name="click" value = "Create New Account">
     </form>
     <?php
-    function newUser() {
-    $username = $_GET["uname"];
-    $password = $_GET["password"];
-    $email = $_GET["email"];
-    $cpassword = $_GET["cpassword"];
+        function newUser() {
+        $username = $_GET["uname"];
+        $password = $_GET["password"];
+        $email = $_GET["email"];
+        $cpassword = $_GET["cpassword"];
 
-    //Sanitize
+        //Sanitize
         $username = stripcslashes($username);
         $password = stripcslashes($password);
         $email = stripcslashes($email);
         $cpassword = stripcslashes($cpassword);
 
 
-    if ($password != $cpassword) { //checking if password entry and confirm password entry match
-        echo "Passwords do not match";
-    }
-    // Create connection
-        $conn = makeConnection();
-    $password = password_hash($password, PASSWORD_DEFAULT);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    $sql = "SELECT username FROM internDatabase.users WHERE username = '$username'";
-    $result = $conn->query($sql);
-
-
-    if ($result->num_rows <= 0 ) {
-        $sql1 = "SELECT email FROM internDatabase.users WHERE email = '$email'";
-        $result1 = $conn->query($sql1);
-        if ($result1->num_rows <= 0) { //if never before used email, insert account info into DB
-            $sql = "INSERT INTO internDatabase.users (username, password, email, wins) VALUES ('$username', '$password', '$email', 0)";
-            $conn->query($sql);
-            echo "<script> document.location.href='/index.php'</script>";
+        if ($password != $cpassword) { //checking if password entry and confirm password entry match
+            echo "Passwords do not match";
         }
-        else {
-            echo "Please choose another email";
+        // Create connection
+            $conn = makeConnection();
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
         }
-    } else { //checks to see if unique name
-        echo "Please choose another username";
-    }
-    $conn->close();
-    }
-    if (isset($_GET['click'])) { //otherwise, insert new user into DB
-        newUser();
-    }
+
+        $sql = "SELECT username FROM internDatabase.users WHERE username = '$username'";
+        $result = $conn->query($sql);
+
+
+        if ($result->num_rows <= 0 ) {
+            $sql1 = "SELECT email FROM internDatabase.users WHERE email = '$email'";
+            $result1 = $conn->query($sql1);
+            if ($result1->num_rows <= 0) { //if never before used email, insert account info into DB
+                $sql = "INSERT INTO internDatabase.users (username, password, email, wins) VALUES ('$username', '$password', '$email', 0)";
+                $conn->query($sql);
+                echo "<script> document.location.href='/index.php'</script>";
+            }
+            else {
+                echo "Please choose another email";
+            }
+        } else { //checks to see if unique name
+            echo "Please choose another username";
+        }
+        $conn->close();
+        }
+        if (isset($_GET['click'])) { //otherwise, insert new user into DB
+            newUser();
+        }
     //optional redirect below if user is trying to login
     ?>
     <p id> Already have an account? <a href = "index.php">Login.</a></p>

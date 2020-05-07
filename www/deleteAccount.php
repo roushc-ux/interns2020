@@ -20,13 +20,9 @@ include 'helper.php';?>
         function deleteAccount() {
             $confirm = "<script> window.confirm('Are you sure you want to delete your account?');</script>";
             if ($confirm) {
-                $servername = "127.0.0.1";
-                $usernameServer = "interns2020";
-                $passwordServer = "interns2020";
-                $dbname = "internDatabase";
 
-                // Create connection
-                $conn = new mysqli($servername, $usernameServer, $passwordServer, $dbname);
+                // make connection to db
+                $conn = makeConnection();
 
                 // Check connection
                 if ($conn->connect_error) {
