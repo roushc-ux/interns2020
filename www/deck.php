@@ -9,7 +9,7 @@
 
             // Peeks inside the db to get the deckID;
             $conn = makeConnection();
-            $sql = "SELECT deckID FROM decks ORDER BY deckID DESC LIMIT 1";
+            $sql = "SELECT deckID FROM deck ORDER BY deckID DESC LIMIT 1";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
@@ -22,7 +22,7 @@
             }
 
             // Push new deck into db
-            $sql = "INSERT INTO decks (deckID) VALUES ('$this->deckID')";
+            $sql = "INSERT INTO deck (deckID) VALUES ('$this->deckID')";
             $conn->query($sql);
             $conn->close();
         }
@@ -76,13 +76,13 @@
             $conn = makeConnection();
 
             // Remove old deck info from db
-            $sql = "DELETE FROM cardsDeck WHERE deckID = '$this->deckID'";
+            $sql = "DELETE FROM card_deck WHERE deckID = '$this->deckID'";
             $conn->query($sql);
 
             // Add cards to db
             for ($i = 0; $i < count($this->deck); $i++) {
                 $cardID = $this->deck[$i];
-                $sql = "INSERT INTO cardsDeck (deckID, cardID, cardOrder) VALUES ('$this->deckID', '$cardID', '$i')";
+                $sql = "INSERT INTO card_deck (deckID, cardID, cardOrder) VALUES ('$this->deckID', '$cardID', '$i')";
                 $conn->query($sql);
             }
             $conn->close();
@@ -94,7 +94,7 @@
             $cardValMap->fillDeck();
 
             $conn = makeConnection();
-            $query = 'SELECT * FROM cardsDeck WHERE deckID = 1'; //Change deckID
+            $query = 'SELECT * FROM card_deck WHERE deckID = 1'; //Change deckID
             $result = $conn->query($query);
 
             //Map cardOrder and add card to deck

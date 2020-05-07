@@ -36,7 +36,7 @@ include 'helper.php';?>
 
             $user = $_SESSION['login_user'];
             //Removing user from online user table in DB
-            $sql = "DELETE FROM internDatabase.onlineUsers WHERE username = '$user'";
+            $sql = "DELETE FROM blackjack.online_user WHERE username = '$user'";
             $conn->query($sql);
 
             //Destroying user's session

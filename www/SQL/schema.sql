@@ -1,7 +1,8 @@
-DROP DATABASE internDatabase;
-CREATE DATABASE internDatabase;
-USE internDatabase;
-CREATE TABLE users (
+DROP DATABASE IF EXISTS internDatabase;
+DROP DATABASE IF EXISTS blackjack;
+CREATE DATABASE blackjack;
+USE blackjack;
+CREATE TABLE user (
     username VARCHAR(40) NOT NULL,
     email VARCHAR (40) NOT NULL,
     password VARCHAR (256) NOT NULL,
@@ -9,23 +10,23 @@ CREATE TABLE users (
     PRIMARY KEY (username)
 );
 
-CREATE TABLE hands(
+CREATE TABLE hand(
     handID INTEGER,
     PRIMARY KEY (handID)
 );
 
-CREATE TABLE onlineUsers(
+CREATE TABLE online_user(
     username VARCHAR (40) NOT NULL,
     gameID INTEGER,
     money INTEGER,
     handID INTEGER,
     playerID INTEGER,
-    FOREIGN KEY (handID) REFERENCES hands(handID),
-    FOREIGN KEY (username) REFERENCES users(username),
+    FOREIGN KEY (handID) REFERENCES hand(handID),
+    FOREIGN KEY (username) REFERENCES user(username),
     PRIMARY KEY (username)
 );
 
-CREATE TABLE games(
+CREATE TABLE game(
     gameID int NOT NULL,
     deckID INTEGER,
     discardID INTEGER,
@@ -34,36 +35,36 @@ CREATE TABLE games(
     PRIMARY KEY (gameID)
 );
 
-CREATE TABLE decks(
+CREATE TABLE deck(
     deckID INTEGER,
     PRIMARY KEY (deckID)
 );
 
-CREATE TABLE cardsDeck(
+CREATE TABLE card_deck(
     deckID INTEGER,
     cardID INTEGER,
     cardOrder INTEGER,
-    FOREIGN KEY (deckID) REFERENCES decks(deckID),
+    FOREIGN KEY (deckID) REFERENCES deck(deckID),
     PRIMARY KEY (cardID, deckID)
 );
 
-CREATE TABLE discards(
+CREATE TABLE discard(
     discardID INTEGER,
     PRIMARY KEY (discardID)
 );
 
-CREATE TABLE cardsDiscard(
+CREATE TABLE card_discard(
     discardID INTEGER,
     cardID INTEGER,
     cardOrder INTEGER,
-    FOREIGN KEY (discardID) REFERENCES discards(discardID),
+    FOREIGN KEY (discardID) REFERENCES discard(discardID),
     PRIMARY KEY (cardID, discardID)
 );
 
-CREATE TABLE cardsHand(
+CREATE TABLE card_hand(
     handID INTEGER,
     cardID INTEGER,
-    FOREIGN KEY (handID) REFERENCES hands(handID),
+    FOREIGN KEY (handID) REFERENCES hand(handID),
     PRIMARY KEY (cardID)
 );
 

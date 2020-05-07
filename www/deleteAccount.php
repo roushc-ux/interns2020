@@ -23,7 +23,7 @@ include 'helper.php';?>
 
             // logout the user
             $user = $_SESSION['login_user'];
-            $sql = "DELETE FROM internDatabase.onlineUsers WHERE username = '$user'";
+            $sql = "DELETE FROM blackjack.online_user WHERE username = '$user'";
             $conn->query($sql);
 
             //Destroying user's session
@@ -33,7 +33,7 @@ include 'helper.php';?>
             $_SESSION = array();
 
             // remove user from db
-            $sql = "DELETE FROM internDatabase.users WHERE username = '$user'";
+            $sql = "DELETE FROM blackjack.user WHERE username = '$user'";
             $conn->query($sql);
 
             echo "<script> document.location.href='/index.php'</script>";

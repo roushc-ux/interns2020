@@ -28,12 +28,12 @@
 
         $conn = makeConnection();
 
-        $sql = "INSERT INTO decks (deckID) VALUES ('$testDeckID')";
+        $sql = "INSERT INTO deck (deckID) VALUES ('$testDeckID')";
         $result = $conn->query($sql);
 
         // Testing different implementation
         for ($i=0; $i<52; $i++) {
-            $sql = "INSERT INTO cardsDeck (deckID, cardID, cardOrder) VALUES ('$testDeckID', '$testCards[$i]', '$i')";
+            $sql = "INSERT INTO card_deck (deckID, cardID, cardOrder) VALUES ('$testDeckID', '$testCards[$i]', '$i')";
             $conn->query($sql);
         }
 

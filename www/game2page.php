@@ -71,7 +71,7 @@
         // Get all other players in room 1
         $conn = makeConnection();
         $currPlayerHandID = $_SESSION["sessionHandID"];
-        $sql = "SELECT * FROM onlineUsers WHERE gameID = 1 AND handID <> '$currPlayerHandID'";
+        $sql = "SELECT * FROM online_user WHERE gameID = 1 AND handID <> '$currPlayerHandID'";
         $result = $conn->query($sql);
 
         // Divs for each player
@@ -80,7 +80,7 @@
                 echo "<div class='player'><div class='card-box'>";
                 // Get the player's hand
                 $handID = $row["handID"];
-                $sql = "SELECT * from cardsHand WHERE handID = '$handID'";
+                $sql = "SELECT * from card_hand WHERE handID = '$handID'";
                 $cards_query = $conn->query($sql);
 
                 if ($cards_query->num_rows > 0) {
@@ -134,17 +134,17 @@
     function resetGame() {
         // Clear database
         $conn = makeConnection();
-        $sql = "DELETE FROM cardsHand";
+        $sql = "DELETE FROM card_hand";
         $conn->query($sql);
-        $sql = "DELETE FROM decksHand"; //typo?
+        $sql = "DELETE FROM deck_hand"; //typo?
         $conn->query($sql);
-        $sql = "DELETE FROM hands";
+        $sql = "DELETE FROM hand";
         $conn->query($sql);
-        $sql = "DELETE FROM decks";
+        $sql = "DELETE FROM deck";
         $conn->query($sql);
-        $sql = "DELETE FROM games";
+        $sql = "DELETE FROM game";
         $conn->query($sql);
-        $sql = "INSERT INTO games (gameID, deckID, discardID, playerTurn, numPlayers) VALUES (1, NULL, NULL, NULL, 0)";
+        $sql = "INSERT INTO game (gameID, deckID, discardID, playerTurn, numPlayers) VALUES (1, NULL, NULL, NULL, 0)";
         $conn->query($sql);
         $conn->close();
 
@@ -159,7 +159,7 @@
         // Get the player hands id
         if (!isset($_SESSION['sessionHandID'])) {
             $conn = makeConnection();
-            $sql = "SELECT * FROM hands ORDER BY handID DESC LIMIT 1";
+            $sql = "SELECT * FROM hand ORDER BY handID DESC LIMIT 1";
             $result = $conn->query($sql);
             $_SESSION['sessionHandID'] = 0;
             $handID = 0;
@@ -171,7 +171,7 @@
             }
 
             // insert into hand db
-            $sql = "INSERT INTO hands (handID) VALUES ('$handID')";
+            $sql = "INSERT INTO hand (handID) VALUES ('$handID')";
             $conn->query($sql);
 
             // Insert into onlineUsers table
@@ -179,19 +179,19 @@
             // $names = ['', 'name'];
             // $name = $names[$handID];
             $username = $_SESSION['login_user'];
-            $sql = "UPDATE onlineUsers SET gameID = 1 WHERE username = '$username'";
+            $sql = "UPDATE online_user SET gameID = 1 WHERE username = '$username'";
             $conn->query($sql);
-            $sql = "UPDATE onlineUsers SET handID = '$handID' WHERE username = '$username'";
+            $sql = "UPDATE online_user SET handID = '$handID' WHERE username = '$username'";
             $conn->query($sql);
-            $sql = "UPDATE onlineUsers SET money = 100 WHERE username = '$username'";
+            $sql = "UPDATE online_user SET money = 100 WHERE username = '$username'";
             $conn->query($sql);
 
             // Update number of player in game
-            $sql = "SELECT * FROM games WHERE gameID = 1";
+            $sql = "SELECT * FROM game WHERE gameID = 1";
             $result = $conn->query($sql);
             $result = $result->fetch_assoc();
             $newNumPlayers = $result["numPlayers"] + 1;
-            $sql = "UPDATE games SET numPlayers = '$newNumPlayers' WHERE gameID = 1";
+            $sql = "UPDATE game SET numPlayers = '$newNumPlayers' WHERE gameID = 1";
             $conn->query($sql);
 
             $conn->close();
@@ -205,7 +205,7 @@
         // Add card to hand db
         $conn = makeConnection();
         $handID = $_SESSION['sessionHandID'];
-        $sql = "INSERT INTO cardsHand (handID, cardID) VALUES ('$handID', '$newCardID')";
+        $sql = "INSERT INTO card_hand (handID, cardID) VALUES ('$handID', '$newCardID')";
         $conn->query($sql);
         $conn->close();
 
@@ -243,7 +243,7 @@
 
         // Add deckID to games
         $conn = makeConnection();
-        $sql = "UPDATE games SET deckID = '$deckID' WHERE gameID = 1";
+        $sql = "UPDATE game SET deckID = '$deckID' WHERE gameID = 1";
         $conn->query($sql);
 
     //    if (!isset($_SESSION['sessionDeckID'])) {
@@ -257,7 +257,7 @@
     function getSessionDeckID() {
         if (!isset($_SESSION['sessionDeckID'])) {
             $conn = makeConnection();
-            $sql = "SELECT * FROM games WHERE gameID = 1";
+            $sql = "SELECT * FROM game WHERE gameID = 1";
             $result = $conn->query($sql);
             $row = $result->fetch_assoc();
 
@@ -275,13 +275,13 @@
     function getTopCardDB() {
         $conn = makeConnection();
         $deckID = $_SESSION['sessionDeckID'];
-        $sql = "SELECT * FROM cardsDeck WHERE deckID = '$deckID' ORDER BY cardOrder ASC LIMIT 1";
+        $sql = "SELECT * FROM card_deck WHERE deckID = '$deckID' ORDER BY cardOrder ASC LIMIT 1";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $cardID = $row['cardID'];
-            $sql = "DELETE FROM cardsDeck WHERE deckID = '$deckID' AND cardID = '$cardID'";
+            $sql = "DELETE FROM card_deck WHERE deckID = '$deckID' AND cardID = '$cardID'";
             $conn->query($sql);
 
             return $cardID;

@@ -10,8 +10,8 @@ include 'helper.php';?>
         <h1>Log in to play!</h1>
         <p></p>
         <form method="get" class="form" id="loginForm" action="/index.php">
-            <label for="uname">Username: </label>
-            <input type="text" id = "uname" name="uname" required><br><br>
+            <label for="username">Username: </label>
+            <input type="text" id = "username" name="username" required><br><br>
             <label for="password">Password: </label>
             <input type="password" id = "password" name="password" required><br><br>
             <input type="submit" name="click" value = "Login">
@@ -29,7 +29,7 @@ include 'helper.php';?>
 
             $conn = makeConnection();
 
-            $sql = "SELECT username FROM internDatabase.users WHERE username = '$username'";
+            $sql = "SELECT username FROM blackjack.user WHERE username = '$username'";
             $result = $conn->query($sql);
 
             //Checking to see if the account is found using DB
@@ -37,18 +37,18 @@ include 'helper.php';?>
                 echo "Incorrect username or password";
                 return;
             } else { //Matching password to username
-                $sql = "SELECT password FROM internDatabase.users WHERE username = '$username'";
+                $sql = "SELECT password FROM blackjack.user WHERE username = '$username'";
                 $result = $conn->query($sql);
                 while($row = mysqli_fetch_assoc($result)) {
                     if(password_verify($password, $row["password"])) { //Password verify function
                         //Updates server to add online User if not already online
-                        $sql = "SELECT username FROM internDatabase.onlineUsers WHERE username = '$username'";
+                        $sql = "SELECT username FROM blackjack.online_user WHERE username = '$username'";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
 
                         }
                         else {
-                            $sql = "INSERT INTO internDatabase.onlineUsers (username) VALUES ('$username')";
+                            $sql = "INSERT INTO blackjack.online_user (username) VALUES ('$username')";
                             $conn->query($sql);
                         }
 
