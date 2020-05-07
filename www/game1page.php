@@ -91,7 +91,7 @@ $playerID = $row['playerID'];
     console.log("checkStart has started");
 
     //jquery equivalent to make checkPlayers function cleaner
-    function checkPlayers() {
+   /* function checkPlayers() {
         $.get('getNumPlayers.php', function(response) {
             let numPlayers = parseInt(this.response.match(/(\d+)/));
             console.log(typeof(numPlayers));
@@ -102,8 +102,8 @@ $playerID = $row['playerID'];
                 clearInterval(checkStart);
             }
         })
-    }
-    /* can remove when other function confirmed to work
+    } */
+    /* can remove when other function confirmed to work */
     function checkPlayers() {
         let xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
@@ -121,28 +121,28 @@ $playerID = $row['playerID'];
         xmlhttp.open("GET", "getNumPlayers.php", true);
         xmlhttp.send();
     }
-    */
+
 
     //each client will loop until it is active player
     let checkCurrent = setInterval(checkCurrentPlayer, 3000);
 
     //jquery equivalent to make checkCurrentPlayer function cleaner
-    function checkCurrentPlayer() {
+    /*function checkCurrentPlayer() {
         $.get('getCurrentPlayer.php', function(response) {
             let currentPlayer = this.response;
             if (currentPlayer == <?php echo $playerID?>) {
                 document.getElementById("currentPlayer").innerHTML = "IT'S YOUR TURN";
             }
         })
-    }
+    }*/
 
-    /* can remove when other function confirmed to work
+    /* can remove when other function confirmed to work*/
     function checkCurrentPlayer() {
         let xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 let currentPlayer = this.response;
-                if (currentPlayer == <?php echo $_SESSION["playerID"]?>) {
+                if (currentPlayer == <?php echo $playerID?>) {
                     document.getElementById("currentPlayer").innerHTML = "IT'S YOUR TURN";
                 }
             }
@@ -150,7 +150,7 @@ $playerID = $row['playerID'];
         xmlhttp.open("GET", "getCurrentPlayer.php", true);
         xmlhttp.send();
     }
-    */
+
 
     //once client is the active player, poll the whole game status from server
     
