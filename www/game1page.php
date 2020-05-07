@@ -84,9 +84,8 @@ echo "playerId: " . $row['playerID'];
 <script>
     //each client will loop until 3 players
     let checkStart = setInterval(checkPlayers, 3000);
-    //checkPlayers();
     console.log("checkStart has started");
-a
+
     function checkPlayers() {
         let xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
