@@ -29,10 +29,10 @@
         $cpassword = $_GET["cpassword"];
 
         //Sanitize
-        $username = stripcslashes($username);
-        $password = stripcslashes($password);
-        $email = stripcslashes($email);
-        $cpassword = stripcslashes($cpassword);
+        $username = filter_var($username, FILTER_SANITIZE_STRING);
+        $password = filter_var($password, FILTER_SANITIZE_STRING);
+        $email = filter_var($email, FILTER_SANITIZE_STRING);
+        $cpassword = filter_var($cpassword, FILTER_SANITIZE_STRING);
 
         if ($password != $cpassword) { //checking if password entry and confirm password entry match
             echo "Passwords do not match";
@@ -66,6 +66,6 @@
     //optional redirect below if user is trying to login
     ?>
 
-    <p id> Already have an account? <a href = "index.php">Login.</a></p>
+    <p id> Already have an account? <a href = "index.php" class = "link">Login.</a></p>
 </div>
 </body>
