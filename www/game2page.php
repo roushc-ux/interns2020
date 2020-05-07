@@ -26,7 +26,9 @@
 
                 // Keep track of player info within session
                 if (!isset($_SESSION['sessionPlayer'])) {
-                    $player = new Player("name");
+                    // $player = new Player("name");
+                    $username = $_SESSION['login_user'];
+                    $player = new Player ($username);
                     $_SESSION['sessionPlayer'] = serialize($player);
                 }
 
@@ -43,8 +45,9 @@
                 $player = unserialize($_SESSION['sessionPlayer']);
                 printHand($player);
 
-                //            if (!$player->isTurn() or $player->isBust()) {
+                // if (!$player->isTurn() or $player->isBust()) {
                 if ($player->isBust()) {
+                    echo "Bust you're out";
                     echo "<script type='text/javascript'>
                   $(document).ready(function()
                   {
@@ -55,7 +58,12 @@
                 }
                 ?>
             </div>
-            <div class='card'>Player 1</div>
+
+            <?php
+                $username =  $_SESSION['login_user'];
+                echo "<div class='card'>$username</div>";
+            ?>
+            
         </div>
 
         <!-- Other players -->
@@ -68,7 +76,6 @@
 
         // Divs for each player
         if ($result->num_rows > 0) {
-            $playerIdx = 2;
             while($row = $result->fetch_assoc()) {
                 echo "<div class='player'><div class='card-box'>";
                 // Get the player's hand
@@ -84,8 +91,8 @@
                         echo "<div class='card'>$cardValue</div>";
                     }
                 }
-                echo "</div><div class='card'>Player $playerIdx</div></div>";
-                $playerIdx++;
+                $username = $row["username"];
+                echo "</div><div class='card'>$username</div></div>";
             }
         }
 //        for ($i = 0; $i < $numPlayers - 1; $i++) {
@@ -169,9 +176,14 @@
 
             // Insert into onlineUsers table
             // TODO: name below is just for testing currently. Replace name with appropriate username
-            $names = ['', 'name'];
-            $name = $names[$handID];
-            $sql = "INSERT INTO onlineUsers (username, gameID, money, handID) VALUES ('$name', 1, 100, '$handID')";
+            // $names = ['', 'name'];
+            // $name = $names[$handID];
+            $username = $_SESSION['login_user'];
+            $sql = "UPDATE onlineUsers SET gameID = 1 WHERE username = '$username'";
+            $conn->query($sql);
+            $sql = "UPDATE onlineUsers SET handID = '$handID' WHERE username = '$username'";
+            $conn->query($sql);
+            $sql = "UPDATE onlineUsers SET money = 100 WHERE username = '$username'";
             $conn->query($sql);
 
             // Update number of player in game
@@ -277,3 +289,28 @@
     }
 ?>
 </body>
+
+function isLoginSessionExpired() {
+    //giving them 30 seconds when it is
+	$login_session_duration = 30; 
+	$current_time = time(); 
+    <script type = 'text/javascript'>
+    var is_their_turn = document.getElementbyId('#hitBtn').enable;
+    </script>
+	if($is_their_turnand isset($_SESSION['loggedin_time']) and isset($_SESSION["user_id"])){  
+		if(((time() - $_SESSION['loggedin_time']) > $login_session_duration)){ 
+			return true; 
+		} 
+	}
+	return false;
+}
+
+session_start();
+unset($_SESSION["user_id"]);
+unset($_SESSION["user_name"]);
+$url = "index.php";
+if(isset($_GET["session_expired"])) {
+	$url .= "?session_expired=" . $_GET["session_expired"];
+}
+header("Location:$url");
+

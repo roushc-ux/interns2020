@@ -30,6 +30,10 @@ class Player {
         return $this->is_turn;
     }
 
+    public function getName() {
+        return $this->name;
+    }
+
     // Calculates the score of the hand
     public function calcHand() {
         if (count($this->hand) == 0) {
