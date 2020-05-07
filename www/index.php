@@ -9,21 +9,21 @@ include 'helper.php';?>
         <div class="header">Welcome to LAZ Blackjack!</div>
         <h1>Log in to play!</h1>
         <p></p>
-        <form method="get" class="form" id="loginForm" action="/index.php"> <!--Login form-->
+        <form method="get" class="form" id="loginForm" action="/index.php">
             <label for="uname">Username: </label>
             <input type="text" id = "uname" name="uname" required><br><br>
             <label for="password">Password: </label>
             <input type="password" id = "password" name="password" required><br><br>
             <input type="submit" name="click" value = "Login">
         </form>
-        <p>Don't have an account? <a href = "account.php">Sign up</a></p> <!-- Redirect to sign up page-->
+        <p>Don't have an account? <a href = "account.php">Sign up</a></p>
+
         <?php
         if ($_SESSION['loggedin']) {
 
         }
         function login() {
-
-                //Get Username and password
+            //Get Username and password
             $username = $_GET["uname"];
             $password = $_GET["password"];
             //Sanitize
@@ -42,7 +42,7 @@ include 'helper.php';?>
 
         //Checking to see if the account is found using DB
         if ($result->num_rows <= 0) {
-            echo "Account not found";
+            echo "Incorrect username or password";
             return;
         } else { //Matching password to username
             $sql = "SELECT password FROM internDatabase.users WHERE username = '$username'";
@@ -65,7 +65,7 @@ include 'helper.php';?>
 
                 }
                 else { //Non-matching password
-                    echo "Wrong Password";
+                    echo "Incorrect username or password";
                     return;
                 }
             }
@@ -76,34 +76,9 @@ include 'helper.php';?>
         if (isset($_GET['click'])){
             login();
         }
-
-        function logout() { //Logout function
-            $conn = makeConnection();
-
-            // Check connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-
-            $user = $_SESSION['login_user'];
-            //Removing user from online user table in DB
-            $sql = "DELETE FROM internDatabase.onlineUsers WHERE username = '$user'";
-            $conn->query($sql);
-
-            //Destroying user's session
-            session_destroy();
-            session_unset();
-            unset($_SESSION["loggedin"]);
-            $_SESSION = array();
-        }
-
-        if (isset($_GET['logout'])){
-            logout();
-        }
-        ?>
-
+    ?>
 
     </div>
-    <script type="text/javascript" src="deck.js"></script>
-    <script type="text/javascript" src="player.js"></script>
+<script type="text/javascript" src="deck.js"></script>
+<script type="text/javascript" src="player.js"></script>
 </body>
