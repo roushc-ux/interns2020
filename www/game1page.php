@@ -5,9 +5,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <?php
 // get numPlayers, assign number to current player. Update numPlayers.
-include 'helper.php';
+include 'database.php';
 $conn = makeConnection();
 $username = $_SESSION['login_user'];
+echo $_SESSION['login_user'];
 $sql = "SELECT gameID FROM blackjack.online_user WHERE username = '$username'";
 $result = $conn->query($sql);
 $row = mysqli_fetch_array($result);
@@ -17,7 +18,6 @@ if (!$row["gameID"]) {
     $sql = "SELECT numPlayers FROM game WHERE gameID = 1 LIMIT 1";
     $result = $conn->query($sql);
     $row = mysqli_fetch_array($result);
-    $playerID = $row["numPlayers"];
     $sql = "UPDATE online_user SET playerID = '$playerID' WHERE username = '$username'";
     $conn->query($sql);
     $newNumPlayers = $playerID + 1;
@@ -28,6 +28,7 @@ $sql = "SELECT playerID FROM online_user WHERE username = '$username'";
 $result = $conn->query($sql);
 $row = mysqli_fetch_array($result);
 echo "playerId: " . $row['playerID'];
+$playerID = $row['playerID'];
 
 ?>
 <body class="game">
@@ -127,7 +128,7 @@ echo "playerId: " . $row['playerID'];
     function checkCurrentPlayer() {
         $.get('getCurrentPlayer.php', function(response) {
             let currentPlayer = this.response;
-            if (currentPlayer == <?php echo $_SESSION["playerID"]?>) {
+            if (currentPlayer == <?php echo $playerID?>) {
                 document.getElementById("currentPlayer").innerHTML = "IT'S YOUR TURN";
             }
         })
