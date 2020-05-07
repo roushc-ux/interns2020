@@ -18,8 +18,24 @@ class Player {
         $this->bust = False;
     }
 
+    public function getHand() {
+        return $this->hand;
+    }
+
+    public function isBust() {
+        return $this->bust;
+    }
+
+    public function isTurn() {
+        return $this->is_turn;
+    }
+
     // Calculates the score of the hand
     public function calcHand() {
+        if (count($this->hand) == 0) {
+            return 0;
+        }
+
         $sum = 0;
         $num_ace = 0;
 
@@ -31,11 +47,14 @@ class Player {
                 $num_ace += 1;
             }
         }
+        $sum = $this->handlesAce($sum, $num_ace);
 
-        $sum = $this->handlesAce(sum, num_ace);
-        // sum == 0 means player is bust
+        // sum == 0 from handsAce means player bust
+        // recalc sum
         if ($sum == 0) {
-            return 22;
+            for ($i = 0; $i < count($this->hand); $i++) {
+                $sum += $this->hand[$i]["Weight"];
+            }
         }
         return $sum;
     }
@@ -64,10 +83,19 @@ class Player {
     }
 
     public function drawCard($game_deck) {
-        $this->hand->push($game_deck->getCard());
+        $this->hand[] = $game_deck->getCard();
         
         $this->checkBust();
-    }    
+    }
+
+    public function addCard($card) {
+        $this->hand[] = $card;
+    }
+
+    public function emptyHand() {
+        $this->hand = [];
+        $this->bust = false;
+    }
 }
 
 class Dealer extends Player {
