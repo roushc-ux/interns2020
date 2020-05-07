@@ -27,6 +27,32 @@
         echo "reset";
     }
 
+    function startGame() {
+        $conn = makeConnection();
+        addDeck();
+        addDealer();
+        hit();
+        hit();
+
+    }
+
+    function addDealer() {
+        $conn = makeConnection();
+        $sql = "SELECT handID FROM hand ORDER BY handID DESC LIMIT 1";
+        $result = $conn->query($sql);
+        $_SESSION['sessionHandID'] = 0;
+        $handID = 0;
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $_SESSION['sessionHandID'] = $row["handID"] + 1;
+            $handID = $_SESSION['sessionHandID'];
+        }
+        $sql = "INSERT INTO game (dealerHandID) VALUES ($handID)";
+        $conn->query($sql);
+
+        dealerHit($handID);
+    }
 
     function hit() {
         // Draw card

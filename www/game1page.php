@@ -1,11 +1,12 @@
-<?php session_start();?>
+<?php session_start();
+include 'game_ui.php';?>
 <style>
     <?php include 'style.css';?>
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<meta http-equiv="refresh" content="5">
 <?php
 // get numPlayers, assign number to current player. Update numPlayers.
-include 'database.php';
 $conn = makeConnection();
 $username = $_SESSION['login_user'];
 echo $_SESSION['login_user'];
@@ -43,47 +44,43 @@ $playerID = $row['playerID'];
         <div class="card"> F </div>
     </div>
 
-    <div class="buttons-box">
-        <div class="card-box">
-            <div class="card"> J </div>
-            <div class="card"> A </div>
-        </div>
-        <div class="card-box">
-            <div class="card"> K </div>
-            <div class="card"> A </div>
-        </div>
-        <div class="card-box">
-            <div class="card"> 3 </div>
-            <div class="card"> 6 </div>
-        </div>
-    </div>
-    <div class="buttons-box">
-        <div class="card-box">
-            <div class="card">Player 1</div>
-        </div>
-        <div class="card-box">
-            <div class="card">Player 2</div>
-        </div>
-        <div class="card-box">
-            <div class="card">Player 3</div>
-        </div>
-    </div>
-    <div class="buttons-box">
-        <div class="card-box">
-            <input type="submit" value="Hit">
-            <input type="submit" value="Stay">
-        </div>
-        <div class="card-box">
-            <input type="submit" value="Hit">
-            <input type="submit" value="Stay">
-        </div>
-        <div class="card-box">
-            <input type="submit" value="Hit">
-            <input type="submit" value="Stay">
-        </div>
-    </div>
-</div>
+        <div class="buttons-box">
+            <!-- Main player -->
+            <div class="player">
+                <div class="card-box">
+                    <?php
+                    mainPlayerHand();
+                    ?>
+                </div>
 
+                <?php
+                $username =  $_SESSION['login_user'];
+                echo "<div class='card'>$username</div>";
+                ?>
+
+            </div>
+
+            <!-- Other players -->
+            <?php
+            otherPlayerHand();
+            ?>
+        </div>
+        <div class="buttons-box">
+            <div class="card-box">
+                <form method="post">
+                    <input id="hitBtn" type="submit" name="hit" value="Hit">
+                    <input id="stayBtn" type="submit" name="stay" value="Stay">
+                    <input type="submit" name="reset" value="Reset">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <?php
+    if (isset($_POST['addDeck'])) {
+        addDeck();
+    }
+    ?>
 
 <script>
     //each client will loop until 3 players

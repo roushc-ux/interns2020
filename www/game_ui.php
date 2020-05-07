@@ -88,4 +88,8 @@
 
         $conn->close();
     }
+
+    function dealerHand() {
+
+    }
 ?>

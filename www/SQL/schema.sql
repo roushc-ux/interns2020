@@ -32,6 +32,7 @@ CREATE TABLE game(
     discardID INTEGER,
     playerTurn INTEGER,
     numPlayers INTEGER,
+    dealerHandID INTEGER,
     PRIMARY KEY (gameID)
 );
 
