@@ -13,10 +13,6 @@ include 'helper.php';?>
         // make connection to db
         $conn = makeConnection();
 
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
         $user = $_SESSION['login_user'];
         $sql = "SELECT wins FROM internDatabase.users WHERE username = '$user'";
         $result = $conn->query($sql);
@@ -38,20 +34,19 @@ include 'helper.php';?>
         function logout() { //Logout function
             $conn = makeConnection();
 
-            // Check connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-
             $user = $_SESSION['login_user'];
             //Removing user from online user table in DB
-            $sql = "DELETE FROM internDatabase.onlineUsers WHERE username = '$user'";
+            $sql = "DELETE FROM blackjack.online_user WHERE username = '$user'";
             $conn->query($sql);
 
             //Destroying user's session
             session_destroy();
             session_unset();
             unset($_SESSION["loggedin"]);
+            // Unset all prev session vars on the computer
+            unset($_SESSION['sessionHandID']);
+            unset($_SESSION['sessionDeckID']);
+            unset($_SESSION['sessionPlayer']);
             $_SESSION = array();
 
             echo "<script> document.location.href='/index.php'</script>";

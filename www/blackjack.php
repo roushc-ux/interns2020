@@ -8,12 +8,12 @@
 
         $conn = makeConnection();
 
-        $sql = "INSERT INTO decks (deckID) VALUES (1)";
+        $sql = "INSERT INTO deck (deckID) VALUES (1)";
         $result = $conn->query($sql);
 
         // Testing different implementation
         for ($i=0; $i<52; $i++) {
-            $sql = "INSERT INTO cardsDeck (deckID, cardID, cardOrder) VALUES (1, '$testCards[$i]', '$i')";
+            $sql = "INSERT INTO card_deck (deckID, cardID, cardOrder) VALUES (1, '$testCards[$i]', '$i')";
             $conn->query($sql);
         }
 
@@ -23,7 +23,7 @@
 
     function delDeck() {
         $conn = makeConnection();
-        $sql = "DELETE FROM cardsDeck";
+        $sql = "DELETE FROM card_deck";
         $conn->query($sql);
         $conn->close();
     }
@@ -31,13 +31,13 @@
     function getTopCardDB() {
         $conn = makeConnection();
         $deckID = $_SESSION['sessionDeckID'];
-        $sql = "SELECT * FROM cardsDeck WHERE deckID = '$deckID' ORDER BY cardOrder ASC LIMIT 1";
+        $sql = "SELECT * FROM card_deck WHERE deckID = '$deckID' ORDER BY cardOrder ASC LIMIT 1";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $cardID = $row['cardID'];
-            $sql = "DELETE FROM cardsDeck WHERE deckID = '$deckID' AND cardID = '$cardID'";
+            $sql = "DELETE FROM card_deck WHERE deckID = '$deckID' AND cardID = '$cardID'";
             $conn->query($sql);
 
             return $cardID;

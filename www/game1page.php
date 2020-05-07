@@ -7,23 +7,23 @@
 include 'helper.php';
 $conn = makeConnection();
 $username = $_SESSION['login_user'];
-$sql = "SELECT gameID FROM internDatabase.onlineUsers WHERE username = '$username'";
+$sql = "SELECT gameID FROM blackjack.online_user WHERE username = '$username'";
 $result = $conn->query($sql);
 $row = mysqli_fetch_array($result);
 if (!$row["gameID"]) {
-    $sql = "UPDATE onlineUsers SET gameID = 1 WHERE username = '$username'";
+    $sql = "UPDATE online_user SET gameID = 1 WHERE username = '$username'";
     $conn->query($sql);
-    $sql = "SELECT numPlayers FROM games WHERE gameID = 1 LIMIT 1";
+    $sql = "SELECT numPlayers FROM game WHERE gameID = 1 LIMIT 1";
     $result = $conn->query($sql);
     $row = mysqli_fetch_array($result);
     $playerID = $row["numPlayers"];
-    $sql = "UPDATE onlineUsers SET playerID = '$playerID' WHERE username = '$username'";
+    $sql = "UPDATE online_user SET playerID = '$playerID' WHERE username = '$username'";
     $conn->query($sql);
     $newNumPlayers = $playerID + 1;
-    $sql = "UPDATE games SET numPlayers = '$newNumPlayers' WHERE gameID = 1";
+    $sql = "UPDATE game SET numPlayers = '$newNumPlayers' WHERE gameID = 1";
     $conn->query($sql);
 }
-$sql = "SELECT playerID FROM onlineUsers WHERE username = '$username'";
+$sql = "SELECT playerID FROM online_user WHERE username = '$username'";
 $result = $conn->query($sql);
 $row = mysqli_fetch_array($result);
 echo "playerId: " . $row['playerID'];

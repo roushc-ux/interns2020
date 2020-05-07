@@ -15,7 +15,7 @@
         $servername = SERVERNAME;
         $usernameServer = USERNAMESERVER;
         $passwordServer = PASSWORD;
-        $dbname = "internDatabase";
+        $dbname = "blackjack";
 
         // Create connection
         $conn = new mysqli($servername, $usernameServer, $passwordServer, $dbname);

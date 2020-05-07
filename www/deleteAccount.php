@@ -18,34 +18,25 @@ include 'helper.php';?>
         <?php
         // Permanently deletes a user's account
         function deleteAccount() {
-            $confirm = "<script> window.confirm('Are you sure you want to delete your account?');</script>";
-            if ($confirm) {
+            // make connection to db
+            $conn = makeConnection();
 
-                // make connection to db
-                $conn = makeConnection();
+            // logout the user
+            $user = $_SESSION['login_user'];
+            $sql = "DELETE FROM blackjack.online_user WHERE username = '$user'";
+            $conn->query($sql);
 
-                // Check connection
-                if ($conn->connect_error) {
-                    die("Connection failed: " . $conn->connect_error);
-                }
+            //Destroying user's session
+            session_destroy();
+            session_unset();
+            unset($_SESSION["loggedin"]);
+            $_SESSION = array();
 
-                // logout the user
-                $user = $_SESSION['login_user'];
-                $sql = "DELETE FROM internDatabase.onlineUsers WHERE username = '$user'";
-                $conn->query($sql);
+            // remove user from db
+            $sql = "DELETE FROM blackjack.user WHERE username = '$user'";
+            $conn->query($sql);
 
-                //Destroying user's session
-                session_destroy();
-                session_unset();
-                unset($_SESSION["loggedin"]);
-                $_SESSION = array();
-
-                // remove user from db
-                $sql = "DELETE FROM internDatabase.users WHERE username = '$user'";
-                $conn->query($sql);
-
-                echo "<script> document.location.href='/index.php'</script>";
-            }
+            echo "<script> document.location.href='/index.php'</script>";
         }
 
         if (isset($_GET['yes'])){
