@@ -20,6 +20,7 @@
         <input type="email" id = "email" name="email" required><br><br>
         <input type="submit" name="click" value = "Create New Account">
     </form>
+
     <?php
         function newUser() {
         $username = $_GET["uname"];
@@ -32,7 +33,6 @@
         $password = stripcslashes($password);
         $email = stripcslashes($email);
         $cpassword = stripcslashes($cpassword);
-
 
         if ($password != $cpassword) { //checking if password entry and confirm password entry match
             echo "Passwords do not match";
@@ -47,7 +47,6 @@
 
         $sql = "SELECT username FROM internDatabase.users WHERE username = '$username'";
         $result = $conn->query($sql);
-
 
         if ($result->num_rows <= 0 ) {
             $sql1 = "SELECT email FROM internDatabase.users WHERE email = '$email'";
@@ -70,8 +69,7 @@
         }
     //optional redirect below if user is trying to login
     ?>
+
     <p id> Already have an account? <a href = "index.php">Login.</a></p>
-
-
 </div>
 </body>

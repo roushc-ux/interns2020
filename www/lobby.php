@@ -5,9 +5,9 @@ include 'helper.php';?>
 </style>
 <body class="lobby">
 <div class="page-wrap">
-    <div> Hi <?php
-
-         echo $_SESSION['login_user']?> </div>
+    <div>
+        Hi <?php echo $_SESSION['login_user']?>
+    </div>
     <div> You have <?php //setting up the server
 
         // make connection to db
@@ -23,6 +23,7 @@ include 'helper.php';?>
         while($row = mysqli_fetch_assoc($result)) {
             echo $row['wins']; //showing the user their total amount of wins
         }?> wins. Wanna win more?</div>
+
     <form method="get" class="logout" id="loginForm" action="/index.php">
         <input type="submit" name="logout" value = "Logout" >
     </form>
@@ -34,10 +35,9 @@ include 'helper.php';?>
     <a href="game1page.php">Enter Game</a>
 
     <?php
-
-    if (isset($_GET['delAccount'])){
-        echo "<script> document.location.href='/deleteAccount.php'</script>";
-    }
+        if (isset($_GET['delAccount'])){
+            echo "<script> document.location.href='/deleteAccount.php'</script>";
+        }
     ?>
 </div>
 </body>
