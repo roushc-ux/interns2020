@@ -2,6 +2,7 @@
 <style>
     <?php include 'style.css';?>
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <?php
 // get numPlayers, assign number to current player. Update numPlayers.
 include 'helper.php';
@@ -86,6 +87,20 @@ echo "playerId: " . $row['playerID'];
     let checkStart = setInterval(checkPlayers, 3000);
     console.log("checkStart has started");
 
+    //jquery equivalent to make checkPlayers function cleaner
+    function checkPlayers() {
+        $.get('getNumPlayers.php', function(response) {
+            let numPlayers = parseInt(this.response.match(/(\d+)/));
+            console.log(typeof(numPlayers));
+            console.log(numPlayers);
+            if (numPlayers >= 3) {
+                document.getElementById("gameStart").innerHTML = "3 players have joined. Starting game.";
+                console.log("numPlayers is greater than 3");
+                clearInterval(checkStart);
+            }
+        })
+    }
+    /* can remove when other function confirmed to work
     function checkPlayers() {
         let xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
@@ -103,10 +118,22 @@ echo "playerId: " . $row['playerID'];
         xmlhttp.open("GET", "getNumPlayers.php", true);
         xmlhttp.send();
     }
+    */
 
     //each client will loop until it is active player
     let checkCurrent = setInterval(checkCurrentPlayer, 3000);
 
+    //jquery equivalent to make checkCurrentPlayer function cleaner
+    function checkCurrentPlayer() {
+        $.get('getCurrentPlayer.php', function(response) {
+            let currentPlayer = this.response;
+            if (currentPlayer == <?php echo $_SESSION["playerID"]?>) {
+                document.getElementById("currentPlayer").innerHTML = "IT'S YOUR TURN";
+            }
+        })
+    }
+
+    /* can remove when other function confirmed to work
     function checkCurrentPlayer() {
         let xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
@@ -120,6 +147,7 @@ echo "playerId: " . $row['playerID'];
         xmlhttp.open("GET", "getCurrentPlayer.php", true);
         xmlhttp.send();
     }
+    */
 
     //once client is the active player, poll the whole game status from server
     
