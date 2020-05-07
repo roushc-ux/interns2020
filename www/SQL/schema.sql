@@ -1,3 +1,4 @@
+DROP DATABASE internDatabase;
 CREATE DATABASE internDatabase;
 USE internDatabase;
 CREATE TABLE users (
@@ -18,6 +19,7 @@ CREATE TABLE onlineUsers(
     gameID INTEGER,
     money INTEGER,
     handID INTEGER,
+    playerID INTEGER,
     FOREIGN KEY (handID) REFERENCES hands(handID),
     FOREIGN KEY (username) REFERENCES users(username),
     PRIMARY KEY (username)

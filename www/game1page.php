@@ -6,36 +6,34 @@
 // get numPlayers, assign number to current player. Update numPlayers.
 include 'helper.php';
 $conn = makeConnection();
-$sql = "SELECT numPlayers FROM games WHERE gameID = 1 LIMIT 1";
+$username = $_SESSION['login_user'];
+$sql = "SELECT gameID FROM internDatabase.onlineUsers WHERE username = '$username'";
 $result = $conn->query($sql);
 $row = mysqli_fetch_array($result);
-$playerId = $row["numPlayers"];
-echo "playerId: " . $playerId;
-$newNumPlayers = $playerId + 1;
-$sql = "UPDATE games SET numPlayers = '$newNumPlayers' WHERE gameID = 1";
-$conn->query($sql);
-?>
-<script>
-    //each client will loop until 3 players
-    let checkStart = setInterval(checkPlayers, 3000);
+if (!$row["gameID"]) {
+    $sql = "UPDATE onlineUsers SET gameID = 1 WHERE username = '$username'";
+    $conn->query($sql);
+    $sql = "SELECT numPlayers FROM games WHERE gameID = 1 LIMIT 1";
+    $result = $conn->query($sql);
+    $row = mysqli_fetch_array($result);
+    $playerID = $row["numPlayers"];
+    $sql = "UPDATE onlineUsers SET playerID = '$playerID' WHERE username = '$username'";
+    $conn->query($sql);
+    $newNumPlayers = $playerID + 1;
+    $sql = "UPDATE games SET numPlayers = '$newNumPlayers' WHERE gameID = 1";
+    $conn->query($sql);
+}
 
-    function checkPlayers() {
-        let xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                let numPlayers = this.response;
-                if (numPlayers == 3) {
-                    document.getElementById("gameStart").innerHTML = "3 players have joined. Starting game.";
-                    clearInterval(checkStart);
-                }
-            }
-        }
-        xmlhttp.open("GET", "getNumPlayers.php",true);
-        xmlhttp.send();
-    }
-</script>
+
+$sql = "SELECT playerID FROM onlineUsers WHERE username = '$username'";
+$result = $conn->query($sql);
+$row = mysqli_fetch_array($result);
+echo "playerId: " . $row['playerID'];
+
+?>
 <body class="game">
 <div id="gameStart"><b>Waiting for 3 players before game begins.</b></div>
+<div id="currentPlayer"><b>You are not current player</b></div>
 <div class="page-wrap">
     <div class="header">Dealer</div>
 
@@ -85,4 +83,49 @@ $conn->query($sql);
         </div>
     </div>
 </div>
+<script>
+    //each client will loop until 3 players
+    let checkStart = setInterval(checkPlayers, 3000);
+    //checkPlayers();
+    console.log("checkStart has started");
+
+    function checkPlayers() {
+        let xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let numPlayers = parseInt(this.response.match(/(\d+)/));
+                console.log(typeof(numPlayers));
+                console.log(numPlayers);
+                if (numPlayers >= 3) {
+                    document.getElementById("gameStart").innerHTML = "3 players have joined. Starting game.";
+                    console.log("numPlayers is greater than 3");
+                    clearInterval(checkStart);
+                }
+            }
+        }
+        xmlhttp.open("GET", "getNumPlayers.php", true);
+        xmlhttp.send();
+    }
+
+    //each client will loop until it is active player
+    let checkCurrent = setInterval(checkCurrentPlayer, 3000);
+
+    function checkCurrentPlayer() {
+        let xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let currentPlayer = this.response;
+                if (currentPlayer == <?php echo $_SESSION["playerID"]?>) {
+                    document.getElementById("currentPlayer").innerHTML = "IT'S YOUR TURN";
+                }
+            }
+        }
+        xmlhttp.open("GET", "getCurrentPlayer.php", true);
+        xmlhttp.send();
+    }
+
+    //once client is the active player, poll the whole game status from server
+    
+
+</script>
 </body>
