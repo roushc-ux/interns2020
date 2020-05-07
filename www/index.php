@@ -59,6 +59,10 @@ include 'helper.php';?>
                         $sql = "INSERT INTO internDatabase.onlineUsers (username) VALUES ('$username')";
                         $conn->query($sql);
                     }
+                    // Unset all prev session vars on the computer
+                    unset($_SESSION['sessionHandID']);
+                    unset($_SESSION['sessionDeckID']);
+                    unset($_SESSION['sessionPlayer']);
                     $_SESSION['loggedin'] = True;
                     $_SESSION['login_user'] = $username; //Updates session for logged in user
                     echo "<script> document.location.href='/lobby.php'</script>";
