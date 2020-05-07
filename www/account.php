@@ -12,12 +12,12 @@
     <form method="get" class="form" id="newUser" action="/account.php">
         <label for="uname">New Username: </label>
         <input type="text" id = "uname" name="uname" required><br><br>
+        <label for="email">New Email: </label>
+        <input type="email" id = "email" name="email" required><br><br>
         <label for="password">New Password: </label>
         <input type="password" id = "password" name="password" required><br><br>
         <label for="cpassword">Confirm Password: </label>
         <input type="password" id = "cpassword" name="cpassword" required><br><br>
-        <label for="email">New Email: </label>
-        <input type="email" id = "email" name="email" required><br><br>
         <input type="submit" name="click" value = "Create New Account">
     </form>
 

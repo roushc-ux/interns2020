@@ -42,7 +42,7 @@ include 'helper.php';?>
 
         //Checking to see if the account is found using DB
         if ($result->num_rows <= 0) {
-            echo "Account not found";
+            echo "Incorrect username or password";
             return;
         } else { //Matching password to username
             $sql = "SELECT password FROM internDatabase.users WHERE username = '$username'";
@@ -65,7 +65,7 @@ include 'helper.php';?>
 
                 }
                 else { //Non-matching password
-                    echo "Wrong Password";
+                    echo "Incorrect username or password";
                     return;
                 }
             }
@@ -76,31 +76,7 @@ include 'helper.php';?>
         if (isset($_GET['click'])){
             login();
         }
-
-        function logout() { //Logout function
-            $conn = makeConnection();
-
-            // Check connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-
-            $user = $_SESSION['login_user'];
-            //Removing user from online user table in DB
-            $sql = "DELETE FROM internDatabase.onlineUsers WHERE username = '$user'";
-            $conn->query($sql);
-
-            //Destroying user's session
-            session_destroy();
-            session_unset();
-            unset($_SESSION["loggedin"]);
-            $_SESSION = array();
-        }
-
-        if (isset($_GET['logout'])){
-            logout();
-        }
-        ?>
+    ?>
 
     </div>
 <script type="text/javascript" src="deck.js"></script>
