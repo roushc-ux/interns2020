@@ -136,7 +136,7 @@
         $conn = makeConnection();
         $sql = "DELETE FROM cardsHand";
         $conn->query($sql);
-        $sql = "DELETE FROM decksHand";
+        $sql = "DELETE FROM decksHand"; //typo?
         $conn->query($sql);
         $sql = "DELETE FROM hands";
         $conn->query($sql);
