@@ -1,6 +1,6 @@
 <?php session_start();?>
 <?php
-include 'helper.php';
+include 'database.php';
 $conn = makeConnection();
 $gameID = $_SESSION["gameID"];
 $sql = "SELECT playerTurn FROM game WHERE $gameID = gameID LIMIT 1";

@@ -1,5 +1,5 @@
 <?php session_start();
-include 'helper.php';?>
+include 'database.php';?>
 <style>
 <?php include 'style.css';?>
 </style>
@@ -21,7 +21,7 @@ include 'helper.php';?>
         <?php
         function login() {
             //Get Username and password
-            $username = $_GET["uname"];
+            $username = $_GET["username"];
             $password = $_GET["password"];
             //Sanitize
             $username = stripcslashes($username);

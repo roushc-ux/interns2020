@@ -1,4 +1,5 @@
  <?php
+    include "database.php";
     function addDeck() {
         echo "ADD DECK CALLED";
         $deck = new Deck;

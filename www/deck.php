@@ -1,4 +1,5 @@
 <?php
+include "database.php";
     class Deck {
         private $deck;
         private $deckID;

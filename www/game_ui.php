@@ -1,7 +1,8 @@
 <?php
+    session_start();
     include "game_mech.php";
     include "session.php";
-    
+
     function mainPlayerHand() {
         getSessionHandID();
         getSessionDeckID();
@@ -44,7 +45,7 @@
         // Get all other players in room 1
         $conn = makeConnection();
         $currPlayerHandID = $_SESSION["sessionHandID"];
-        $sql = "SELECT * FROM onlineUsers WHERE gameID = 1 AND handID <> '$currPlayerHandID'";
+        $sql = "SELECT * FROM online_user WHERE gameID = 1 AND handID <> '$currPlayerHandID'";
         $result = $conn->query($sql);
 
         // Divs for each player
@@ -53,7 +54,7 @@
                 echo "<div class='player'><div class='card-box'>";
                 // Get the player's hand
                 $handID = $row["handID"];
-                $sql = "SELECT * from cardsHand WHERE handID = '$handID'";
+                $sql = "SELECT * from card_hand WHERE handID = '$handID'";
                 $cards_query = $conn->query($sql);
 
                 if ($cards_query->num_rows > 0) {
@@ -72,9 +73,9 @@
 //            $playerIdx = $i + 2;
 //
 //            // Get the player's hand
-//            $sql = "SELECT cardsHand.* FROM onlineUsers
-//                    INNER JOIN cardsHand on onlineUsers.handID = cardsHand.handID
-//                    WHERE onlineUsers.gameID = 1";
+//            $sql = "SELECT card_hand.* FROM online_user
+//                    INNER JOIN card_hand on online_user.handID = card_hand.handID
+//                    WHERE online_user.gameID = 1";
 //            $result = $conn->query($sql);
 //
 //            echo "

@@ -1,4 +1,4 @@
-<?php include 'helper.php';?>
+<?php include 'database.php';?>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
@@ -23,7 +23,7 @@
 
     <?php
         function newUser() {
-        $username = $_GET["uname"];
+        $username = $_GET["username"];
         $password = $_GET["password"];
         $email = $_GET["email"];
         $cpassword = $_GET["cpassword"];

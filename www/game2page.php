@@ -1,10 +1,12 @@
-<?php session_start(); ?>
+<?php session_start(); 
+include 'game_ui.php';
+?>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <meta http-equiv="refresh" content="5">
 </head>
 <style>
-    <?php include 'style.css'; include 'game_ui.php';?>
+    <?php include 'style.css'; ?>
 </style>
 <body class="game">
 <div class="page-wrap">

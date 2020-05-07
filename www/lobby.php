@@ -1,5 +1,5 @@
 <?php session_start();
-include 'helper.php';?>
+include 'database.php';?>
 <style>
     <?php include 'style.css';?>
 </style>
@@ -14,7 +14,7 @@ include 'helper.php';?>
         $conn = makeConnection();
 
         $user = $_SESSION['login_user'];
-        $sql = "SELECT wins FROM internDatabase.users WHERE username = '$user'";
+        $sql = "SELECT wins FROM blackjack.users WHERE username = '$user'";
         $result = $conn->query($sql);
         while($row = mysqli_fetch_assoc($result)) {
             echo $row['wins']; //showing the user their total amount of wins
