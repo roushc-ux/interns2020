@@ -1,4 +1,5 @@
-<?php session_start(); ?>
+<?php session_start();
+include 'helper.php';?>
 <style>
     <?php include 'style.css';?>
 </style>
