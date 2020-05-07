@@ -23,8 +23,6 @@ if (!$row["gameID"]) {
     $sql = "UPDATE games SET numPlayers = '$newNumPlayers' WHERE gameID = 1";
     $conn->query($sql);
 }
-
-
 $sql = "SELECT playerID FROM onlineUsers WHERE username = '$username'";
 $result = $conn->query($sql);
 $row = mysqli_fetch_array($result);
@@ -88,7 +86,7 @@ echo "playerId: " . $row['playerID'];
     let checkStart = setInterval(checkPlayers, 3000);
     //checkPlayers();
     console.log("checkStart has started");
-
+a
     function checkPlayers() {
         let xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
