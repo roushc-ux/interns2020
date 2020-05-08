@@ -127,7 +127,9 @@
         }
         $sql = "DELETE FROM card_hand WHERE handID = $dealerHandID";
         $conn->query($sql);
-        $conn->close();
+
+        // call startGame to deal 2 cards to each player and dealer
+        startGame();
     }
 
     function endRound() {
