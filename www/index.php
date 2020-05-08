@@ -38,7 +38,7 @@ include 'database.php';?>
                 while($row = mysqli_fetch_assoc($result)) {
                     if(password_verify($password, $row["password"])) { //Password verify function
                         //Updates server to add online User if not already online
-                        $result = selectResult('user', 'username', 'username', $username);
+                        $result = selectResult('online_user', 'username', 'username', $username);
                         if ($result->num_rows == 0) {
                             insert('online_user', 'username', $username);
                         }
