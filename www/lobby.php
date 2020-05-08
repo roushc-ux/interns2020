@@ -28,7 +28,7 @@ include 'database.php';?>
     </form>
 
     <div class="header">Game Lobby </div>
-    <a href="game1page.php">Enter Game</a>
+    <a href="game2page.php">Enter Game</a>
 
     <?php
         function logout() { //Logout function
