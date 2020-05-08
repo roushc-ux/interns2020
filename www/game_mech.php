@@ -331,6 +331,8 @@ function isLoginSessionExpired() {
         if ($_SESSION['active_time'] == $active_time_max) {
             //resets game and returns everyone to game lobby
 //                resetGame();
+            $player = unserialize($_SESSION['sessionPlayer']);
+            leave_game($player->getName());
             echo "<script> document.location.href='/lobby.php'</script>";
             //leaveGame();
         }
