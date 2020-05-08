@@ -1,20 +1,8 @@
 <?php
     session_start();
-    include "game_mech.php";
     include "session.php";
 
     function mainPlayerHand() {
-        getSessionHandID();
-        getSessionDeckID();
-
-        // Keep track of player info within session
-        if (!isset($_SESSION['sessionPlayer'])) {
-            // $player = new Player("name");
-            $username = $_SESSION['login_user'];
-            $player = new Player ($username);
-            $_SESSION['sessionPlayer'] = serialize($player);
-        }
-
         // POST request behavior here so session/db would get update before interfacing
         if (isset($_POST['reset'])) {
             resetGame();
@@ -22,6 +10,10 @@
 
         if (isset($_POST['hit'])) {
             hit();
+        }
+
+        if (isset($_POST['stay'])) {
+            incrementTurn();
         }
 
         // Prints hand
@@ -56,15 +48,20 @@
                 $handID = $row["handID"];
                 $sql = "SELECT * from card_hand WHERE handID = '$handID'";
                 $cards_query = $conn->query($sql);
+                $otherPlayer = new Player("other");
 
                 if ($cards_query->num_rows > 0) {
                     while($card_row = $cards_query->fetch_assoc()) {
-                        $cardValMap = deckArray();
-                        $card = $cardValMap[$card_row['cardID']];
-                        $cardValue = $card['Value'];
-                        echo "<div class='card'>$cardValue</div>";
+                        $otherPlayer->addCardByID($card_row['cardID']);
                     }
                 }
+                // Prints hand and score
+                $otherHand = $otherPlayer->getHand();
+                for ($i = 0; $i < count($otherHand); $i++) {
+                    $cardVal = $otherHand[$i]['Value'];
+                    echo "<div class='card'>$cardVal</div>";
+                }
+                echo "Score: " . $otherPlayer->calcHand();
                 $username = $row["username"];
                 echo "</div><div class='card'>$username</div></div>";
             }
@@ -90,6 +87,25 @@
     }
 
     function dealerHand() {
+        $dealer = new Dealer("dealer");
+        $dealerID = getDealerID();
+        $conn = makeConnection();
+        $sql = "SELECT * from card_hand WHERE handID = '$dealerID'";
+        $cards_query = $conn->query($sql);
 
+        // Add all cards to dealer obj
+        if ($cards_query->num_rows > 0) {
+            while($card_row = $cards_query->fetch_assoc()) {
+                $dealer->addCardByID($card_row['cardID']);
+            }
+        }
+
+        // Prints hand and score
+        $dealerHand = $dealer->getHand();
+        for ($i = 0; $i < count($dealerHand); $i++) {
+            $cardVal = $dealerHand[$i]['Value'];
+            echo "<div class='card'>$cardVal</div>";
+        }
+        echo "Score: " . $dealer->calcHand();
     }
 ?>

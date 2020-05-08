@@ -33,6 +33,7 @@ CREATE TABLE game(
     playerTurn INTEGER,
     numPlayers INTEGER,
     dealerHandID INTEGER,
+    FOREIGN KEY (dealerHandID) REFERENCES hand(handID),
     PRIMARY KEY (gameID)
 );
 

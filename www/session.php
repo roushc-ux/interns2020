@@ -1,5 +1,15 @@
 <?php
     session_start();
+    include 'game_mech.php';
+
+    function initSession() {
+        updateGameInfo();
+        getSessionHandID();
+        getSessionDeckID();
+        getDealerID();
+        getSessionPlayer();
+    }
+
     function getSessionHandID() {
         // Get the player hands id
         if (!isset($_SESSION['sessionHandID'])) {
@@ -19,26 +29,23 @@
             $sql = "INSERT INTO hand (handID) VALUES ('$handID')";
             $conn->query($sql);
 
-            // Insert into online_user table
-            // TODO: name below is just for testing currently. Replace name with appropriate username
-            // $names = ['', 'name'];
-            // $name = $names[$handID];
+            // update handID and money for player
             $username = $_SESSION['login_user'];
-            $sql = "UPDATE online_user SET gameID = 1 WHERE username = '$username'";
-            $conn->query($sql);
+//            $sql = "UPDATE online_user SET gameID = 1 WHERE username = '$username'";
+//            $conn->query($sql);
             $sql = "UPDATE online_user SET handID = '$handID' WHERE username = '$username'";
             $conn->query($sql);
             $sql = "UPDATE online_user SET money = 100 WHERE username = '$username'";
             $conn->query($sql);
 
             // Update number of player in game
-            $sql = "SELECT * FROM game WHERE gameID = 1";
-            $result = $conn->query($sql);
-            $result = $result->fetch_assoc();
-            $newNumPlayers = $result["numPlayers"] + 1;
-            $sql = "UPDATE game SET numPlayers = '$newNumPlayers' WHERE gameID = 1";
-            $conn->query($sql);
-
+//            $sql = "SELECT * FROM game WHERE gameID = 1";
+//            $result = $conn->query($sql);
+//            $result = $result->fetch_assoc();
+//            $newNumPlayers = $result["numPlayers"] + 1;
+//            $sql = "UPDATE game SET numPlayers = '$newNumPlayers' WHERE gameID = 1";
+//            $conn->query($sql);
+//
             $conn->close();
         }
     }
@@ -59,6 +66,85 @@
             else {
                 $_SESSION['sessionDeckID'] = $row["deckID"];
             }
+        }
+    }
+
+    function getPlayerID() {
+        $conn = makeConnection();
+        $username = $_SESSION['login_user'];
+        $sql = "SELECT playerID FROM online_user WHERE username = '$username'";
+        $result = $conn->query($sql);
+        $row = mysqli_fetch_array($result);
+//        echo "playerId: " . $row['playerID'];
+        $conn->close();
+        return $row['playerID'];
+    }
+
+    // Update player's gameID, playerID, and game numPlayers.
+    function updateGameInfo() {
+        $conn = makeConnection();
+        $username = $_SESSION['login_user'];
+        $sql = "SELECT gameID FROM blackjack.online_user WHERE username = '$username'";
+        $result = $conn->query($sql);
+        $row = mysqli_fetch_array($result);
+        if (!$row["gameID"]) {
+            $sql = "UPDATE online_user SET gameID = 1 WHERE username = '$username'";
+            $conn->query($sql);
+            $sql = "SELECT numPlayers FROM game WHERE gameID = 1 LIMIT 1";
+            $result = $conn->query($sql);
+            $row = mysqli_fetch_array($result);
+            $playerID = $row['numPlayers']; // added this?
+            $sql = "UPDATE online_user SET playerID = '$playerID' WHERE username = '$username'";
+            $conn->query($sql);
+            $newNumPlayers = $playerID + 1;
+            $sql = "UPDATE game SET numPlayers = '$newNumPlayers' WHERE gameID = 1";
+            $conn->query($sql);
+        }
+        $conn->close();
+    }
+
+    function getDealerID() {
+        $conn = makeConnection();
+        $sql = "SELECT dealerHandID FROM game WHERE gameID = 1";
+        $result = $conn->query($sql);
+        $row = mysqli_fetch_array($result);
+        $dealerID = 0;
+
+        // Init dealer if there's no dealer yet
+        if (is_null($row["dealerHandID"])) {
+            $sql = "SELECT * FROM hand ORDER BY handID DESC LIMIT 1";
+            $result = $conn->query($sql);
+//            $_SESSION['sessionDealerID'] = 0;
+
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $dealerID = $row["handID"] + 1;
+//                $_SESSION['sessionDealerID']= $dealerID;
+            }
+
+            // insert into hand db
+            $sql = "INSERT INTO hand (handID) VALUES ('$dealerID')";
+            $conn->query($sql);
+
+            // Update dealerID in game db
+            $sql = "UPDATE game SET dealerHandID = $dealerID WHERE gameID = 1";
+            $conn->query($sql);
+        }
+        else {
+            $dealerID = $row["dealerHandID"];
+        }
+
+        $conn->close();
+        return $dealerID;
+    }
+
+    function getSessionPlayer() {
+        // Keep track of player info within session
+        if (!isset($_SESSION['sessionPlayer'])) {
+            // $player = new Player("name");
+            $username = $_SESSION['login_user'];
+            $player = new Player ($username);
+            $_SESSION['sessionPlayer'] = serialize($player);
         }
     }
 ?>

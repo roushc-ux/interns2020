@@ -29,29 +29,35 @@
 
     function startGame() {
         $conn = makeConnection();
-        addDeck();
-        addDealer();
-        hit();
-        hit();
-
-    }
-
-    function addDealer() {
-        $conn = makeConnection();
-        $sql = "SELECT handID FROM hand ORDER BY handID DESC LIMIT 1";
+        $sql = "SELECT numPlayers FROM game WHERE gameID = 1 LIMIT 1";
         $result = $conn->query($sql);
-        $_SESSION['sessionHandID'] = 0;
-        $handID = 0;
+        $row = mysqli_fetch_array($result);
 
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $_SESSION['sessionHandID'] = $row["handID"] + 1;
-            $handID = $_SESSION['sessionHandID'];
+        // Start game when reach X players
+        $player = unserialize($_SESSION['sessionPlayer']);
+        if (($row['numPlayers'] >= 2) and ($player->numCards() == 0)) {
+            hit();
+            hit();
+
+            // Dealer draws 2 if haven't
+            $sql = "SELECT dealerHandID FROM game WHERE gameID = 1 LIMIT 1";
+            $result = $conn->query($sql);
+            $row = mysqli_fetch_array($result);
+            $dealerHandID = $row['dealerHandID'];
+            $sql = "SELECT * FROM card_hand WHERE handID = $dealerHandID";
+            $result = $conn->query($sql);
+            if ($result->num_rows == 0) {
+                for ($i = 0; $i < 2; $i++) {
+                    $newCardID = getTopCardDB();
+                    // Add card to hand db
+                    $handID = $_SESSION['sessionHandID'];
+                    $sql = "INSERT INTO card_hand (handID, cardID) VALUES ('$dealerHandID', '$newCardID')";
+                    $conn->query($sql);
+                }
+            }
         }
-        $sql = "INSERT INTO game (dealerHandID) VALUES ($handID)";
-        $conn->query($sql);
 
-        dealerHit($handID);
+        $conn->close();
     }
 
     function hit() {
@@ -71,7 +77,21 @@
         $card = $cardValMap[$newCardID];
         $player = unserialize($_SESSION["sessionPlayer"]);
         $player->addCard($card);
-        $player->checkBust();
+
+        // switch turn to next player if bust
+        if ($player->checkBust()) {
+            echo "<script>alert('Bust! Youre out!')</script>";
+            incrementTurn();
+        }
+        // switch turn to next player and alert if 21 or 5 card charlie
+        else if ($player->calcHand() == 21) {
+            echo "<script>alert('Blackjack!')</script>";
+            incrementTurn();
+        }
+        else if ($player->numCards() == 5) {
+            echo "<script>alert('5 Card Charlie!')</script>";
+            incrementTurn();
+        }
         $_SESSION["sessionPlayer"] = serialize($player);
 
     //    $cardValue = $card["Value"];
@@ -102,6 +122,7 @@
         $conn = makeConnection();
         $sql = "UPDATE game SET deckID = '$deckID' WHERE gameID = 1";
         $conn->query($sql);
+        $conn->close();
 
     //    if (!isset($_SESSION['sessionDeckID'])) {
     //        $_SESSION['sessionDeckID'] = $deck->getDeckID();
@@ -121,8 +142,20 @@
             $cardID = $row['cardID'];
             $sql = "DELETE FROM card_deck WHERE deckID = '$deckID' AND cardID = '$cardID'";
             $conn->query($sql);
+            $conn->close();
 
             return $cardID;
         }
+    }
+
+    function incrementTurn() {
+        $conn = makeConnection();
+        $sql = "SELECT playerTurn FROM game WHERE gameID = $gameID LIMIT 1";
+        $result = $conn->query($sql);
+        $row = mysqli_fetch_array($result);
+        $nextTurn = $row["playerTurn"] + 1;
+        $sql = "UPDATE game SET playerTurn = $nextTurn WHERE gameID = 1";
+        $conn->query($sql);
+        $conn->close();
     }
 ?>

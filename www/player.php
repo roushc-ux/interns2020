@@ -79,6 +79,11 @@ class Player {
         if ($this->calcHand() > 21) {
             $this->bust = True;
         }
+        return $this->bust;
+    }
+
+    public function numCards() {
+        return count($this->hand);
     }
 
     public function placeBet($betAmount) {
@@ -93,6 +98,12 @@ class Player {
     }
 
     public function addCard($card) {
+        $this->hand[] = $card;
+    }
+
+    public function addCardByID($id) {
+        $cardValMap = deckArray();
+        $card = $cardValMap[$id];
         $this->hand[] = $card;
     }
 
