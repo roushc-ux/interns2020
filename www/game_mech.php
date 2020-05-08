@@ -324,6 +324,7 @@ function isLoginSessionExpired() {
     $print_string = "You have x seconds left to decide.";
     if ($_SESSION['is_btn_disabled']) {
         $_SESSION['active_time'] = 0; //keeps resetting time if not their turn
+        takeAwaytimer($print_string);
     }
     else {
         countdown_timer($_SESSION['active_time'], $print_string);
@@ -336,6 +337,14 @@ function isLoginSessionExpired() {
             //leaveGame();
         }
     }
+}
+
+function countdown_timer($i, $print_string) {
+    $x = 30 - $i;
+    echo str_replace("x", $x, $print_string);
+}
+function takeAwaytimer($print_string) {
+    echo str_replace("You have x seconds left to decide.", "", $print_string);
 }
 
 function leave_game($username_) {
@@ -365,10 +374,6 @@ function leave_game($username_) {
     echo "<script> document.location.href='/lobby.php'</script>";
 }
 
-function countdown_timer($i, $print_string) {
-    $x = 30 - $i;
-    echo str_replace("x", $x, $print_string);
-}
 //    function checkNewRound() {
 //        $conn = makeConnection();
 //        $sql = "SELECT numPlayers FROM game WHERE gameID = 1 LIMIT 1";
