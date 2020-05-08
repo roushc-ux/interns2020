@@ -118,9 +118,9 @@ class Player {
     }
 
     public function addWin() {
-        $row = select('user', 'wins', $this->$name, 'username');
+        $row = select('user', 'wins', $this->getName(), 'username');
         $newWins = $row['wins'] + 1;
-        update('user', 'wins', $newWins, $this->$name, 'username');
+        update('user', 'wins', $newWins, $this->getName(), 'username');
     }
 }
 
