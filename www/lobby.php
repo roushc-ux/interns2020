@@ -1,4 +1,7 @@
 <?php session_start();
+if(!$_SESSION['login_user']) {
+    header("Location: /index.php");
+}
 include 'database.php';?>
 <style>
     <?php include 'style.css';?>

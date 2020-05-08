@@ -1,5 +1,8 @@
 <?php
 session_start();
+if(!$_SESSION['login_user']) {
+    header("Location: /index.php");
+}
 include 'game_ui.php';
 initSession();
 startGame();
