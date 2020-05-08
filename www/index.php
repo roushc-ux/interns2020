@@ -16,7 +16,7 @@ include 'database.php';?>
             <input type="password" id = "password" name="password" required><br><br>
             <input type="submit" name="click" value = "Login">
         </form>
-        <p>Don't have an account? <a href = "account.php">Sign up</a></p>
+        <p>Don't have an account? <a href = "account.php" class = "link">Sign up</a></p>
 
         <?php
         function login() {
