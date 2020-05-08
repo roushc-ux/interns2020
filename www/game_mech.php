@@ -92,7 +92,7 @@
     function newRound() {
         //Add player hands to discard
         $conn = makeConnection();
-        $row = select("game", "numPlayers", "gameID", $gameID);
+        $row = select("game", "numPlayers", "gameID", 1);
         $numPlayers = $row['numPlayers'];
 
         //For each player, get cards, add to discard, and delete from hand
@@ -112,6 +112,14 @@
             $conn->query($sql);
         }
         $conn->close();
+
+        // Clear player hand in current session
+        // We're not unsetting the entire sessionPlayer here because
+        // then money would get reset every time we reset the game.
+        // Instead we just empty their hands now.
+        $player = unserialize($_SESSION['sessionPlayer']);
+        $player->emptyHand();
+        $_SESSION['sessionPlayer'] = serialize($player);
     }
 
     function endRound() {
@@ -132,15 +140,16 @@
     }
 
     function dealerTurn() {
-        $conn = makeConnection();
         $dealer = getDealer();
         $dealerScore = $dealer->calcHand();
         while ($dealerScore < 16) {
             $newCardID = getTopCardDB();
-            $dealerHandID = $_SESSION['sessionHandID'];
+            $dealerHandID = getDealerID();
+            $conn = makeConnection();
             $sql = "INSERT INTO card_hand (handID, cardID) VALUES ('$dealerHandID', '$newCardID')";
             $conn->query($sql);
         }
+        $conn->close();
     }
 
     function startGame() {
@@ -269,7 +278,7 @@
         $nextTurn = $row["playerTurn"] + 1;
 
         //check if new round needs to start. Call dealer function, call new round, set playerTurn=0
-        $sql = "SELECT numPlayers FROM game WHERE gameID = 1 LIMIT 1";
+        $sql = "SELECT numPlayers FROM game WHERE gameID = $gameID LIMIT 1";
         $result = $conn->query($sql);
         $row = mysqli_fetch_array($result);
         $numPlayers = $row["numPlayers"];
