@@ -42,6 +42,12 @@ include 'database.php';?>
                         if ($result->num_rows == 0) {
                             insert('online_user', 'username', $username);
                         }
+                        // Unset all prev session vars on the computer (between tabs) just in case
+                        unset($_SESSION['sessionHandID']);
+                        unset($_SESSION['sessionDeckID']);
+                        unset($_SESSION['sessionPlayer']);
+                        unset($_SESSION['is_btn_disabled']);
+                        unset($_SESSION['active_time']);
 
                         $_SESSION['loggedin'] = True;
                         $_SESSION['login_user'] = $username; //Updates session for logged in user
