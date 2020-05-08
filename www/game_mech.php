@@ -136,7 +136,11 @@
         $player = unserialize($_SESSION['sessionPlayer']);
         $playerScore = $player->calcHand();
 
-        if(!$player->checkBust() && $dealer->checkBust()) {
+        // 5 card charlie
+        if (!$player->checkBust() and $player->numCards() == 5) {
+            addMoney($player, 20);
+        }
+        else if(!$player->checkBust() && $dealer->checkBust()) {
             addMoney($player, 20);
         }
         else if ($dealerScore == $playerScore) {

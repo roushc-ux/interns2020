@@ -4,9 +4,9 @@
 
     function mainPlayerHand() {
         // POST request behavior here so session/db would get update before interfacing
-        if (isset($_POST['reset'])) {
-            resetGame();
-        }
+//        if (isset($_POST['reset'])) {
+//            resetGame();
+//        }
 
         if (isset($_POST['hit'])) {
             hit();
