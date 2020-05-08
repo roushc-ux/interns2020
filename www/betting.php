@@ -1,5 +1,6 @@
 <?php
     include_once 'database.php';
+    include_once '';
 
     // remove bet amount from players
     function takeBet($player){

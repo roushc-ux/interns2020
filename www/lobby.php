@@ -2,7 +2,14 @@
 if(!$_SESSION['login_user']) {
     header("Location: /index.php");
 }
-include 'database.php';?>
+include 'database.php';
+// Unset all prev session vars on the computer (between tabs) just in case
+unset($_SESSION['sessionHandID']);
+unset($_SESSION['sessionDeckID']);
+unset($_SESSION['sessionPlayer']);
+unset($_SESSION['is_btn_disabled']);
+unset($_SESSION['active_time']);
+?>
 <style>
     <?php include 'style.css';?>
 </style>
