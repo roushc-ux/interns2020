@@ -2,7 +2,7 @@
     include "deck.php";
     include "player.php";
     include "helper.php";
-
+    include "betting.php";
 
 //    // intend to use this when the round (NOT game) has ended
 //    function newRound() {
