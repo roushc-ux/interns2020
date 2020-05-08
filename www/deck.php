@@ -67,7 +67,6 @@ include "database.php";
             $query = 'SELECT * FROM card_discard WHERE discardID = 1'; //Change deckID
             $result = $conn->query($query);
 
-            $order = 0;
             //Map cardOrder and add card to deck
             while($row = $result->fetch_array()) {
                 $arr = $cardValMap->getDeck();
