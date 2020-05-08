@@ -32,8 +32,9 @@
             $('#stayBtn').prop('disabled', true);
             });
         </script>";
-            isLoginSessionExpired();
+            $_SESSION['is_btn_disabled'] = true;
         }
+        isLoginSessionExpired();
     }
 
     function otherPlayerHand() {
