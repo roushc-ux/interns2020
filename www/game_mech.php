@@ -316,6 +316,58 @@
         $conn->close();
     }
 
+
+function isLoginSessionExpired() {
+    //giving them 30 seconds max
+    $active_time_max = 30;
+    $_SESSION['active_time'] = 0;
+    $print_string = "You have x seconds left to decide.";
+    if ($_SESSION['is_btn_disabled']) {
+        $_SESSION['active_time'] = 0; //keeps resetting time if not their turn
+    }
+    else {
+        countdown_timer($_SESSION['active_time'], $print_string);
+        $_SESSION['active_time'] += 3;
+        if ($_SESSION['active_time'] == $active_time_max) {
+            //resets game and returns everyone to game lobby
+//                resetGame();
+            echo "<script> document.location.href='/lobby.php'</script>";
+            //leaveGame();
+        }
+    }
+}
+
+function leave_game($username_) {
+    $row = select("game", "numPlayers", "gameID", 1);
+    $new_numplayers = $row["numPlayers"]--; //update numPlayers
+    update("game", "numPlayers", $new_numplayers, "gameID", 1);
+    update("online_user", "gameID", "null", "username", $username_);
+    $conn = makeConnection();
+    $sql = "SELECT * FROM online_user WHERE gameID = 1";
+    $result = $conn->query($sql);
+    $count = 0;
+    while ($row = $result->fetch_array()) { //fetching single row of online users in the game
+        update("online_user", "playerID", $count, "username", $row["username"]); //update PlayerID
+        $count++;
+    }
+    $row = select("online_user", "handID", "username", $username_);
+    $handID_info = $row["handID"];
+    $cards = select("card_hand", "cardID", "handID", $handID_info);
+    foreach($cards as $cardID) {
+        $sql = "INSERT INTO card_discard (discardID, cardID) VALUES (1, $cardID)";
+        $conn->query($sql);
+    }
+    $sql = "DELETE FROM card_hand WHERE handID = $handID_info";
+    $conn->query($sql);
+    $sql = "DELETE FROM hand WHERE handID = $handID_info";
+    $conn->query($sql);
+    echo "<script> document.location.href='/lobby.php'</script>";
+}
+
+function countdown_timer($i, $print_string) {
+    $x = 30 - $i;
+    echo str_replace("x", $x, $print_string);
+}
 //    function checkNewRound() {
 //        $conn = makeConnection();
 //        $sql = "SELECT numPlayers FROM game WHERE gameID = 1 LIMIT 1";

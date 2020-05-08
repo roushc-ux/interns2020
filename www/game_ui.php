@@ -32,6 +32,7 @@
             $('#stayBtn').prop('disabled', true);
             });
         </script>";
+            isLoginSessionExpired();
         }
     }
 
