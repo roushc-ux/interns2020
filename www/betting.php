@@ -1,29 +1,32 @@
 <?php
     include_once 'database.php';
 
+    // remove bet amount from players
     function takeBet($player){
         $playerID = $player->getPlayerID();
-        $row = select("money", "online_user", $playerID, 'playerID');
+        $row = select("online_user", "money", $playerID, 'playerID');
         $newAmount = $row['money'] - 10;
+        // if the player doesn't have enough money to bet, kick them from the game
         if ($newAmount < 0) {
-            // TODO: kick player out of the game
             leave_game($player->getName());
         }
         else {
-            update("money", "online_user", $newAmount, $playerID, 'playerID');
+            update("online_user", "money", $newAmount, $playerID, 'playerID');
         }
     }
 
+    // give award money to player
     function addMoney($player, $money) {
         $playerID = $player->getPlayerID();
-        $row = select("money", "online_user", $playerID, 'playerID');
+        $row = select("online_user", "money", $playerID, 'playerID');
         $newAmount = $row['money'] + $money;
-        update('money', 'online_user', $newAmount, $playerID, 'playerID');
+        update('online_user', 'money', $newAmount, $playerID, 'playerID');
         $player->addWins();
     }
 
+    // get player's current amount of money
     function getMoney($playerID) {
-        $row = select('money', 'online_user', $playerID, 'playerID');
+        $row = select('online_user', 'money', $playerID, 'playerID');
         return $row['money'];
     }
 ?>

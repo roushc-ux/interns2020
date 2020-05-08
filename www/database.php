@@ -3,6 +3,9 @@
     define("USERNAMESERVER", "interns2020", true);
     define("PASSWORD", "interns2020", true);
 
+    // helper functions for dealing with the database
+    // TODO if time: add more db handling functions and standardize use of helper functions
+
     function makeConnection() {
         $servername = SERVERNAME;
         $usernameServer = USERNAMESERVER;

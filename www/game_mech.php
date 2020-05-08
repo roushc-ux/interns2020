@@ -215,7 +215,7 @@
 
         // switch turn to next player if bust
         if ($player->checkBust()) {
-            echo "<script>alert('Bust! Youre out!')</script>";
+            echo "<script>alert('Bust! You\'re out!')</script>";
             incrementTurn();
         }
         // switch turn to next player and alert if 21 or 5 card charlie
