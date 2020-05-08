@@ -36,6 +36,13 @@ include "database.php";
             return $this->deckID;
         }
 
+        /**
+         * @param int|mixed $deckID
+         */
+        public function setDeckID($deckID) {
+            $this->deckID = $deckID;
+        }
+
         public function getCard() {
             return array_shift($this->deck);
         }
@@ -52,6 +59,23 @@ include "database.php";
             $this->shuffleDeck();
         }
 
+        public function fillDeckDiscards() {
+            $cardValMap = new Deck;
+            $cardValMap->fillDeck();
+
+            $conn = makeConnection();
+            $query = 'SELECT * FROM card_discard WHERE discardID = 1'; //Change deckID
+            $result = $conn->query($query);
+
+            $order = 0;
+            //Map cardOrder and add card to deck
+            while($row = $result->fetch_array()) {
+                $arr = $cardValMap->getDeck();
+                $card = $arr[$row[2]];
+                $this->deck->addCard($card);
+            }
+            $this->shuffleDeck();
+        }
 
         public function fillDeck() {
             $this->deck = deckArray();
@@ -85,6 +109,7 @@ include "database.php";
                 $cardID = $this->deck[$i];
                 $sql = "INSERT INTO card_deck (deckID, cardID, cardOrder) VALUES ('$this->deckID', '$cardID', '$i')";
                 $conn->query($sql);
+
             }
             $conn->close();
         }

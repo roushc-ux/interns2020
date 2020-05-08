@@ -252,6 +252,12 @@
         echo "new deck added";
     }
 
+    function reshuffleDeck() {
+        $deck = new Deck();
+        $deck->fillDeckDiscards();
+        $deck->setDeckID(1);
+        $deck->pushToDb();
+    }
     function getTopCardDB() {
         //TODO: Check for empty deck; if empty shuffle discard deck and add to DB, delete discard deck
         $conn = makeConnection();
@@ -267,6 +273,8 @@
             $conn->close();
 
             return $cardID;
+        }else {
+            reshuffleDeck();
         }
     }
 
