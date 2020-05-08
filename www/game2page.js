@@ -5,7 +5,7 @@ function checkPlayers() {
             let numPlayers = parseInt(this.response.match(/(\d+)/));
             // console.log(typeof(numPlayers));
             console.log(numPlayers);
-            if (numPlayers >= 2) {
+            if (numPlayers >= 3) {
                 document.getElementById("gameStart").innerHTML = "3 players have joined. Starting game.";
                 console.log("numPlayers is greater than 3");
                 clearInterval(checkStart);

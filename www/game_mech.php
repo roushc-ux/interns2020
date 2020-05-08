@@ -99,9 +99,7 @@
         for($i = 0; $i < $numPlayers; ++$i) {
             $handID = select("online_user", "handID", "playerID", $i);
             $handID = $handID['handID'];
-            echo $handID;
             $cards = select("card_hand", "cardID", "handID", $handID);
-            print_r($cards);
             foreach($cards as $cardID) {
                 $sql = "INSERT INTO card_discard (discardID, cardID) VALUES (1, $cardID)";
                 $conn->query($sql);
@@ -161,7 +159,7 @@
 
         // Start game when reach X players
         $player = unserialize($_SESSION['sessionPlayer']);
-        if (($row['numPlayers'] >= 2) and ($player->numCards() == 0)) {
+        if (($row['numPlayers'] >= 3) and ($player->numCards() == 0)) {
             hit();
             hit();
 
@@ -255,6 +253,7 @@
     }
 
     function getTopCardDB() {
+        //TODO: Check for empty deck; if empty shuffle discard deck and add to DB, delete discard deck
         $conn = makeConnection();
         $deckID = $_SESSION['sessionDeckID'];
         $sql = "SELECT * FROM card_deck WHERE deckID = '$deckID' ORDER BY cardOrder ASC LIMIT 1";
