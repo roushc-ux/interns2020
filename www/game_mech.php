@@ -148,8 +148,8 @@
             $conn = makeConnection();
             $sql = "INSERT INTO card_hand (handID, cardID) VALUES ('$dealerHandID', '$newCardID')";
             $conn->query($sql);
+            $conn->close();
         }
-        $conn->close();
     }
 
     function startGame() {
@@ -278,7 +278,7 @@
         $nextTurn = $row["playerTurn"] + 1;
 
         //check if new round needs to start. Call dealer function, call new round, set playerTurn=0
-        $sql = "SELECT numPlayers FROM game WHERE gameID = $gameID LIMIT 1";
+        $sql = "SELECT numPlayers FROM game WHERE gameID = 1 LIMIT 1";
         $result = $conn->query($sql);
         $row = mysqli_fetch_array($result);
         $numPlayers = $row["numPlayers"];
