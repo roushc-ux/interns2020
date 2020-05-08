@@ -46,7 +46,7 @@ include 'database.php';?>
             unset($_SESSION['sessionPlayer']);
             unset($_SESSION['is_btn_disabled']);
             unset($_SESSION['active_time']);
-            
+
             $_SESSION = array();
 
             echo "<script> document.location.href='/index.php'</script>";
