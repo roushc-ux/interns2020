@@ -58,7 +58,6 @@ CREATE TABLE discard(
 CREATE TABLE card_discard(
     discardID INTEGER,
     cardID INTEGER,
-    cardOrder INTEGER,
     FOREIGN KEY (discardID) REFERENCES discard(discardID),
     PRIMARY KEY (cardID, discardID)
 );

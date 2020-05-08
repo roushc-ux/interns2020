@@ -89,6 +89,59 @@
         $conn->close();
     }
 
+    function newRound() {
+        //Add player hands to discard
+        $conn = makeConnection();
+        $row = select("game", "numPlayers", "gameID", $gameID);
+        $numPlayers = $row['numPlayers'];
+
+        //For each player, get cards, add to discard, and delete from hand
+        for($i = 0; $i < $numPlayers; ++$i) {
+            $handID = select("online_user", "handID", "playerID", $i);
+            $handID = $handID['handID'];
+            echo $handID;
+            $cards = select("card_hand", "cardID", "handID", $handID);
+            print_r($cards);
+            foreach($cards as $cardID) {
+                $sql = "INSERT INTO card_discard (discardID, cardID) VALUES (1, $cardID)";
+                $conn->query($sql);
+            }
+            $sql = "DELETE FROM card_hand WHERE handID = $handID";
+            $conn->query($sql);
+            $sql = "DELETE FROM hand WHERE handID = $handID";
+            $conn->query($sql);
+        }
+        $conn->close();
+    }
+
+    function endRound() {
+        $dealer = getDealer();
+        $dealerScore = $dealer->calcHand();
+        $player = unserialize($_SESSION['sessionPlayer']);
+        $playerScore = $player->calcHand();
+
+        if(!$player->checkBust() && $dealer->checkBust()) {
+            addMoney($player, 20);
+        }
+        else if ($dealerScore == $playerScore) {
+            addMoney($player, 10);
+        }
+        else if (!$player->checkBust() && $dealerScore < $playerScore) {
+            addMoney($player, 20);
+        }
+    }
+
+    function dealerTurn() {
+        $dealer = getDealer();
+        $dealerScore = $dealer->calcHand();
+        while ($dealerScore < 16) {
+            $newCardID = getTopCardDB();
+            $handID = $_SESSION['sessionHandID'];
+            $sql = "INSERT INTO card_hand (handID, cardID) VALUES ('$dealerHandID', '$newCardID')";
+            $conn->query($sql);
+        }
+    }
+
     function startGame() {
         $conn = makeConnection();
         $sql = "SELECT numPlayers FROM game WHERE gameID = 1 LIMIT 1";
@@ -213,6 +266,19 @@
         $result = $conn->query($sql);
         $row = mysqli_fetch_array($result);
         $nextTurn = $row["playerTurn"] + 1;
+
+        //check if new round needs to start. Call dealer function, call new round, set playerTurn=0
+        $sql = "SELECT numPlayers FROM game WHERE gameID = $gameID LIMIT 1";
+        $result = $conn->query($sql);
+        $row = mysqli_fetch_array($result);
+        $numPlayers = $row["numPlayers"];
+        if ($nextTurn >= $numPlayers) { //playerID is 0 indexed so when numPlayers=3, last player should be 2.
+            dealerTurn();
+            endRound();
+            newRound();
+            $nextTurn = 0;
+        }
+
         $sql = "UPDATE game SET playerTurn = $nextTurn WHERE gameID = 1";
         $conn->query($sql);
         $conn->close();

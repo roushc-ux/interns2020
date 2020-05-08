@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include "session.php";
+    include_once "session.php";
 
     function mainPlayerHand() {
         // POST request behavior here so session/db would get update before interfacing
@@ -88,7 +88,7 @@
         $conn->close();
     }
 
-    function dealerHand() {
+    function getDealer() {
         $dealer = new Dealer("dealer");
         $dealerID = getDealerID();
         $conn = makeConnection();
@@ -101,6 +101,11 @@
                 $dealer->addCardByID($card_row['cardID']);
             }
         }
+        return $dealer;
+    }
+
+    function dealerHand() {
+        $dealer = getDealer();
 
         // Prints hand and score
         $dealerHand = $dealer->getHand();

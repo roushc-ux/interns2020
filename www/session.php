@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include 'game_mech.php';
+    include_once 'game_mech.php';
 
     function initSession() {
         kickIfFull();

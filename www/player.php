@@ -1,5 +1,5 @@
 <?php
-
+include_once 'database.php';
 class Player {
     private $name;
     private $money;
@@ -111,11 +111,23 @@ class Player {
         $this->hand = [];
         $this->bust = false;
     }
+
+    public function getPlayerID() {
+        $row = select('online_user', 'playerID', 'username', $this->name);
+        return $row['playerID'];
+    }
+
+    public function addWin() {
+        $row = select('user', 'wins', $this->$name, 'username');
+        $newWins = $row['wins'] + 1;
+        update('user', 'wins', $newWins, $this->$name, 'username');
+    }
 }
 
 class Dealer extends Player {
     public function __constructor() {
         parent::__construct("Dealer");
+
     }
 
     // Dealer only draws if hand < 16
