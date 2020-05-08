@@ -18,24 +18,15 @@ include 'database.php';?>
         <?php
         // Permanently deletes a user's account
         function deleteAccount() {
-            // make connection to db
-            $conn = makeConnection();
-
-            // logout the user
-            $user = $_SESSION['login_user'];
-            $sql = "DELETE FROM blackjack.online_user WHERE username = '$user'";
-            $conn->query($sql);
-
-            //Destroying user's session
+            // logout user
+            deleteFrom('online_user', 'username', $user);
             session_destroy();
             session_unset();
             unset($_SESSION["loggedin"]);
             $_SESSION = array();
 
-            // remove user from db
-            $sql = "DELETE FROM blackjack.user WHERE username = '$user'";
-            $conn->query($sql);
-
+            // remove user from db and redirect them to the login page
+            deleteFrom('user', 'username', $user);
             echo "<script> document.location.href='/index.php'</script>";
         }
 
