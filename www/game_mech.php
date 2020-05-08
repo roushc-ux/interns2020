@@ -333,7 +333,6 @@ function isLoginSessionExpired() {
 //                resetGame();
             $player = unserialize($_SESSION['sessionPlayer']);
             leave_game($player->getName());
-            echo "<script> document.location.href='/lobby.php'</script>";
             //leaveGame();
         }
     }
