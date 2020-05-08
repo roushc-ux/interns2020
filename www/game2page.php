@@ -48,6 +48,7 @@ startGame();
                     <input id="hitBtn" type="submit" name="hit" value="Hit">
                     <input id="stayBtn" type="submit" name="stay" value="Stay">
                     <input type="submit" name="reset" value="Reset">
+                    <label> Total money: $<?php echo getMoney($playerID)?></label>
                 </form>
             </div>
         </div>

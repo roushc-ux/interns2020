@@ -29,7 +29,8 @@
         $conn = makeConnection();
         $sql = "SELECT $tableColumn FROM $tableName WHERE $condition1 = '$condition2'";
         $result = $conn->query($sql);
-        return $result;
+        $row = mysqli_fetch_array($result);
+        return $row;
     }
     
     function update($tableName, $tableColumn, $value, $condition1, $condition2) {
