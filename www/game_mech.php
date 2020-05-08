@@ -109,7 +109,6 @@
             $sql = "DELETE FROM hand WHERE handID = $handID";
             $conn->query($sql);
         }
-        $conn->close();
 
         // Clear player hand in current session
         // We're not unsetting the entire sessionPlayer here because
@@ -118,6 +117,17 @@
         $player = unserialize($_SESSION['sessionPlayer']);
         $player->emptyHand();
         $_SESSION['sessionPlayer'] = serialize($player);
+
+        // Delete current dealer hand from db
+        $dealerHandID = getDealerID();
+        $cards = select("card_hand", "cardID", "handID", $dealerHandID);
+        foreach($cards as $cardID) {
+            $sql = "INSERT INTO card_discard (discardID, cardID) VALUES (1, $cardID)";
+            $conn->query($sql);
+        }
+        $sql = "DELETE FROM card_hand WHERE handID = $dealerHandID";
+        $conn->query($sql);
+        $conn->close();
     }
 
     function endRound() {
