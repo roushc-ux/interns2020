@@ -149,6 +149,7 @@
             $sql = "INSERT INTO card_hand (handID, cardID) VALUES ('$dealerHandID', '$newCardID')";
             $conn->query($sql);
             $conn->close();
+            $dealerScore = $dealer->calcHand();
         }
     }
 
