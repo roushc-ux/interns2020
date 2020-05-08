@@ -161,6 +161,7 @@
             $sql = "INSERT INTO card_hand (handID, cardID) VALUES ('$dealerHandID', '$newCardID')";
             $conn->query($sql);
             $conn->close();
+            $dealer = getDealer();
             $dealerScore = $dealer->calcHand();
         }
     }
@@ -177,17 +178,20 @@
             hit();
             hit();
 
-            // Dealer draws 2 if haven't
-            $dealerHandID = getDealerID();
-            $sql = "SELECT * FROM card_hand WHERE handID = $dealerHandID";
-            $result = $conn->query($sql);
-            if ($result->num_rows == 0) {
-                for ($i = 0; $i < 2; $i++) {
-                    $newCardID = getTopCardDB();
-                    // Add card to hand db
-                    $handID = $_SESSION['sessionHandID'];
-                    $sql = "INSERT INTO card_hand (handID, cardID) VALUES ('$dealerHandID', '$newCardID')";
-                    $conn->query($sql);
+            $playerID = getPlayerID();
+            if ($playerID == 0) {
+                // Dealer draws 2 if haven't
+                $dealerHandID = getDealerID();
+                $sql = "SELECT * FROM card_hand WHERE handID = $dealerHandID";
+                $result = $conn->query($sql);
+                if ($result->num_rows == 0) {
+                    for ($i = 0; $i < 2; $i++) {
+                        $newCardID = getTopCardDB();
+                        // Add card to hand db
+                        $handID = $_SESSION['sessionHandID'];
+                        $sql = "INSERT INTO card_hand (handID, cardID) VALUES ('$dealerHandID', '$newCardID')";
+                        $conn->query($sql);
+                    }
                 }
             }
         }
