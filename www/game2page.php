@@ -17,8 +17,8 @@ startGame();
 <style>
     <?php include 'style.css'; ?>
 </style>
-<body class="game">
-    <div class="page-wrap">
+<body class="game" >
+    <div class="game-wrap">
         <div id="gameStart"><b>Waiting for 3 players before game begins.</b></div>
         <div id="currentPlayer"><b>You are not current player</b></div>
 
