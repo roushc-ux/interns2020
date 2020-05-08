@@ -9,14 +9,15 @@ include 'database.php';?>
 <body class="lobby">
 <div class="page-wrap">
     <div>
-        Hi <?php echo $_SESSION['login_user']?>
+        Hi <?php echo $_SESSION['login_user']; ?> !
     </div>
-    <div> You have <?php //setting up the server
-
+    <div> You have <?php
         $user = $_SESSION['login_user'];
-        $row = select('wins', 'users', 'username', $user);
-        echo $row['wins']; //showing the user their total amount of wins
-        ?> wins. Wanna win more?</div>
+        $row = select('user', 'wins', 'username', $user);
+        $wins = $row['wins'];
+        echo $wins; //showing the user their total amount of wins
+        ?> wins. Wanna win more?
+    </div>
 
     <form method="get" class="logout" id="loginForm" action="/lobby.php">
         <input type="submit" name="logout" value = "Logout" >
