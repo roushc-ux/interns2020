@@ -39,6 +39,13 @@
         $conn->query($sql);
     }
 
+    function deleteFrom($tableName, $condition1, $condition2) {
+        $conn = makeConnection();
+        $sql = "DELETE FROM $tableName WHERE $condition1 = '$condition2'";
+        $conn->query($sql);
+    }
+
+
 
 
 ?>

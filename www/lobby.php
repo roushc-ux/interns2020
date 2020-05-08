@@ -13,15 +13,10 @@ include 'database.php';?>
     </div>
     <div> You have <?php //setting up the server
 
-        // make connection to db
-        $conn = makeConnection();
-
         $user = $_SESSION['login_user'];
-        $sql = "SELECT wins FROM blackjack.users WHERE username = '$user'";
-        $result = $conn->query($sql);
-        while($row = mysqli_fetch_assoc($result)) {
-            echo $row['wins']; //showing the user their total amount of wins
-        }?> wins. Wanna win more?</div>
+        $row = select('wins', 'users', 'username', $user);
+        echo $row['wins']; //showing the user their total amount of wins
+        ?> wins. Wanna win more?</div>
 
     <form method="get" class="logout" id="loginForm" action="/lobby.php">
         <input type="submit" name="logout" value = "Logout" >
@@ -35,12 +30,10 @@ include 'database.php';?>
 
     <?php
         function logout() { //Logout function
-            $conn = makeConnection();
 
             $user = $_SESSION['login_user'];
             //Removing user from online user table in DB
-            $sql = "DELETE FROM blackjack.online_user WHERE username = '$user'";
-            $conn->query($sql);
+            deleteFrom('online_user', 'username', $user);
 
             //Destroying user's session
             session_destroy();
