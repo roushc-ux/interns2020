@@ -8,15 +8,17 @@
         $conn = makeConnection();
         $sql = "DELETE FROM card_hand";
         $conn->query($sql);
-        $sql = "DELETE FROM deck_hand"; //typo?
-        $conn->query($sql);
-        $sql = "DELETE FROM hand";
+        $sql = "DELETE FROM card_deck";
         $conn->query($sql);
         $sql = "DELETE FROM deck";
         $conn->query($sql);
         $sql = "DELETE FROM game";
         $conn->query($sql);
-        $sql = "INSERT INTO game (gameID, deckID, discardID, playerTurn, numPlayers) VALUES (1, NULL, NULL, NULL, 0)";
+        $sql = "DELETE FROM online_user";
+        $conn->query($sql);
+        $sql = "DELETE FROM hand";
+        $conn->query($sql);
+        $sql = "INSERT INTO game (gameID, deckID, discardID, playerTurn, numPlayers, dealerHandID) VALUES (1, NULL, NULL, 0, 0, NULL)";
         $conn->query($sql);
         $conn->close();
 

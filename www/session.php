@@ -3,11 +3,33 @@
     include 'game_mech.php';
 
     function initSession() {
+        kickIfFull();
         updateGameInfo();
         getSessionHandID();
         getSessionDeckID();
         getDealerID();
         getSessionPlayer();
+    }
+
+    function kickIfFull() {
+        $conn = makeConnection();
+        $username = $_SESSION['login_user'];
+        $sql = "SELECT gameID FROM blackjack.online_user WHERE username = '$username'";
+        $result = $conn->query($sql);
+        $row = mysqli_fetch_array($result);
+        $gameID = $row["gameID"];
+
+        $sql = "SELECT numPlayers FROM game WHERE gameID = 1 LIMIT 1";
+        $result = $conn->query($sql);
+        $row = mysqli_fetch_array($result);
+
+        // Full game = 2 people and you have not registered --> kick
+        if ($row['numPlayers'] == 1 and is_null($gameID)) {
+            echo "<script>alert('Game is currently full. Come back later :(')</script>";
+            // header('Location:lobby.php');
+            echo "<script type='text/javascript'>location.href = '/lobby.php';</script>";
+            exit;
+        };
     }
 
     function getSessionHandID() {

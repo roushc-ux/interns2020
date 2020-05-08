@@ -63,7 +63,6 @@ startGame();
 <script>
     //each client will loop until 3 players
     checkPlayers();
-    let checkStart = setInterval(checkPlayers, 3000);
     //console.log("checkStart has started");
 
     //each client will loop until it is active player
