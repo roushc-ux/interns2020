@@ -20,18 +20,16 @@ include 'database.php';?>
 
         <?php
         function login() {
-            //Get Username and password
+            // Get username and password
             $username = $_GET["username"];
             $password = $_GET["password"];
-            //Sanitize
+            // Sanitize
             $username = stripcslashes($username);
             $password = stripcslashes($password);
 
-            $conn = makeConnection();
-
             $result = selectResult('user', 'username', 'username', $username);
 
-            //Checking to see if the account is found using DB
+            // Checking to see if the account is found using DB
             if ($result->num_rows <= 0) {
                 echo "Incorrect username or password";
                 return;
@@ -55,9 +53,7 @@ include 'database.php';?>
                         return;
                     }
                 }
-
-        }
-        $conn->close();
+            }
         }
         if (isset($_GET['click'])){
             login();
