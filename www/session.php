@@ -23,8 +23,8 @@
         $result = $conn->query($sql);
         $row = mysqli_fetch_array($result);
 
-        // Full game = 2 people and you have not registered --> kick
-        if ($row['numPlayers'] == 2 and is_null($gameID)) {
+        // Full game = 3 people and you have not registered --> kick
+        if ($row['numPlayers'] == 3 and is_null($gameID)) {
             echo "<script>alert('Game is currently full. Come back later :(')</script>";
             // header('Location:lobby.php');
             echo "<script type='text/javascript'>location.href = '/lobby.php';</script>";
