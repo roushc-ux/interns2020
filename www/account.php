@@ -41,12 +41,10 @@
         $conn = makeConnection();
         $password = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql = "SELECT username FROM blackjack.user WHERE username = '$username'";
-        $result = $conn->query($sql);
+        $result = selectResult('user', 'username', 'username', $username);
 
         if ($result->num_rows <= 0 ) {
-            $sql1 = "SELECT email FROM blackjack.user WHERE email = '$email'";
-            $result1 = $conn->query($sql1);
+            $result1 = select('user', 'email', 'email', $email);
             if ($result1->num_rows <= 0) { //if never before used email, insert account info into DB
                 $sql = "INSERT INTO blackjack.user (username, password, email, wins) VALUES ('$username', '$password', '$email', 0)";
                 $conn->query($sql);

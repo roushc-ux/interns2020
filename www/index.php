@@ -29,27 +29,20 @@ include 'database.php';?>
 
             $conn = makeConnection();
 
-            $sql = "SELECT username FROM blackjack.user WHERE username = '$username'";
-            $result = $conn->query($sql);
+            $result = selectResult('user', 'username', 'username', $username);
 
             //Checking to see if the account is found using DB
             if ($result->num_rows <= 0) {
                 echo "Incorrect username or password";
                 return;
             } else { //Matching password to username
-                $sql = "SELECT password FROM blackjack.user WHERE username = '$username'";
-                $result = $conn->query($sql);
+                $result = selectResult('user','password', 'username', $username);
                 while($row = mysqli_fetch_assoc($result)) {
                     if(password_verify($password, $row["password"])) { //Password verify function
                         //Updates server to add online User if not already online
-                        $sql = "SELECT username FROM blackjack.online_user WHERE username = '$username'";
-                        $result = $conn->query($sql);
-                        if ($result->num_rows > 0) {
-
-                        }
-                        else {
-                            $sql = "INSERT INTO blackjack.online_user (username) VALUES ('$username')";
-                            $conn->query($sql);
+                        $result = selectResult('user', 'username', 'username', $username);
+                        if ($result->num_rows == 0) {
+                            insert('online_user', 'username', $username);
                         }
 
                         $_SESSION['loggedin'] = True;
