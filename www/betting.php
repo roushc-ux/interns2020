@@ -7,6 +7,7 @@
         $newAmount = $row['money'] - 10;
         if ($newAmount < 0) {
             // TODO: kick player out of the game
+            leave_game($player->getName());
         }
         else {
             update("money", "online_user", $newAmount, $playerID, 'playerID');
