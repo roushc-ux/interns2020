@@ -19,6 +19,10 @@ startGame();
         <div id="gameStart"><b>Waiting for 3 players before game begins.</b></div>
         <div id="currentPlayer"><b>You are not current player</b></div>
 
+<!--        <form method="post">-->
+<!--            <input id="newRoundBtn" type="submit" name="newRound" value="New Round">-->
+<!--        </form>-->
+
         <!-- Dealer -->
         <div class="buttons-box" style="margin-bottom: 5rem;">
             <div class="player">
@@ -47,18 +51,11 @@ startGame();
                 <form method="post">
                     <input id="hitBtn" type="submit" name="hit" value="Hit">
                     <input id="stayBtn" type="submit" name="stay" value="Stay">
-                    <input type="submit" name="reset" value="Reset">
-                    <label> Total money: $<?php echo getMoney($playerID)?></label>
+<!--                    <input type="submit" name="reset" value="Reset">-->
                 </form>
             </div>
         </div>
     </div>
-
-    <?php
-        if (isset($_POST['addDeck'])) {
-            addDeck();
-        }
-    ?>
 </body>
 
 <script>

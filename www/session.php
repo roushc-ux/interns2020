@@ -4,11 +4,11 @@
 
     function initSession() {
         kickIfFull();
+//        getSessionPlayer();
         updateGameInfo();
         getSessionHandID();
         getSessionDeckID();
         getDealerID();
-        getSessionPlayer();
     }
 
     function kickIfFull() {
@@ -109,7 +109,10 @@
         $sql = "SELECT gameID FROM blackjack.online_user WHERE username = '$username'";
         $result = $conn->query($sql);
         $row = mysqli_fetch_array($result);
-        if (!$row["gameID"]) {
+        if (is_null($row["gameID"])) {
+            // If player just joined (gameID == NULL) --> reset player session var
+            getSessionPlayer();
+
             $sql = "UPDATE online_user SET gameID = 1 WHERE username = '$username'";
             $conn->query($sql);
             $sql = "SELECT numPlayers FROM game WHERE gameID = 1 LIMIT 1";
@@ -160,13 +163,29 @@
         return $dealerID;
     }
 
-    function getSessionPlayer() {
-        // Keep track of player info within session
-        if (!isset($_SESSION['sessionPlayer'])) {
-            // $player = new Player("name");
+        function getSessionPlayer() {
+            // Keep track of player info within session
+            // If player just joined (gameID == NULL) --> reset player session var
+            unset($_SESSION['sessionPlayer']);
             $username = $_SESSION['login_user'];
             $player = new Player ($username);
             $_SESSION['sessionPlayer'] = serialize($player);
         }
+
+//    function getSessionPlayer() {
+//        // Keep track of player info within session
+//        // If player just joined (gameID == NULL) --> reset player session var
+//        if (!isset($_SESSION['sessionPlayer'])) {
+//            // $player = new Player("name");
+//            $username = $_SESSION['login_user'];
+//            $player = new Player ($username);
+//            $_SESSION['sessionPlayer'] = serialize($player);
+//        }
+//    }
+
+    function unsetSessions() {
+        unset($_SESSION['sessionHandID']);
+        unset($_SESSION['sessionDeckID']);
+        unset($_SESSION['sessionPlayer']);
     }
 ?>

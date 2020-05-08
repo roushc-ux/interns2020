@@ -2,8 +2,74 @@
     include "deck.php";
     include "player.php";
     include "helper.php";
-    
-    function resetGame() {
+
+
+//    // intend to use this when the round (NOT game) has ended
+//    function newRound() {
+//        // Clear player hand in current session
+//        // We're not unsetting the entire sessionPlayer here because
+//        // then money would get reset every time we reset the game.
+//        // Instead we just empty their hands now.
+//        $player = unserialize($_SESSION['sessionPlayer']);
+//        $player->emptyHand();
+//        $_SESSION['sessionPlayer'] = serialize($player);
+//
+//        // Delete current hand from db
+//        // Might wanna add things here to handle discard?
+//        $conn = makeConnection();
+//        $handID = $_SESSION['sessionHandID'];
+//        $sql = "DELETE FROM card_hand WHERE handID = $handID";
+//        $conn->query($sql);
+//
+//        // Delete current dealer hand from db
+//        $dealerID = getDealerID();
+//        $sql = "DELETE FROM card_hand WHERE handID = $dealerID";
+//        $conn->query($sql);
+//
+//        // Reset turn
+//        $sql = "UPDATE game SET playerTurn = 0 WHERE gameID = 1";
+//        $conn->query($sql);
+//
+//        echo "new round";
+//    }
+
+    // unset all sessions and update db
+    // intend to use this when the game (NOT round) has ended
+    function newGame() {
+        $handID = $_SESSION['sessionHandID'];
+        unsetSessions();
+
+        $conn = makeConnection();
+
+        // Delete all cards in hand in db
+        $sql = "DELETE FROM card_hand WHERE handID = $handID";
+        $conn->query($sql);
+
+        // Delete dealer hand
+        $dealerID = getDealerID();
+        $sql = "DELETE FROM card_hand WHERE handID = $dealerID";
+        $conn->query($sql);
+
+        // Delete deck currently used for the game
+        $sql = "SELECT deckID FROM game WHERE gameID = 1";
+        $conn->query($sql);
+        $result = $conn->query($sql);
+        $row = mysqli_fetch_array($result);
+        $deckID = $row['deckID'];
+        $sql = "DELETE FROM card_deck WHERE deckID = $deckID";
+        $conn->query($sql);
+        $sql = "DELETE FROM deck WHERE deckID = $deckID";
+        $conn->query($sql);
+
+        // Reset game db
+        $sql = "DELETE FROM game WHERE gameID = 1";
+        $conn->query($sql);
+        $sql = "INSERT INTO game (gameID, deckID, discardID, playerTurn, numPlayers, dealerHandID) VALUES (1, NULL, NULL, 0, 0, NULL)";
+        $conn->query($sql);
+        $conn->close();
+    }
+
+    function resetDb() {
         // Clear database
         $conn = makeConnection();
         $sql = "DELETE FROM card_hand";
@@ -21,12 +87,6 @@
         $sql = "INSERT INTO game (gameID, deckID, discardID, playerTurn, numPlayers, dealerHandID) VALUES (1, NULL, NULL, 0, 0, NULL)";
         $conn->query($sql);
         $conn->close();
-
-        // Clear player hand in current session
-        $player = unserialize($_SESSION['sessionPlayer']);
-        $player->emptyHand();
-        $_SESSION['sessionPlayer'] = serialize($player);
-        echo "reset";
     }
 
     function startGame() {
@@ -42,10 +102,7 @@
             hit();
 
             // Dealer draws 2 if haven't
-            $sql = "SELECT dealerHandID FROM game WHERE gameID = 1 LIMIT 1";
-            $result = $conn->query($sql);
-            $row = mysqli_fetch_array($result);
-            $dealerHandID = $row['dealerHandID'];
+            $dealerHandID = getDealerID();
             $sql = "SELECT * FROM card_hand WHERE handID = $dealerHandID";
             $result = $conn->query($sql);
             if ($result->num_rows == 0) {
@@ -152,7 +209,7 @@
 
     function incrementTurn() {
         $conn = makeConnection();
-        $sql = "SELECT playerTurn FROM game WHERE gameID = $gameID LIMIT 1";
+        $sql = "SELECT playerTurn FROM game WHERE gameID = 1 LIMIT 1";
         $result = $conn->query($sql);
         $row = mysqli_fetch_array($result);
         $nextTurn = $row["playerTurn"] + 1;
@@ -161,6 +218,21 @@
         $conn->close();
     }
 
-
-
+//    function checkNewRound() {
+//        $conn = makeConnection();
+//        $sql = "SELECT numPlayers FROM game WHERE gameID = 1 LIMIT 1";
+//        $result = $conn->query($sql);
+//        $row = mysqli_fetch_array($result);
+//        $numPlayers = $row['numPlayer'];
+//
+//        $sql = "SELECT playerTurn FROM game WHERE gameID = 1 LIMIT 1";
+//        $result = $conn->query($sql);
+//        $row = mysqli_fetch_array($result);
+//        // new round if playerTurn = numPlayers + 1
+//        // new round could be if playerTurn = numPlayers + 2 (in case we wanna use playerTurn numPlayers + 1 as dealer's turn)
+//        if ($row['playerTurn'] == $numPlayers + 1) {
+//            newRound();
+//            header("Refresh:0");
+//        }
+//    }
 ?>

@@ -16,6 +16,8 @@
             incrementTurn();
         }
 
+//        checkNewRound();
+
         // Prints hand
         $player = unserialize($_SESSION['sessionPlayer']);
         printHand($player);
