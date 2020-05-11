@@ -3,17 +3,20 @@
     include_once 'player.php';
 
     // remove bet amount from players
-    function takeBet($player){
-        $playerID = $player->getPlayerID();
+    function takeBet(){
+        $playerID = getPlayerID();
+        $player = unserialize($_SESSION['sessionPlayer']);
         $row = select("online_user", "money", $playerID, 'playerID');
+        $conn = makeConnection();
         $newAmount = $row['money'] - 10;
         // if the player doesn't have enough money to bet, kick them from the game
         if ($newAmount < 0) {
-            leave_game($player->getName());
+            //leave_game($player->getName());
         }
         else {
             $player->setMoney($newAmount);
-            update("online_user", "money", $newAmount, $playerID, 'playerID');
+            $sql = "UPDATE online_user SET money = $newAmount WHERE $playerID = playerID";
+            $conn->query($sql);
             $_SESSION['sessionPlayer'] = serialize($player);
         }
     }
