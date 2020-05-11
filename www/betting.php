@@ -23,11 +23,16 @@
 
     // give award money to player
     function addMoney($player, $money) {
-        $playerID = $player->getPlayerID();
-        $row = select("online_user", "money", $playerID, 'playerID');
+        $playerID = getPlayerID();
+        $conn = makeConnection();
+        $sql = "SELECT money FROM online_user WHERE '$playerID' = playerID";
+        $result = $conn->query($sql);
+        $row = mysqli_fetch_array($result);
         $newAmount = $row['money'] + $money;
         $player->setMoney($newAmount);
-        update('online_user', 'money', $newAmount, $playerID, 'playerID');
+        $conn = makeConnection();
+        $sql = "UPDATE online_user SET money = '$newAmount' WHERE '$playerID' = playerID";
+        $conn->query($sql);
         $player->addWin();
         $_SESSION['sessionPlayer'] = serialize($player);
     }
