@@ -7,6 +7,7 @@
 //        if (isset($_POST['reset'])) {
 //            resetGame();
 //        }
+        $_SESSION['active_time'] = 0;
         $_SESSION['is_btn_disabled'] = false;
 
         if (isset($_POST['hit'])) {
@@ -41,6 +42,7 @@
 
     function otherPlayerHand() {
         // Get all other players in room 1
+        $_SESSION['active_time'] = 0;
         $_SESSION['is_btn_disabled'] = true;
         $conn = makeConnection();
         $currPlayerHandID = $_SESSION["sessionHandID"];
