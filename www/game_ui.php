@@ -69,10 +69,10 @@
                     echo "<div class='card'>$cardVal</div>";
                 }
                 echo "Score: " . $otherPlayer->calcHand();
+                $money = $row['money'];
+                echo " Money: $money";
                 $username = $row["username"];
                 echo "</div><div class='card'>$username</div></div>";
-                $money = $row['money'];
-                echo "</div><div class='card'>Money: $money </div></div>";
             }
         }
 //        for ($i = 0; $i < $numPlayers - 1; $i++) {

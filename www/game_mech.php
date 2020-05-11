@@ -306,7 +306,7 @@
         }
         echo "Score: " . $player->calcHand();
         $money = $player->getMoney();
-        echo "<div> Money: $money </div>";
+        echo " Money: $money";
         $_SESSION['sessionPlayer'] = serialize($player);
 
     }
