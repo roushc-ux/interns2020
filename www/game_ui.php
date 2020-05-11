@@ -20,9 +20,9 @@
 //        checkNewRound();
 
         // Prints hand
-        $player = unserialize($_SESSION['sessionPlayer']);
         //printHand($player);
         printHandNew();
+        $player = unserialize($_SESSION['sessionPlayer']);
 
         // if (!$player->isTurn() or $player->isBust()) {
         if ($player->isBust()) {
