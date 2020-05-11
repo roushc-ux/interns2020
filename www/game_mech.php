@@ -180,7 +180,19 @@
             $conn->close();
             $dealer = getDealer();
             $dealerScore = $dealer->calcHand();
+
+            if ($dealer->checkBust()) {
+                echo "<script>alert('Dealer bust!')</script>";
+            }
+            else if ($dealer->calcHand() == 21) {
+                echo "<script>alert('Dealer blackjack!')</script>";
+            }
+            else if ($dealer->numCards() == 5) {
+                echo "<script>alert('Dealer 5 Card Charlie!')</script>";
+            }
+            sleep(3);
         }
+        echo "<script>alert('Dealer turn end')</script>";
     }
 
     function startGame() {
@@ -359,12 +371,11 @@
         $numPlayers = $row["numPlayers"];
         if ($nextTurn >= $numPlayers) { //playerID is 0 indexed so when numPlayers=3, last player should be 2.
             dealerTurn();
+            sleep(3);
             endRound();
 
             if (getPlayerID() == $numPlayers - 1) {
-//                dealerTurn();
                 newRound();
-//                sleep(4);
                 $nextTurn = 0;
             }
             else {
