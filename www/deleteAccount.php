@@ -19,6 +19,7 @@ include 'database.php';?>
         // Permanently deletes a user's account
         function deleteAccount() {
             // logout user
+            $user = $_SESSION['login_user'];
             deleteFrom('online_user', 'username', $user);
             session_destroy();
             session_unset();
