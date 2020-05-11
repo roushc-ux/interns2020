@@ -72,7 +72,7 @@
                 $username = $row["username"];
                 echo "</div><div class='card'>$username</div></div>";
                 $money = $row['money'];
-                echo "</div><div class='card'>'Money: ' $money </div></div>";
+                echo "</div><div class='card'>Money: $money </div></div>";
             }
         }
 //        for ($i = 0; $i < $numPlayers - 1; $i++) {

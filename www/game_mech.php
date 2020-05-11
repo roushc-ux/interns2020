@@ -205,7 +205,7 @@
         // Start game when reach X players
         $player = unserialize($_SESSION['sessionPlayer']);
         if (($row['numPlayers'] >= 3) and ($player->numCards() == 0)) {
-            takeBet($player);
+//            takeBet($player);
             hit();
             hit();
 
