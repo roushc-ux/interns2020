@@ -7,7 +7,6 @@
 //        if (isset($_POST['reset'])) {
 //            resetGame();
 //        }
-
         if (isset($_POST['hit'])) {
             hit();
         }
@@ -20,7 +19,8 @@
 
         // Prints hand
         $player = unserialize($_SESSION['sessionPlayer']);
-        printHand($player);
+//        printHand($player);
+        printHandNew();
 
         // if (!$player->isTurn() or $player->isBust()) {
         if ($player->isBust()) {

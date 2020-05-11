@@ -1,6 +1,6 @@
 <?php
     include_once 'database.php';
-    include_once '';
+    include_once 'player.php';
 
     // remove bet amount from players
     function takeBet($player){
@@ -22,7 +22,7 @@
         $row = select("online_user", "money", $playerID, 'playerID');
         $newAmount = $row['money'] + $money;
         update('online_user', 'money', $newAmount, $playerID, 'playerID');
-        $player->addWins();
+        $player->addWin();
     }
 
     // get player's current amount of money

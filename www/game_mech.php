@@ -109,14 +109,18 @@
             $sql = "DELETE FROM hand WHERE handID = $handID";
             $conn->query($sql);
         }
-
-        // Clear player hand in current session
-        // We're not unsetting the entire sessionPlayer here because
-        // then money would get reset every time we reset the game.
-        // Instead we just empty their hands now.
-        $player = unserialize($_SESSION['sessionPlayer']);
-        $player->emptyHand();
-        $_SESSION['sessionPlayer'] = serialize($player);
+        $playerID = getPlayerID();
+        $handID = select("online_user", "handID", "playerID", $playerID);
+        $handID = $handID['handID'];
+        $cards = select("card_hand", "cardID", "handID", $handID);
+        foreach($cards as $cardID) {
+            $sql = "INSERT INTO card_discard (discardID, cardID) VALUES (1, $cardID)";
+            $conn->query($sql);
+        }
+        $sql = "DELETE FROM card_hand WHERE handID = $handID";
+        $conn->query($sql);
+        $sql = "DELETE FROM hand WHERE handID = $handID";
+        $conn->query($sql);
 
         // Delete current dealer hand from db
         $dealerHandID = getDealerID();
@@ -127,6 +131,7 @@
         }
         $sql = "DELETE FROM card_hand WHERE handID = $dealerHandID";
         $conn->query($sql);
+        $conn->close();
 
         // call startGame to deal 2 cards to each player and dealer
         startGame();
@@ -151,6 +156,16 @@
         else if (!$player->checkBust() && $dealerScore < $playerScore) {
             addMoney($player, 20);
         }
+
+        // Clear player hand in current session
+        // We're not unsetting the entire sessionPlayer here because
+        // then money would get reset every time we reset the game.
+        // Instead we just empty their hands now.
+        $player = unserialize($_SESSION['sessionPlayer']);
+        echo "before clear:" . $player->numCards();
+        $player->emptyHand();
+        echo "after clear:" . $player->numCards();
+        $_SESSION['sessionPlayer'] = serialize($player);
     }
 
     function dealerTurn() {
@@ -190,7 +205,7 @@
                     for ($i = 0; $i < 2; $i++) {
                         $newCardID = getTopCardDB();
                         // Add card to hand db
-                        $handID = $_SESSION['sessionHandID'];
+//                        $handID = $_SESSION['sessionHandID'];
                         $sql = "INSERT INTO card_hand (handID, cardID) VALUES ('$dealerHandID', '$newCardID')";
                         $conn->query($sql);
                     }
@@ -251,6 +266,32 @@
         echo "<div>Score: $score</div>";
     }
 
+    function printHandNew() {
+        $conn = makeConnection();
+        $playerID = getPlayerID();
+        $sql = "SELECT handID FROM online_user WHERE playerID = $playerID";
+        $result = $conn->query($sql);
+        $row = mysqli_fetch_array($result);
+        $handID = $row["handID"];
+        $sql = "SELECT * FROM card_hand WHERE handID = $handID";
+        $cards_query = $conn->query($sql);
+
+        $player = new Player("player");
+
+        if ($cards_query->num_rows > 0) {
+            while($card_row = $cards_query->fetch_assoc()) {
+                $player->addCardByID($card_row['cardID']);
+            }
+        }
+        // Prints hand and score
+        $hand = $player->getHand();
+        for ($i = 0; $i < count($hand); $i++) {
+            $cardVal = $hand[$i]['Value'];
+            echo "<div class='card'>$cardVal</div>";
+        }
+        echo "Score: " . $player->calcHand();
+        $_SESSION['sessionPlayer'] = serialize($player);
+    }
 
     function addDeck() {
         $deck = new Deck();
@@ -313,8 +354,16 @@
         if ($nextTurn >= $numPlayers) { //playerID is 0 indexed so when numPlayers=3, last player should be 2.
             dealerTurn();
             endRound();
-            newRound();
-            $nextTurn = 0;
+
+            if (getPlayerID() == $numPlayers - 1) {
+//                dealerTurn();
+                newRound();
+//                sleep(4);
+                $nextTurn = 0;
+            }
+            else {
+                return;
+            }
         }
 
         $sql = "UPDATE game SET playerTurn = $nextTurn WHERE gameID = 1";
@@ -330,17 +379,28 @@ function isLoginSessionExpired() {
     $print_string = "You have x seconds left to decide.";
     if ($_SESSION['is_btn_disabled']) {
         $_SESSION['active_time'] = 0; //keeps resetting time if not their turn
-        echo str_replace("You have x seconds left to decide.", "", $print_string);
+        takeAwaytimer($print_string);
     }
     else {
-        $x = 30 - $_SESSION['active_time'];
-        echo str_replace("x", $x, $print_string);
+        countdown_timer($_SESSION['active_time'], $print_string);
         $_SESSION['active_time'] += 3;
         if ($_SESSION['active_time'] == $active_time_max) {
+            //resets game and returns everyone to game lobby
+//                resetGame();
             $player = unserialize($_SESSION['sessionPlayer']);
             leave_game($player->getName());
+            //leaveGame();
+            $_SESSION['sessionPlayer'] = serialize($player);
         }
     }
+}
+
+function countdown_timer($i, $print_string) {
+    $x = 30 - $i;
+    echo str_replace("x", $x, $print_string);
+}
+function takeAwaytimer($print_string) {
+    echo str_replace("You have x seconds left to decide.", "", $print_string);
 }
 
 function leave_game($username_) {
