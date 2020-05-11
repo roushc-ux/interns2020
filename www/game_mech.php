@@ -255,7 +255,7 @@
         // switch turn to next player and alert if 21 or 5 card charlie
         else if ($player->calcHand() == 21) {
             echo "<script>alert('Blackjack!')</script>";
-            incrementTurn();
+//            incrementTurn();
         }
         else if ($player->numCards() == 5) {
             echo "<script>alert('5 Card Charlie!')</script>";
