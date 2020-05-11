@@ -22,10 +22,6 @@ startGame();
         <div id="gameStart"><b>Waiting for 3 players before game begins.</b></div>
         <div id="currentPlayer"><b>You are not current player</b></div>
 
-<!--        <form method="post">-->
-<!--            <input id="newRoundBtn" type="submit" name="newRound" value="New Round">-->
-<!--        </form>-->
-
         <!-- Dealer -->
         <div class="buttons-box" style="margin-bottom: 5rem;">
             <div class="player">

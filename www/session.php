@@ -190,4 +190,34 @@
         unset($_SESSION['is_btn_disabled']);
         unset($_SESSION['active_time']);
     }
+
+    // Return player object with hand and money taken from the db
+    function getPlayer() {
+        $conn = makeConnection();
+        $playerID = getPlayerID();
+        $sql = "SELECT handID FROM online_user WHERE playerID = $playerID";
+        $result = $conn->query($sql);
+        $row = mysqli_fetch_array($result);
+        $handID = $row["handID"];
+        $sql = "SELECT * FROM card_hand WHERE handID = $handID";
+        $cards_query = $conn->query($sql);
+
+        $player = new Player("player");
+
+        if ($cards_query->num_rows > 0) {
+            while($card_row = $cards_query->fetch_assoc()) {
+                $player->addCardByID($card_row['cardID']);
+            }
+        }
+
+        // get money from db
+        $sql = "SELECT money FROM online_user WHERE playerID = $playerID";
+        $conn->query($sql);
+        $result = $conn->query($sql);
+        $row = mysqli_fetch_array($result);
+        $player->setMoney($row['money']);
+        $conn->close();
+
+        return $player;
+    }
 ?>

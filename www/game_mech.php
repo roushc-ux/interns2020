@@ -142,6 +142,7 @@
         $dealerScore = $dealer->calcHand();
         $player = unserialize($_SESSION['sessionPlayer']);
         $playerScore = $player->calcHand();
+        // Call checkbust before and put as var
 
         // 5 card charlie
         if (!$player->checkBust() and $player->numCards() == 5) {
@@ -161,11 +162,9 @@
         // We're not unsetting the entire sessionPlayer here because
         // then money would get reset every time we reset the game.
         // Instead we just empty their hands now.
-        $player = unserialize($_SESSION['sessionPlayer']);
-        echo "before clear:" . $player->numCards();
-        $player->emptyHand();
-        echo "after clear:" . $player->numCards();
-        $_SESSION['sessionPlayer'] = serialize($player);
+//        $player = unserialize($_SESSION['sessionPlayer']);
+//        $player->emptyHand();
+//        $_SESSION['sessionPlayer'] = serialize($player);
     }
 
     function dealerTurn() {
@@ -204,7 +203,7 @@
         // Start game when reach X players
         $player = unserialize($_SESSION['sessionPlayer']);
         if (($row['numPlayers'] >= 3) and ($player->numCards() == 0)) {
-//            takeBet($player);
+            takeBet($player);
             hit();
             hit();
 
@@ -281,23 +280,8 @@
     }
 
     function printHandNew() {
-        $conn = makeConnection();
-        $playerID = getPlayerID();
-        $sql = "SELECT handID FROM online_user WHERE playerID = $playerID";
-        $result = $conn->query($sql);
-        $row = mysqli_fetch_array($result);
-        $handID = $row["handID"];
-        $sql = "SELECT * FROM card_hand WHERE handID = $handID";
-        $cards_query = $conn->query($sql);
-
-        $player = new Player("player");
-
-        if ($cards_query->num_rows > 0) {
-            while($card_row = $cards_query->fetch_assoc()) {
-                $player->addCardByID($card_row['cardID']);
-            }
-        }
         // Prints hand and score
+        $player = getPlayer();
         $hand = $player->getHand();
         for ($i = 0; $i < count($hand); $i++) {
             $cardVal = $hand[$i]['Value'];
@@ -307,7 +291,6 @@
         $money = $player->getMoney();
         echo " Money: $money";
         $_SESSION['sessionPlayer'] = serialize($player);
-
     }
 
     function addDeck() {
