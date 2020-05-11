@@ -7,6 +7,8 @@
 //        if (isset($_POST['reset'])) {
 //            resetGame();
 //        }
+        $_SESSION['is_btn_disabled'] = false;
+
         if (isset($_POST['hit'])) {
             hit();
         }
@@ -39,6 +41,7 @@
 
     function otherPlayerHand() {
         // Get all other players in room 1
+        $_SESSION['is_btn_disabled'] = true;
         $conn = makeConnection();
         $currPlayerHandID = $_SESSION["sessionHandID"];
         $sql = "SELECT * FROM online_user WHERE gameID = 1 AND handID <> '$currPlayerHandID'";
