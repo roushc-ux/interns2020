@@ -311,7 +311,7 @@
             $cardVal = $hand[$i]['Value'];
             echo "<div class='card'>$cardVal</div>";
         }
-        echo "Score: " . $player->calcHand();
+        //echo "Score: " . $player->calcHand();
         echo " Money: $money";
         $_SESSION['sessionPlayer'] = serialize($player);
 

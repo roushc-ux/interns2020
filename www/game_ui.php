@@ -70,7 +70,7 @@
                     $cardVal = $otherHand[$i]['Value'];
                     echo "<div class='card'>$cardVal</div>";
                 }
-                echo "Score: " . $otherPlayer->calcHand();
+                //echo "Score: " . $otherPlayer->calcHand();
                 $money = $row['money'];
                 echo " Money: $money";
                 $username = $row["username"];
