@@ -19,7 +19,7 @@
 
         // Prints hand
         $player = unserialize($_SESSION['sessionPlayer']);
-//        printHand($player);
+        //printHand($player);
         printHandNew();
 
         // if (!$player->isTurn() or $player->isBust()) {
@@ -68,6 +68,8 @@
                 echo "Score: " . $otherPlayer->calcHand();
                 $username = $row["username"];
                 echo "</div><div class='card'>$username</div></div>";
+                $money = $row['money'];
+                echo "</div><div class='card'>'Money: ' $money </div></div>";
             }
         }
 //        for ($i = 0; $i < $numPlayers - 1; $i++) {

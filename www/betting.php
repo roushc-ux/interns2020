@@ -12,7 +12,9 @@
             leave_game($player->getName());
         }
         else {
+            $player->setMoney($newAmount);
             update("online_user", "money", $newAmount, $playerID, 'playerID');
+            $_SESSION['sessionPlayer'] = serialize($player);
         }
     }
 
@@ -21,8 +23,10 @@
         $playerID = $player->getPlayerID();
         $row = select("online_user", "money", $playerID, 'playerID');
         $newAmount = $row['money'] + $money;
+        $player->setMoney($newAmount);
         update('online_user', 'money', $newAmount, $playerID, 'playerID');
         $player->addWin();
+        $_SESSION['sessionPlayer'] = serialize($player);
     }
 
     // get player's current amount of money

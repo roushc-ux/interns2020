@@ -97,6 +97,20 @@ class Player {
         $this->checkBust();
     }
 
+    /**
+     * @return int
+     */
+    public function getMoney() {
+        return $this->money;
+    }
+
+    /**
+     * @param int $money
+     */
+    public function setMoney($money) {
+        $this->money = $money;
+    }
+
     public function addCard($card) {
         $this->hand[] = $card;
     }

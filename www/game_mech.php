@@ -192,6 +192,7 @@
         // Start game when reach X players
         $player = unserialize($_SESSION['sessionPlayer']);
         if (($row['numPlayers'] >= 3) and ($player->numCards() == 0)) {
+            takeBet($player);
             hit();
             hit();
 
@@ -264,6 +265,7 @@
         }
         $score = $player->calcHand();
         echo "<div>Score: $score</div>";
+
     }
 
     function printHandNew() {
@@ -290,7 +292,10 @@
             echo "<div class='card'>$cardVal</div>";
         }
         echo "Score: " . $player->calcHand();
+        $money = $player->getMoney();
+        echo "<div> Money: $money </div>";
         $_SESSION['sessionPlayer'] = serialize($player);
+
     }
 
     function addDeck() {
