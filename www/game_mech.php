@@ -330,27 +330,17 @@ function isLoginSessionExpired() {
     $print_string = "You have x seconds left to decide.";
     if ($_SESSION['is_btn_disabled']) {
         $_SESSION['active_time'] = 0; //keeps resetting time if not their turn
-        takeAwaytimer($print_string);
+        echo str_replace("You have x seconds left to decide.", "", $print_string);
     }
     else {
-        countdown_timer($_SESSION['active_time'], $print_string);
+        $x = 30 - $_SESSION['active_time'];
+        echo str_replace("x", $x, $print_string);
         $_SESSION['active_time'] += 3;
         if ($_SESSION['active_time'] == $active_time_max) {
-            //resets game and returns everyone to game lobby
-//                resetGame();
             $player = unserialize($_SESSION['sessionPlayer']);
             leave_game($player->getName());
-            //leaveGame();
         }
     }
-}
-
-function countdown_timer($i, $print_string) {
-    $x = 30 - $i;
-    echo str_replace("x", $x, $print_string);
-}
-function takeAwaytimer($print_string) {
-    echo str_replace("You have x seconds left to decide.", "", $print_string);
 }
 
 function leave_game($username_) {
