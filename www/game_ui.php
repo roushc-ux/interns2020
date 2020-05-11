@@ -37,7 +37,7 @@
         </script>";
             $_SESSION['is_btn_disabled'] = true;
         }
-        isLoginSessionExpired();
+        //isLoginSessionExpired();
     }
 
     function otherPlayerHand() {
