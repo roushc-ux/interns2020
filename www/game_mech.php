@@ -95,6 +95,9 @@
         $row = select("game", "numPlayers", "gameID", 1);
         $numPlayers = $row['numPlayers'];
 
+        // reset dealer to hide second card
+        update('game', 'dealerHidden', 1, 'gameID', 1);
+
         //For each player, get cards, add to discard, and delete from hand
         for($i = 0; $i < $numPlayers; ++$i) {
             $handID = select("online_user", "handID", "playerID", $i);
@@ -171,6 +174,10 @@
     function dealerTurn() {
         $dealer = getDealer();
         $dealerScore = $dealer->calcHand();
+
+        // reveal dealer's hidden card
+        update('game', 'dealerHidden', 0, 'gameID', 1);
+
         while ($dealerScore < 16) {
             $newCardID = getTopCardDB();
             $dealerHandID = getDealerID();

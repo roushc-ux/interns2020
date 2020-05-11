@@ -115,13 +115,20 @@
 
     function dealerHand() {
         $dealer = getDealer();
-
+        $row = select('game', 'dealerHidden', 'gameID', 1);
+        $hidden = $row['dealerHidden'];
         // Prints hand and score
         $dealerHand = $dealer->getHand();
         for ($i = 0; $i < count($dealerHand); $i++) {
             $cardVal = $dealerHand[$i]['Value'];
-            echo "<div class='card'>$cardVal</div>";
+            if ($hidden == 1 && $i == 1) {
+                echo "<div class='card'>X</div>";
+            }
+            else {
+                echo "<div class='card'>$cardVal</div>";
+            }
+
         }
-        echo "Score: " . $dealer->calcHand();
+        //echo "Score: " . $dealer->calcHand();
     }
 ?>
