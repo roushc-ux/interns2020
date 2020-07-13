@@ -21,6 +21,7 @@ function checkPlayers() {
 function checkCurrentPlayer(playerID) {
     $.get('getCurrentPlayer.php', function(response) {
         let currentPlayer = response;
+        console.log("Current player is: " + playerID);
         if (currentPlayer == playerID) {
             console.log("It's your turn");
             document.getElementById("currentPlayer").innerHTML = "IT'S YOUR TURN";

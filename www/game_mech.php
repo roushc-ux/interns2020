@@ -1,7 +1,6 @@
 <?php session_start();
     include "deck.php";
     include "player.php";
-    include "helper.php";
     include "betting.php";
 
 //    // intend to use this when the round (NOT game) has ended
@@ -299,7 +298,6 @@
         $cards_query = $conn->query($sql);
 
         $player = new Player("player");
-
         if ($cards_query->num_rows > 0) {
             while($card_row = $cards_query->fetch_assoc()) {
                 $player->addCardByID($card_row['cardID']);

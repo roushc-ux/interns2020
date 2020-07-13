@@ -1,68 +1,70 @@
+<?php
+session_start();
+include 'game_ui.php';
+initSession();
+startGame();
+?>
+
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="test.js"></script>
-    <script src="deck.js"></script>
-    <script src="player.js"></script>
-    <title>Test</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="game2page.js"></script>
+    <meta http-equiv="refresh" content="3">
+    <title>Game</title>
 </head>
-<body>
-    <div id="newDeck">New deck</div>
+<style>
+    <?php include 'style.css'; ?>
+</style>
+<body class="game" >
+<div class="game-wrap">
+    <div id="gameStart"><b>Waiting for 3 players before game begins.</b></div>
+    <div id="currentPlayer"><b>You are not current player</b></div>
 
-    <form method="post">
-        <input id="addDeck" type="submit" name="addDeck" value = "Add Deck">
-    </form>
+    <!--        <form method="post">-->
+    <!--            <input id="newRoundBtn" type="submit" name="newRound" value="New Round">-->
+    <!--        </form>-->
 
-    <div class="container" id="output"></div>
+    <!-- Dealer -->
+    <div class="buttons-box" style="margin-bottom: 5rem;">
+        <div class="player">
+            <div class="card-box"><?php dealerHand(); ?></div>
+            <div class="card">Dealer</div>
+        </div>
+    </div>
 
-    <?php
-//    include 'helper.php';
-    include 'player.php';
-    include 'deck.php';
+    <div class="buttons-box">
+        <!-- Main player -->
+        <div class="player">
+            <div class="card-box">
+                <?php
+                mainPlayerHand();
+                $playerID = getPlayerID();
+                ?>
+            </div>
+            <div class='card'><?php echo $_SESSION['login_user'] ?></div>
+        </div>
 
-    function addDeck() {
-        // testing different implementation
-        $testDeck = new Deck;
-        $testDeck->newFillDeck();
-        $testCards = $testDeck->getDeck();
-        $testDeckID = $testDeck->getDeckID();
-
-        $conn = makeConnection();
-
-        $sql = "INSERT INTO deck (deckID) VALUES ('$testDeckID')";
-        $result = $conn->query($sql);
-
-        // Testing different implementation
-        for ($i=0; $i<52; $i++) {
-            $sql = "INSERT INTO card_deck (deckID, cardID, cardOrder) VALUES ('$testDeckID', '$testCards[$i]', '$i')";
-            $conn->query($sql);
-        }
-
-        /*
-        for ($i = 0; $i < count($cards); $i++) {
-            $cardPos = $cards[$i]["Weight"];
-            if ($cards[$i]["Value"] == "J") {
-                $cardPos = 11;
-            }
-            else if ($cards[$i]["Value"] == "Q") {
-                $cardPos = 12;
-            }
-            else if ($cards[$i]["Value"] == "K") {
-                $cardPos = 13;
-            }
-            $cardID = ($cardPos - 1) * 4 + $cards[$i]["Suit"];
-            // $sql = "INSERT INTO cardsDeck (deckID, cardID, cardOrder) VALUES (1, '$cardWeight', '$cardSuit')";
-            $sql = "INSERT INTO cardsDeck (deckID, cardID, cardOrder) VALUES (1, '$cardID', '$i')";
-            $conn->query($sql);
-        }
-        */
-
-        echo "Success";
-        $conn->close();
-    }
-
-    if (isset($_POST['addDeck'])) {
-        addDeck();
-    }
-
-    ?>
+        <!-- Other players -->
+        <?php otherPlayerHand(); ?>
+    </div>
+    <div class="buttons-box">
+        <div class="card-box">
+            <form method="post">
+                <input id="hitBtn" type="submit" name="hit" value="Hit">
+                <input id="stayBtn" type="submit" name="stay" value="Stay">
+                <input id="newRound" type="submit" name="newRound" value="New Round">
+                <!--                    <input type="submit" name="reset" value="Reset">-->
+            </form>
+        </div>
+    </div>
+</div>
 </body>
+
+<script>
+    //each client will loop until 3 players
+    checkPlayers();
+    //console.log("checkStart has started");
+
+    //each client will loop until it is active player
+    checkCurrentPlayer(<?php echo $playerID?>); // this way checks when page first load
+    //let checkCurrent = setInterval(function() { checkCurrentPlayer(<?php //echo $playerID?>//) }, 3000);
+</script>
